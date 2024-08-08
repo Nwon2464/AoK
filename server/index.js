@@ -46,7 +46,6 @@ app.get('/', (req, res) => {
     });
 });
 
-
 app.use("/auth", authRoutes);
 app.use('/api/v1', api);
 
