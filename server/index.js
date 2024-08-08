@@ -40,11 +40,11 @@ db.once("open", () => { console.log("Mongo DB Atlas has been connected!!!"); });
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', (req, res) => {
-    res.json({
-        message : '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
-    });
-});
+// app.get('/', (req, res) => {
+//     res.json({
+//         message : '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
+//     });
+// });
 
 app.use("/auth", authRoutes);
 app.use('/api/v1', api);
