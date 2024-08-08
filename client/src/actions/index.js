@@ -25,7 +25,7 @@ export const fetchAuth = () => async (dispatch) => {
         localStorage.userInfo = data.username;
         dispatch({ type: JWT_AUTH, payload: data.username });
     }else{
-        await axios.get("/auth/current_user").then((e)=>{
+        await axios.get(`${DEPLOYMENT_URL}/auth/current_user`).then((e)=>{
             dispatch({ type:FETCH_AUTH , payload: e.data });
         }).catch((err)=>{
             console.log("error from auth current_user");
@@ -98,7 +98,7 @@ export const signUpCreate = (formValues) => (dispatch, getState) => {
     // history.go(0);
   };
 export const logOutAuth = () => async (dispatch) => {
-    return await axios.get(`/auth/logout`).then(()=>{
+    return await axios.get(`${DEPLOYMENT_URL}/auth/logout`).then(()=>{
       dispatch({ type: LOGOUT_AUTH });
       history.push("/");
     });
