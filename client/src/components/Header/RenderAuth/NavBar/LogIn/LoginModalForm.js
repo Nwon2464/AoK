@@ -6,7 +6,8 @@ import LoginRenderField from "./LoginRenderField";
 import ErrorMessage from "./ErrorMessage";
 import SignupLoading from "./SignupLoading";
 const LoginModalForm = (props) => {
-  const DEPLOYMENT_URL = "https://ao-k-s.vercel.app/auth/google";
+  // const DEPLOYMENT_URL = "https://ao-k-s.vercel.app/auth/google";
+  const DEPLOYMENT_URL ="https://server-ashy-omega-14.vercel.app/auth/google";
   const { handleSubmit } = props;
   const onSubmit = (formValue) => {
     // console.log(formValue);

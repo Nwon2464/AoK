@@ -156,7 +156,7 @@ router.get("/google", passport.authenticate("google", {
 }));
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-    res.redirect("https://ao-k.vercel.app");
+    res.redirect("https://server-ashy-omega-14.vercel.app");
 });
 
 module.exports = router;
