@@ -20,12 +20,15 @@ const DEPLOYMENT_URL="https://ao-k-s.vercel.app";
 // const DEPLOYMENT_URL="http://localhost:5000";
 
 export const fetchAuth = () => async (dispatch) => {
+  console.log("fetching auth from server at ", DEPLOYMENT_URL);
     if(localStorage.token){
+      console.log("Local Storage");
         const data= jwtDecode(localStorage.token);
         localStorage.userInfo = data.username;
         dispatch({ type: JWT_AUTH, payload: data.username });
     }else{
         await axios.get(`${DEPLOYMENT_URL}/auth/current_user`).then((e)=>{
+          console.log("Fetching success", e.data);
             dispatch({ type:FETCH_AUTH , payload: e.data });
         }).catch((err)=>{
             console.log("error from auth current_user");
