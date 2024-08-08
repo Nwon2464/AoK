@@ -23,6 +23,7 @@ export const fetchAuth = () => async (dispatch) => {
   console.log("fetching auth from server at ", DEPLOYMENT_URL);
     if(localStorage.token){
       console.log("Local Storage");
+      
         const data= jwtDecode(localStorage.token);
         localStorage.userInfo = data.username;
         dispatch({ type: JWT_AUTH, payload: data.username });
