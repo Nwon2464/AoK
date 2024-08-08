@@ -6,6 +6,7 @@ import LoginRenderField from "./LoginRenderField";
 import ErrorMessage from "./ErrorMessage";
 import SignupLoading from "./SignupLoading";
 const LoginModalForm = (props) => {
+  const DEPLOYMENT_URL = "https://ao-k-s.vercel.app/auth/google";
   const { handleSubmit } = props;
   const onSubmit = (formValue) => {
     // console.log(formValue);
@@ -64,7 +65,7 @@ const LoginModalForm = (props) => {
                   id="google__log"
                   // href="https://server-t.vercel.app/auth/google"
                   //relative path directs to localhost3000, needs proxy setup 
-                  href="/auth/google"
+                  href={DEPLOYMENT_URL}
                   className="ui red labeled icon button"
                 >
                   Log In With Google
