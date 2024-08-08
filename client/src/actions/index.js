@@ -16,7 +16,7 @@ import {
 } from "./types";
 import { jwtDecode } from "jwt-decode";
 
-const DEPLOYMENT_URL="https://server-t.vercel.app";
+const DEPLOYMENT_URL="https://ao-k-s.vercel.app";
 // const DEPLOYMENT_URL="http://localhost:5000";
 
 export const fetchAuth = () => async (dispatch) => {
