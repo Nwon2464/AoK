@@ -22,3 +22,7 @@ ReactDOM.render(
    </Provider>,
   rootElement
 );
+
+
+// NODE_OPTIONS   --openssl-legacy-provider
+//Node.js Version 16.x
