@@ -16,8 +16,7 @@ import {
 } from "./types";
 import { jwtDecode } from "jwt-decode";
 
-// const DEPLOYMENT_URL="https://server-t.vercel.app";
-const DEPLOYMENT_URL="http://localhost:5000";
+const DEPLOYMENT_URL="https://server-ashy-omega-14.vercel.app";
 
 export const fetchAuth = () => async (dispatch) => {
     if(localStorage.token){
@@ -33,7 +32,7 @@ export const fetchAuth = () => async (dispatch) => {
 export const signUpCreate = (formValues) => (dispatch, getState) => {
     dispatch({ type: LOADING_SPINNER, payload: true });
     axios
-      .post(`/auth/signup`, {
+      .post(`${DEPLOYMENT_URL}/auth/signup`, {
         ...formValues,
       })
       .then((res) => {
@@ -59,7 +58,7 @@ export const signUpCreate = (formValues) => (dispatch, getState) => {
   export const logIn = (formValues) => (dispatch, getState) => {
     dispatch({ type: LOADING_SPINNER, payload: true });
     axios
-      .post(`/auth/login`, {
+      .post(`${DEPLOYMENT_URL}/auth/login`, {
         ...formValues,
       })
       .then((res) => {
@@ -93,12 +92,6 @@ export const signUpCreate = (formValues) => (dispatch, getState) => {
   
     // history.go(0);
   };
-// export const logOutAuth = () => async (dispatch) => {
-//     return await axios.get(`/auth/logout`).then(()=>{
-//       dispatch({ type: LOGOUT_AUTH });
-//       history.push("/");
-//     });
-//   };
   
 
   export const showModal = (trueOrFalse) => {
