@@ -8,12 +8,34 @@ const _ = require("lodash");
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 
+//
+const data3 = require("./dataStreams3");
+const data2 = require('./dataStreams2');
+const data1 = require("./dataStreams");
+//
+
+
 router.get('/', (req, res) => {
   res.json({
     message: 'API - 👋🌎🌍🌏',
   });
 });
 
+
+router.get("/twitch", async (req, res) => {
+  let merge= [];
+  for(const d in data1.frontPage){
+    for(const w of data1.frontPage[d]){
+      merge.push(w);
+    }
+  }
+  //shuffle randomly
+  for (let i = merge.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [merge[i], merge[j]] = [merge[j], merge[i]];
+  }
+  res.send(merge);
+});
 
 
 //getting token 
@@ -150,245 +172,6 @@ router.get('/tstreams', async (req, res) => {
 
 
 
-
-router.get("/twitch", async (req, res) => {
-  let data=[
-    {
-      "id": "42576585001",
-      "user_id": "181077473",
-      "user_login": "gaules",
-      "user_name": "Gaules",
-      "game_id": "32399",
-      "game_name": "Counter-Strike",
-      "type": "live",
-      "title": "FURIA vs Bad News Kangaroos ESL Pro League Season 19 -  !Sorteio - Siga Gaules nas redes sociais!",
-      "viewer_count": 57041,
-      "started_at": "2024-05-03T11:15:51Z",
-      "language": "pt",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_gaules-{width}x{height}.jpg",
-      "tag_ids": [],
-      "tags": [
-        "Português",
-        "brazil",
-        "Portugues",
-        "cs",
-        "CS2",
-        "counterstrike",
-        "Brasil"
-      ],
-      "is_mature": true,
-      "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/ea0fe422-84bd-4aee-9d10-fd4b0b3a7054-profile_image-300x300.png",
-      "localization_names": "pt",
-      "description": "Mais um guerreiro da Maior Tribo do Mundo! Atuei como jogador profissional de CS por quase uma década, fui o primeiro treinador a ser campeão do mundo em 2007 com o MIBR. Acertei um pouco, errei muito, ganhei bastante coisa e tbm perdi demais! Atualmente faço live todos os dias aqui na Twitch! "
-    },
-    {
-      "id": "42289008104",
-      "user_id": "31239503",
-      "user_login": "eslcs",
-      "user_name": "ESLCS",
-      "game_id": "32399",
-      "game_name": "Counter-Strike",
-      "type": "live",
-      "title": "LIVE: ENCE vs GamerLegion - ESL Pro League Season 19 - Group C",
-      "viewer_count": 35045,
-      "started_at": "2024-05-03T10:32:18Z",
-      "language": "en",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_eslcs-{width}x{height}.jpg",
-      "tag_ids": [],
-      "tags": [
-        "English"
-      ],
-      "is_mature": false,
-      "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/1975b18f-fa7d-443f-b191-fba08f92f3a2-profile_image-300x300.jpeg",
-      "localization_names": "en",
-      "description": "Home of everything Counter-Strike"
-    },
-    {
-      "id": "42289584664",
-      "user_id": "70075625",
-      "user_login": "silvername",
-      "user_name": "SilverName",
-      "game_id": "138585",
-      "game_name": "Hearthstone",
-      "type": "live",
-      "title": "BetBoom Classic: Hearthstone Battleground / Day 1",
-      "viewer_count": 25840,
-      "started_at": "2024-05-03T13:54:55Z",
-      "language": "ru",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_silvername-{width}x{height}.jpg",
-      "tag_ids": [],
-      "tags": [
-        "Русский",
-        "Hardcore"
-      ],
-      "is_mature": false,
-      "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/b880d4ea-9d95-4ffc-a1f3-00eb1cb332ae-profile_image-300x300.png",
-      "localization_names": "ru",
-      "description": "я фрик"
-    },
-    {
-      "id": "40612316037",
-      "user_id": "50985620",
-      "user_login": "papaplatte",
-      "user_name": "Papaplatte",
-      "game_id": "509658",
-      "game_name": "Just Chatting",
-      "type": "live",
-      "title": "imagine man guckt // spongebob elden ring weiter // sm64 // vllt feuer und flamme gucken // mal kieken wat sonst so wa",
-      "viewer_count": 25549,
-      "started_at": "2024-05-03T14:33:16Z",
-      "language": "de",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_papaplatte-{width}x{height}.jpg",
-      "tag_ids": [],
-      "tags": [
-        "dumm",
-        "wer",
-        "guckt",
-        "german",
-        "Deutsch"
-      ],
-      "is_mature": false,
-      "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/04abc1b4-7bad-4b55-8da8-c0f1cf031bda-profile_image-300x300.png",
-      "localization_names": "de",
-      "description": "der dümmste streamer auf ganz twitch imagine subbing to papaplatte OMEGALUL so trash unlustig unkreativ nicht gut in video spielen, wer hier sein geld lässt ist einfach nur dämlich"
-    },
-    {
-      "id": "41270215271",
-      "user_id": "545050196",
-      "user_login": "kato_junichi0817",
-      "user_name": "加藤純一です",
-      "game_id": "509658",
-      "game_name": "Just Chatting",
-      "type": "live",
-      "title": "キャバクラ配信",
-      "viewer_count": 12838,
-      "started_at": "2024-05-03T16:02:11Z",
-      "language": "ja",
-      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_kato_junichi0817-{width}x{height}.jpg",
-      "tag_ids": [],
-      "tags": [
-        "加藤純一",
-        "雑談",
-        "雑談歓迎",
-        "雑談〇",
-        "雑談大好き",
-        "日本語",
-        "MURASHGAMING",
-        "MRGWIN"
-      ],
-      "is_mature": false,
-      "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/a4977cfd-1962-41ec-9355-ab2611b97552-profile_image-300x300.png",
-      "localization_names": "ja",
-      "description": "命尽き果てるまで"
-    }
-  ];
-  res.send(data);
-
-  // console.log(client_id);
-  try {
-    const response = await axios.post(
-      `https://id.twitch.tv/oauth2/token?client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials`
-    );
-    const token = response.data.access_token;
-    const options = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "client-id": client_id,
-      },
-    };
-
-    console.log(token, "token");
-    if (token) {
-    
-      console.log("WERWEREWREWR",token);
-      const getStreamsRequest = await axios.get(
-        "https://api.twitch.tv/helix/streams?first=5",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "client-id": client_id,
-          },
-        }
-      ).then(e=>{
-          const newStreamsData = e.data.data;
-          let allStreams = newStreamsData.slice();
-          let urls= [],user_urls=[];
-          // // console.log(newStreamsData);
-          for(let i =0;i<5;i++ ) {
-            urls.push(`https://api.twitch.tv/helix/channels?broadcaster_id=${newStreamsData[i].user_id}`);  
-            user_urls.push(`https://api.twitch.tv/helix/users?id=${newStreamsData[i].user_id}`);
-          //   // user_tags.push(`https://api.twitch.tv/helix/tags/streams`);
-          }
-      
-          const promise1 = axios.get(urls[0], options);
-          const promise2 = axios.get(urls[1], options);
-          const promise3 = axios.get(urls[2], options);
-          const promise4 = axios.get(urls[3], options);
-          const promise5 = axios.get(urls[4], options);
-          
-          const promiseUser1 = axios.get(user_urls[0], options);
-          const promiseUser2 = axios.get(user_urls[1], options);
-          const promiseUser3 = axios.get(user_urls[2], options);
-          const promiseUser4 = axios.get(user_urls[3], options);
-          const promiseUser5 = axios.get(user_urls[4], options);
-          
-          axios
-          .all([
-            promise1,
-            promise2,
-            promise3,
-            promise4,
-            promise5,
-            promiseUser1,
-            promiseUser2,
-            promiseUser3,
-            promiseUser4,
-            promiseUser5,
-          ]).then(
-            axios.spread((...response) => {
-              let gameName = [];
-              let imageUrl = [];
-              let tags = [];
-              let description=[];
-              response.map((data, i) => {
-              
-                data.data.data.map((res)=>{
-                  if(res.hasOwnProperty("broadcaster_language")){
-                    tags.push({
-                      localization_names:res["broadcaster_language"]
-                    })
-                  }
-                  if (res.hasOwnProperty("profile_image_url")) {
-                    imageUrl.push({
-                      profile_image_url: res["profile_image_url"],
-                    });
-                  }
-                  if (res.hasOwnProperty("description")) {
-                    description.push({
-                      description: res["description"],
-                    });
-                  }
-                  if (res.hasOwnProperty("game_id")) {
-                    gameName.push({ game_name: res.game_name });
-                  }
-                })
-              });
-              _.merge(allStreams, imageUrl);
-              _.merge(allStreams, gameName);
-              _.merge(allStreams, tags);
-              _.merge(allStreams, description);
-              console.log(allStreams);
-              // res.send(
-              //   allStreams
-              // );
-            })
-          );
-      });
-    }
-  } catch (error) {
-    console.log("ERROR206");
-  }
-});
 
 
 //try experimenting fetching archives for specfic users with users id  

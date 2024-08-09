@@ -3,22 +3,25 @@ import { Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 import "./App.css";
-import { fetchAuth, jwtlogOut, showModal } from "../actions";
+import { fetchAuth, jwtlogOut, showModal, fetchActiveLiveTwitch } from "../actions";
 import history from "../history";
 import Header from "./Header/Header";
+import Slash from "./Route/Slash";
 
 const App = (props) => {
     useEffect(() => {
         props.fetchAuth();
+        props.fetchActiveLiveTwitch();
     }, []);
     return (
     <div className="app-flex app-flex-column app-flex-nowrap app-bottom-0 app-left-0 app-right-0 app-top-0 app-absolute">
         <Router history={history}>
             <div className="app-flex app-flex-column app-flex-nowrap app-full-height">
                 <Header />
-                {/* <Switch>
-                    <Route exact={true} path="/" component={landing}/>
-                </Switch> */}
+
+                <Switch>
+                    <Route exact path="/" component={Slash} />
+                </Switch>
             </div>
         </Router>
     </div>
@@ -36,7 +39,7 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
     // fetchStreams,
     showModal,
-    // fetchActiveLiveTwitch,
+    fetchActiveLiveTwitch,
     // fetchActiveLiveGameContents,
     fetchAuth,
     jwtlogOut,

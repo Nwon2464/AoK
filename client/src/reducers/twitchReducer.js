@@ -20,7 +20,6 @@ const INITIAL_STATE = {
         return { ...state, activeJustChat: action.payload };
       case "ACTION_FALLGUY":
         return { ...state, activeFallGuy: action.payload };
-  
       default:
         return state;
     }

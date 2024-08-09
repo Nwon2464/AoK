@@ -14,9 +14,42 @@ import {
     SIGN_OUT,
     CLOSE_MODAL,
 } from "./types";
+
 import { jwtDecode } from "jwt-decode";
+import { response } from "express";
 
 const DEPLOYMENT_URL="https://server-ashy-omega-14.vercel.app";
+
+
+
+export const fetchActiveLiveTwitch = () => async (dispatch) => {
+ 
+  const responseAll = await axios.get(
+    `/api/v1/twitch/streams`
+    // "/api/v1/twitch/streams"
+  );
+  console.log(responseAll.data, "Action");  
+  let dataStream_data= responseAll.data.frontPage.allStreams;
+  dataStream_data.map((game) => {
+    let newUrl = game.thumbnail_url
+      .replace("{width}", "440")
+      .replace("{height}", "248");
+    game.thumbnail_url = newUrl;
+  });
+  dispatch({ type: "ACTION_LIVE_STREAMS", payload: dataStream_data });
+
+  let dataTopGames = responseAll.data.frontPage.topGames;
+  dataTopGames.map((game) => {
+    let newUrl = game.box_art_url
+      .replace("{width}", "188")
+      .replace("{height}", "250");
+    game.box_art_url = newUrl;
+  
+  });
+  dispatch({ type: "ACTION_TOP_GAMES", payload: dataTopGames });
+};
+
+
 
 export const fetchAuth = () => async (dispatch) => {
     if(localStorage.token){
@@ -32,7 +65,7 @@ export const fetchAuth = () => async (dispatch) => {
 export const signUpCreate = (formValues) => (dispatch, getState) => {
     dispatch({ type: LOADING_SPINNER, payload: true });
     axios
-      .post(`${DEPLOYMENT_URL}/auth/signup`, {
+      .post(`/auth/signup`, {
         ...formValues,
       })
       .then((res) => {
@@ -58,7 +91,7 @@ export const signUpCreate = (formValues) => (dispatch, getState) => {
   export const logIn = (formValues) => (dispatch, getState) => {
     dispatch({ type: LOADING_SPINNER, payload: true });
     axios
-      .post(`${DEPLOYMENT_URL}/auth/login`, {
+      .post(`/auth/login`, {
         ...formValues,
       })
       .then((res) => {
@@ -109,11 +142,6 @@ export const closeModal = (trueOrFalse) => {
   };
 };
 
-  // export const signOut = () => {
-  //   return {
-  //     type: SIGN_OUT,
-  //   };
-  // };
   export const signIn = (userProfile) => {
     return {
       type: SIGN_IN,
