@@ -16,19 +16,8 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(helmet());
-// app.use(cors());
-const allowedOrigins = ['https://client-xi-eight-67.vercel.app'];
+app.use(cors());
 
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true // If you need to send cookies or authentication headers
-}));
 app.use(express.json());
 
 

@@ -16,26 +16,16 @@ import {
 } from "./types";
 import { jwtDecode } from "jwt-decode";
 
-// const DEPLOYMENT_URL="https://ao-k-s.vercel.app";
-const DEPLOYMENT_URL="https://server-ashy-omega-14.vercel.app";
-// const DEPLOYMENT_URL="http://localhost:5000";
+// const DEPLOYMENT_URL="https://server-t.vercel.app";
+const DEPLOYMENT_URL="http://localhost:5000";
 
 export const fetchAuth = () => async (dispatch) => {
-  console.log("fetching auth from server at ", DEPLOYMENT_URL);
     if(localStorage.token){
-      console.log("Local Storage");
-
         const data= jwtDecode(localStorage.token);
         localStorage.userInfo = data.username;
         dispatch({ type: JWT_AUTH, payload: data.username });
     }else{
-        await axios.get(`${DEPLOYMENT_URL}/auth/current_user`).then((e)=>{
-          console.log("Fetching success", e.data);
-            dispatch({ type:FETCH_AUTH , payload: e.data });
-        }).catch((err)=>{
-            console.log("error from auth current_user");
-        });      
-        
+      dispatch({ type: JWT_AUTH, payload: false }); 
     }
 };
 
@@ -43,7 +33,7 @@ export const fetchAuth = () => async (dispatch) => {
 export const signUpCreate = (formValues) => (dispatch, getState) => {
     dispatch({ type: LOADING_SPINNER, payload: true });
     axios
-      .post(`${DEPLOYMENT_URL}/auth/signup`, {
+      .post(`/auth/signup`, {
         ...formValues,
       })
       .then((res) => {
@@ -69,7 +59,7 @@ export const signUpCreate = (formValues) => (dispatch, getState) => {
   export const logIn = (formValues) => (dispatch, getState) => {
     dispatch({ type: LOADING_SPINNER, payload: true });
     axios
-      .post(`${DEPLOYMENT_URL}/auth/login`, {
+      .post(`/auth/login`, {
         ...formValues,
       })
       .then((res) => {
@@ -94,20 +84,21 @@ export const signUpCreate = (formValues) => (dispatch, getState) => {
     if(localStorage.token){
       localStorage.token ="";
       localStorage.userInfo ="";
-      dispatch({ type: JWT_AUTH_LOGOUT });
-      dispatch({ type: JWT_AUTH, payload: false});
-      // dispatch({ type: VERIFY_JWT , payload: false});
+      // dispatch({ type: JWT_AUTH, payload: false});
     }
+    // dispatch({ type: JWT_AUTH_LOGOUT });
+
+    dispatch({ type: JWT_AUTH, payload: false }); 
     history.push("/");
   
     // history.go(0);
   };
-export const logOutAuth = () => async (dispatch) => {
-    return await axios.get(`${DEPLOYMENT_URL}/auth/logout`).then(()=>{
-      dispatch({ type: LOGOUT_AUTH });
-      history.push("/");
-    });
-  };
+// export const logOutAuth = () => async (dispatch) => {
+//     return await axios.get(`/auth/logout`).then(()=>{
+//       dispatch({ type: LOGOUT_AUTH });
+//       history.push("/");
+//     });
+//   };
   
 
   export const showModal = (trueOrFalse) => {
@@ -125,11 +116,11 @@ export const closeModal = (trueOrFalse) => {
   };
 };
 
-  export const signOut = () => {
-    return {
-      type: SIGN_OUT,
-    };
-  };
+  // export const signOut = () => {
+  //   return {
+  //     type: SIGN_OUT,
+  //   };
+  // };
   export const signIn = (userProfile) => {
     return {
       type: SIGN_IN,

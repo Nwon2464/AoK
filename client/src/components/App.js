@@ -10,7 +10,6 @@ import Header from "./Header/Header";
 const App = (props) => {
     useEffect(() => {
         props.fetchAuth();
-        console.log("props from App", props);
     }, []);
     return (
     <div className="app-flex app-flex-column app-flex-nowrap app-bottom-0 app-left-0 app-right-0 app-top-0 app-absolute">

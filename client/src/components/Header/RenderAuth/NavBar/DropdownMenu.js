@@ -66,7 +66,7 @@ const DropdownMenu = (props) => {
 
     const logout = (e) => {
       if (props.children === "Log Out") {
-        console.log(props,"??");
+        // props.signOut();
         props.signOut();
       }
     };

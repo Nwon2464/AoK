@@ -8,31 +8,24 @@ import NavBar from "./NavBar/NavBar";
 import NavItem from "./NavBar/NavItem";
 import DropdownMenu from "./NavBar/DropdownMenu";
 import { yetLoggedInContents,loggedInContents,languages } from "./NavBar/dropdownMenuContents";
-import { logOutAuth, jwtlogOut } from "../../../actions";
+import { jwtlogOut } from "../../../actions";
 import LoginSignUpButton from "../LoginSignUpButton";
 
 const RenderAuth = (props) => {
-
     const onSignOut = () => {
-        if (props.auth.googleAuthIsSignedIn) {
-          props.logOutAuth();
-        } else if (props.auth.jwtToken && props.auth.jwtUsername) {
-          props.jwtlogOut();
-        }else{
-          props.jwtlogOut();
-        }
+         props.jwtlogOut(); 
     };
 
 
     const renderContent=()=>{
-        if(props.auth.googleAuthIsSignedIn==null && props.auth.jwtToken == null){
+        if(props.auth.jwtToken == null){
             return (
                 <div>
                   <Skeleton height={30} width={30} />
                 </div>
             );
         }else if(
-            props.auth.googleAuthIsSignedIn || (props.auth.jwtToken && props.auth.jwtUsername)){
+            (props.auth.jwtToken && props.auth.jwtUsername)){
                 return (
                     <NavBar>
                         <NavItem
@@ -48,11 +41,7 @@ const RenderAuth = (props) => {
                                 onSignOut={onSignOut}
                                 allContents={loggedInContents}
                                 languages={languages}
-                                userEmail={
-                                    props.auth.googleAuthIsSignedIn
-                                    ? props.auth.googleAuthIsSignedIn.googleEmail.split("@")[0]
-                                    : (props.auth.jwtToken && props.auth.jwtUsername)
-                                }
+                                userEmail={(props.auth.jwtToken && props.auth.jwtUsername)}
                             ></DropdownMenu>
                         </NavItem>
                     </NavBar>
@@ -104,6 +93,6 @@ function mapStateToProps(state){
     };
 }
 export default connect(mapStateToProps,{
-    logOutAuth,
+    // logOutAuth,
     jwtlogOut,
 })(RenderAuth);

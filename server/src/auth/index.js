@@ -97,7 +97,7 @@ router.post("/login", (req, res, next) => {
         username : req.body.username,
         password : req.body.password,
     });
-    console.log(result.error);
+    console.log(result);
     if (result.error === undefined) {
         signupUsers
             .findOne({
@@ -126,24 +126,6 @@ router.get("/current_user", (req, res) => {
     res.json(req.user);
 });
 
-// router.get("/current_user",(req,res)=>{
-//     console.log(req.user, "----------",req.cookies);
-//     const token = req.cookies.jwt;
-//     if (!token) {
-//       return res.status(401).send('Access Denied');
-//     }
-//     try {
-
-//       const verified = jwt.verify(token, process.env.JWT_SECRET);
-//       req.user = verified;
-//       console.log(req.user,token);
-//       console.log( "from current user");
-
-//       res.send(req.user);
-//     } catch (err) {
-//       res.status(400).send('Invalid Token');
-//     }
-// });
 
 // auth logout
 router.get("/logout", (req, res) => {
@@ -156,7 +138,7 @@ router.get("/google", passport.authenticate("google", {
 }));
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-    res.redirect("https://server-ashy-omega-14.vercel.app");
+    res.redirect("/");
 });
 
 module.exports = router;

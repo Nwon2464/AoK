@@ -10,7 +10,7 @@ import Music from "./Music/Music";
 import Horizon from "./Horizon/Horizon";
 import Search from "./SearchBar/Search";
 import RenderAuth from "./RenderAuth/RenderAuth";
-import { jwtlogOut,logOutAuth, signOut, signIn } from "../../actions";
+import { jwtlogOut, signIn } from "../../actions";
 
 const Header = (props) => {
 
@@ -41,7 +41,7 @@ const mapStateToProps = (state) => {
 };
 export default connect(mapStateToProps, {
   signIn,
-  signOut,
+  // signOut,
   jwtlogOut,
-  logOutAuth,
+  // logOutAuth,
 })(Header);

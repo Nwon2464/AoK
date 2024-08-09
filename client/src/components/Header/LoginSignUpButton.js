@@ -20,7 +20,7 @@ const LoginSignUpButton = () => {
   // const openSignUpModal = () => {
   //   signUpModalRef.current.openModal();
   // };
-  console.log(panes);
+
   return (
     <div className="app-flex app-flex-nowrap">
       <div className="app-pd-x-03">

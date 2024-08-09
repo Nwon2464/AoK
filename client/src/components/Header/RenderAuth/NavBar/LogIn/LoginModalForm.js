@@ -6,14 +6,11 @@ import LoginRenderField from "./LoginRenderField";
 import ErrorMessage from "./ErrorMessage";
 import SignupLoading from "./SignupLoading";
 const LoginModalForm = (props) => {
-  // const DEPLOYMENT_URL = "https://ao-k-s.vercel.app/auth/google";
-  const DEPLOYMENT_URL ="https://server-ashy-omega-14.vercel.app/auth/google";
   const { handleSubmit } = props;
   const onSubmit = (formValue) => {
     // console.log(formValue);
     props.logIn(formValue);
   };
-  console.log(props,"SDFSF");
   return (
     <>
       {props.loading.loading ? (
@@ -55,7 +52,7 @@ const LoginModalForm = (props) => {
                   Log In
                 </button>
               </div>
-              <div
+              {/* <div
                 style={{ fontSize: "0.8rem" }}
                 className="ui horizontal divider"
               >
@@ -66,13 +63,13 @@ const LoginModalForm = (props) => {
                   id="google__log"
                   // href="https://server-t.vercel.app/auth/google"
                   //relative path directs to localhost3000, needs proxy setup 
-                  href={DEPLOYMENT_URL}
+                  href="/auth/google"
                   className="ui red labeled icon button"
                 >
                   Log In With Google
                   <i className="google icon"></i>
                 </a>
-              </div>
+              </div> */}
             </form>
           </>
         </>

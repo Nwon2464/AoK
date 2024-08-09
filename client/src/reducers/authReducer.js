@@ -1,28 +1,33 @@
-import { FETCH_AUTH, JWT_AUTH, LOGOUT_AUTH } from "../actions/types";
+import { FETCH_AUTH, JWT_AUTH, LOGOUT_AUTH , JWT_AUTH_LOGOUT} from "../actions/types";
 
+//removed google oauth
 const INITIAL_STATE = {
-    googleAuthIsSignedIn: null,
+    // googleAuthIsSignedIn: null,
     jwtToken: null,
     jwtUsername: null,
 };
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case FETCH_AUTH:
-            return {
-                ...state,
-                googleAuthIsSignedIn: action.payload || false,
-                jwtToken: false,
-                jwtUsername: false,
-            };
+        // case FETCH_AUTH:
+        //     return {
+        //         ...state,
+        //         googleAuthIsSignedIn: action.payload || false,
+        //         jwtToken: false,
+        //         jwtUsername: false,
+        //     };
         case JWT_AUTH:
             return {
-                ...state,
-                googleAuthIsSignedIn: false,
+                // googleAuthIsSignedIn: false,
                 jwtToken: true,
                 jwtUsername: action.payload || false,
             };
-        case LOGOUT_AUTH:
-            return { ...state, googleAuthIsSignedIn: false };
+        // case JWT_AUTH_LOGOUT:
+        //     return {
+        //         jwtToken: false,
+        //         jwtUsername: false, 
+        //     };
+        // case LOGOUT_AUTH:
+        //     return { ...state, googleAuthIsSignedIn: false };
         default:
         return state;
     }
