@@ -15,28 +15,6 @@ const data1 = require("./dataStreams");
 //
 
 
-router.get('/', (req, res) => {
-  res.json({
-    message: 'API - 👋🌎🌍🌏',
-  });
-});
-
-
-router.get("/twitch", async (req, res) => {
-  let merge= [];
-  for(const d in data1.frontPage){
-    for(const w of data1.frontPage[d]){
-      merge.push(w);
-    }
-  }
-  //shuffle randomly
-  for (let i = merge.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [merge[i], merge[j]] = [merge[j], merge[i]];
-  }
-  res.send(merge);
-});
-
 
 //getting token 
 const getToken = async () => {
@@ -53,10 +31,295 @@ const getToken = async () => {
     };
       return token;
   } catch (error) {
-      console.error('Error getting token', error);
+      // console.error('Error getting token', error);
       return null;
   }
 };
+
+router.get('/', (req, res) => {
+  res.json({
+    message: 'API - 👋🌎🌍🌏',
+  });
+});
+
+
+router.get("/twitch/streams/:id", async (req, res) => {
+  try {
+    const token = await getToken();
+    const response = await axios.post(
+      `https://id.twitch.tv/oauth2/token?client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials`
+    );
+    const options = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "client-id": client_id,
+      },
+    };
+
+    if (token) {
+      // let pagination_value= "&after=";
+      // 'https://api.twitch.tv/helix/streams?first=40&after=eyJiI...' \ 
+      const getStreamsRequest = await axios.get(
+        `https://api.twitch.tv/helix/streams?game_id=${req.params.id}&first=12${req.query.cursor?`&after=${req.query.cursor}`:""}`,
+        options
+      );
+      // console.log(getStreamsRequest.data.pagination.cursor,"=====", pagination_value);
+
+      for(const e of getStreamsRequest.data.data){
+        const res = await axios.get(
+          `https://api.twitch.tv/helix/users?id=${e.user_id}`,
+          options
+        );
+        e["profile_url"] =  res.data.data[0].profile_image_url;
+      }
+      // console.log(getStreamsRequest.data);
+      // console.log(getStreamsRequest.data.pagination,"---");
+
+
+      // const getTopGames = await axios.get(
+      //   `https://api.twitch.tv/helix/games?id=${req.params.id}`,
+      //   options
+      // );
+
+      // const topGames = getTopGames.data.data;
+      // const sliced = getStreamsRequest.data.data.slice();
+      // const totalViews = getStreamsRequest.data.data
+      //   .map((el) => el.viewer_count)
+      //   .reduce((acc, curr) => {
+      //     return acc + curr;
+      //   });
+      // //
+      // const profileImage = getStreamsRequest.data.data.slice();
+
+      // let vr = profileImage.map((e) => {
+      //   return axios.get(
+      //     `https://api.twitch.tv/helix/users?id=${e.user_id}`,
+      //     options
+      //   );
+      // });
+      // let imageResult = await axios.all(vr);
+      // let ta2 = [];
+      // imageResult.map((e) => {
+      //   e.data.data.map((e) => {
+      //     // console.log(e)
+      //     ta2.push({
+      //       profile_image_url: e.profile_image_url,
+      //       description: e.description,
+      //     });
+      //   });
+      // });
+      // _.merge(sliced, ta2);
+
+      // //
+      // // let tags = [];
+      // let ar = getStreamsRequest.data.data.map((data) => {
+      //   // console.log("------------>",data.tag_ids[0]);
+      //   return axios.get(
+      //     `https://api.twitch.tv/helix/users?id=${data.user_id}`,
+      //     options
+      //   );
+      // });
+      // let result = await axios.all(ar);
+      // let ta = [];
+      // result.map((e) => {
+      //   e.data.data.map((e) => {
+      //     ta.push({ localization_names: e.broadcaster_language });
+      //   });
+      // });
+      // _.merge(sliced, ta);
+      res.json(
+        getStreamsRequest.data,
+        // selectedGame: topGames,
+        // totalCurrentWatching: totalViews,
+        // streams: sliced,
+      );
+    }
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+router.get("/twitch", async (req, res) => {
+  let merge= [];
+  for(const d in data1.frontPage){
+    for(const w of data1.frontPage[d]){
+      merge.push(w);
+    }
+  }
+  //shuffle randomly
+  for (let i = merge.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [merge[i], merge[j]] = [merge[j], merge[i]];
+  }
+  res.send(merge);
+});
+
+router.get("/twitch/streams", async (req, res, next) => {
+  let merge= {};
+
+  for(const d in data2.frontPage){
+    let arr=[];
+    for(const w of data2.frontPage[d]){
+      arr.push(w);
+    }
+
+    // shuffle randomly
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    merge[d]= arr;
+  }
+  
+  for(const d in data1.frontPage){
+    let arr=[];
+    for(const w of data1.frontPage[d]){
+      arr.push(w);
+    }
+
+    // shuffle randomly
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    merge[d]= arr;
+  }
+  res.send(merge);
+
+
+
+  // try {
+  //   const response = await axios.post(
+  //     `https://id.twitch.tv/oauth2/token?client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials`
+  //   );
+  //   const token = response.data.access_token;
+  //   const options = {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //       "client-id": client_id,
+  //     },
+  //   };
+
+  //   if (token) {
+  //     const getStreamsRequest = await axios.get(
+  //       "https://api.twitch.tv/helix/streams?first=8",
+  //       options
+  //     );
+  //     const getTopGamesRequest = await axios.get(
+  //       "https://api.twitch.tv/helix/games/top?first=8",
+  //       options
+  //     );
+
+  //     const newStreamsData = getStreamsRequest.data.data.slice();
+  //     const newTopGamesRequest = getTopGamesRequest.data.data.slice();
+  //     ///////////////////////////
+  //     //topgames
+
+  //     let topGames = newTopGamesRequest.map((e) => {
+  //       // console.log(e);
+  //       return axios.get(
+  //         `https://api.twitch.tv/helix/streams?game_id=${e.id}`,
+  //         options
+  //       );
+  //     });
+  //     let empty_topGames = [];
+  //     //
+  //     let topGames_fetched = await axios.all(topGames);
+  //     topGames_fetched.map((e) => {
+  //       empty_topGames.push({
+  //         gameViewers: e.data.data
+  //           .map((e) => e.viewer_count)
+  //           .reduce((acc, cur) => acc + cur, 0),
+  //       });
+  //     });
+
+  //     ///////////////////////////
+
+  //     //To Get Game_NAME
+
+  //     let game_name_data = newStreamsData.map((e) => {
+  //       return axios.get(
+  //         `https://api.twitch.tv/helix/channels?broadcaster_id=${e.user_id}`,
+  //         options
+  //       );
+  //     });
+  //     let empty_game_name = [];
+  //     //
+  //     let game_name_fetched = await axios.all(game_name_data);
+  //     game_name_fetched.map((e) => {
+  //       e.data.data.map((e) => {
+  //         // console.log(e);
+  //         empty_game_name.push({ game_name: e.game_name });
+  //       });
+  //     });
+
+  //     ///////////////////////////
+  //     let profileImageUrlAndFollowersAndDescriptions = newStreamsData.map(
+  //       (e) => {
+  //         return axios.get(
+  //           `https://api.twitch.tv/helix/users?id=${e.user_id}`,
+  //           options
+  //         );
+  //       }
+  //     );
+
+  //     let emptyProfileImageUrlAndFollowersAndDescriptions = [];
+  //     let profileImageUrlAndFollowersAndDescriptionsFected = await axios.all(
+  //       profileImageUrlAndFollowersAndDescriptions
+  //     );
+  //     profileImageUrlAndFollowersAndDescriptionsFected.map((e) => {
+  //       e.data.data.map((e) => {
+  //         // console.log(e);
+  //         emptyProfileImageUrlAndFollowersAndDescriptions.push({
+  //           description: e.description,
+  //           profile_image_url: e.profile_image_url,
+  //           followers: e.view_count,
+  //         });
+  //       });
+  //     });
+
+  //     /////////////////////////////////////////////////
+
+  //     let tags = newStreamsData.map((e) => {
+  //       return axios.get(
+  //         `https://api.twitch.tv/helix/channels?broadcaster_id=${e.user_id}`,
+  //         options
+  //       );
+  //     });
+  //     let empty_tags = [];
+
+  //     let tags_fetched = await axios.all(tags);
+  //     tags_fetched.map((e) => {
+  //       empty_tags.push({
+  //         localization_names: e.data.data.map(
+  //           (e) => e.broadcaster_language
+  //         ),
+  //       });
+  //     });
+  //     //////////////////////////////
+  //     //justchat STREAMS
+  //     //////////////////////////////////////////////////
+  //     //FORTNITE STREAMS
+
+  //     // console.log(empty_topGames);
+  //     _.merge(newTopGamesRequest, empty_topGames);
+  //     _.merge(newStreamsData, empty_game_name);
+  //     _.merge(newStreamsData, emptyProfileImageUrlAndFollowersAndDescriptions);
+  //     _.merge(newStreamsData, empty_tags);
+
+  //     res.send({
+  //       frontPage: {
+  //         allStreams: newStreamsData,
+  //         topGames: newTopGamesRequest,
+  //       },
+  //     });
+  //   }
+  // } catch (e) {
+  //   res.status(500);
+  //   next(e);
+  // }
+});
+
 //fetch 4 categories sterams 
 const fetchStreams = async (token, category) => {
   try {
@@ -2367,396 +2630,6 @@ router.get("/twitch/topgames", async (req, res) => {
 });
 
 
-router.get("/twitch/streams", async (req, res, next) => {
-  let data={
-    "frontPage": {
-      "allStreams": [
-        {
-          "id": "42576585001",
-          "user_id": "181077473",
-          "user_login": "gaules",
-          "user_name": "Gaules",
-          "game_id": "32399",
-          "game_name": "Counter-Strike",
-          "type": "live",
-          "title": "FURIA vs Bad News Kangaroos ESL Pro League Season 19 -  !Sorteio - Siga Gaules nas redes sociais!",
-          "viewer_count": 58237,
-          "started_at": "2024-05-03T11:15:51Z",
-          "language": "pt",
-          "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_gaules-{width}x{height}.jpg",
-          "tag_ids": [],
-          "tags": [
-            "Português",
-            "brazil",
-            "Portugues",
-            "cs",
-            "CS2",
-            "counterstrike",
-            "Brasil"
-          ],
-          "is_mature": true,
-          "description": "Mais um guerreiro da Maior Tribo do Mundo! Atuei como jogador profissional de CS por quase uma década, fui o primeiro treinador a ser campeão do mundo em 2007 com o MIBR. Acertei um pouco, errei muito, ganhei bastante coisa e tbm perdi demais! Atualmente faço live todos os dias aqui na Twitch! ",
-          "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/ea0fe422-84bd-4aee-9d10-fd4b0b3a7054-profile_image-300x300.png",
-          "followers": 0,
-          "localization_names": [
-            "pt"
-          ]
-        },
-        {
-          "id": "42289008104",
-          "user_id": "31239503",
-          "user_login": "eslcs",
-          "user_name": "ESLCS",
-          "game_id": "32399",
-          "game_name": "Counter-Strike",
-          "type": "live",
-          "title": "LIVE: ENCE vs GamerLegion - ESL Pro League Season 19 - Group C",
-          "viewer_count": 35399,
-          "started_at": "2024-05-03T10:32:18Z",
-          "language": "en",
-          "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_eslcs-{width}x{height}.jpg",
-          "tag_ids": [],
-          "tags": [
-            "English"
-          ],
-          "is_mature": false,
-          "description": "Home of everything Counter-Strike",
-          "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/1975b18f-fa7d-443f-b191-fba08f92f3a2-profile_image-300x300.jpeg",
-          "followers": 0,
-          "localization_names": [
-            "en"
-          ]
-        },
-        {
-          "id": "42289584664",
-          "user_id": "70075625",
-          "user_login": "silvername",
-          "user_name": "SilverName",
-          "game_id": "138585",
-          "game_name": "Hearthstone",
-          "type": "live",
-          "title": "BetBoom Classic: Hearthstone Battleground / Day 1",
-          "viewer_count": 26265,
-          "started_at": "2024-05-03T13:54:55Z",
-          "language": "ru",
-          "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_silvername-{width}x{height}.jpg",
-          "tag_ids": [],
-          "tags": [
-            "Русский",
-            "Hardcore"
-          ],
-          "is_mature": false,
-          "description": "я фрик",
-          "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/b880d4ea-9d95-4ffc-a1f3-00eb1cb332ae-profile_image-300x300.png",
-          "followers": 0,
-          "localization_names": [
-            "ru"
-          ]
-        },
-        {
-          "id": "40612316037",
-          "user_id": "50985620",
-          "user_login": "papaplatte",
-          "user_name": "Papaplatte",
-          "game_id": "509658",
-          "game_name": "Just Chatting",
-          "type": "live",
-          "title": "imagine man guckt // spongebob elden ring weiter // sm64 // vllt feuer und flamme gucken // mal kieken wat sonst so wa",
-          "viewer_count": 26037,
-          "started_at": "2024-05-03T14:33:16Z",
-          "language": "de",
-          "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_papaplatte-{width}x{height}.jpg",
-          "tag_ids": [],
-          "tags": [
-            "dumm",
-            "wer",
-            "guckt",
-            "german",
-            "Deutsch"
-          ],
-          "is_mature": false,
-          "description": "der dümmste streamer auf ganz twitch imagine subbing to papaplatte OMEGALUL so trash unlustig unkreativ nicht gut in video spielen, wer hier sein geld lässt ist einfach nur dämlich",
-          "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/04abc1b4-7bad-4b55-8da8-c0f1cf031bda-profile_image-300x300.png",
-          "followers": 0,
-          "localization_names": [
-            "de"
-          ]
-        },
-        {
-          "id": "40612357957",
-          "user_id": "24147592",
-          "user_login": "gotaga",
-          "user_name": "Gotaga",
-          "game_id": "30921",
-          "game_name": "Rocket League",
-          "type": "live",
-          "title": "GENTLEMATES ALPINE vs. Nordschleife - Swisstage - Round 1",
-          "viewer_count": 23093,
-          "started_at": "2024-05-03T14:47:25Z",
-          "language": "fr",
-          "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_gotaga-{width}x{height}.jpg",
-          "tag_ids": [],
-          "tags": [
-            "Français",
-            "DropsActivés"
-          ],
-          "is_mature": false,
-          "description": "Je m’appelle Corentin Houssein, j'ai 30 ans et je suis un ancien joueur professionnel sur les opus Call Of Duty sous le pseudonyme Gotaga. De nombreuses fois champion d'Europe et de France, j'ai longtemps été le joueur français le plus titré sur consoles.",
-          "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/69e324f6-fc7d-4131-89ed-227a955637cf-profile_image-300x300.png",
-          "followers": 0,
-          "localization_names": [
-            "fr"
-          ]
-        },
-        {
-          "id": "41269309847",
-          "user_id": "49207184",
-          "user_login": "fps_shaka",
-          "user_name": "fps_shaka",
-          "game_id": "1601959379",
-          "game_name": "Bunny Garden",
-          "type": "live",
-          "title": "流石に俺に任せてほしい｜バニーガーデン",
-          "viewer_count": 22991,
-          "started_at": "2024-05-03T10:59:40Z",
-          "language": "ja",
-          "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_fps_shaka-{width}x{height}.jpg",
-          "tag_ids": [],
-          "tags": [
-            "日本語",
-            "ネタバレ禁止",
-            "ネタバレ注意",
-            "大会のネタバレ禁止",
-            "匂わせしないで"
-          ],
-          "is_mature": false,
-          "description": "",
-          "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/61f568bf-884b-4126-b17c-fc525c6d3bd4-profile_image-300x300.png",
-          "followers": 0,
-          "localization_names": [
-            "ja"
-          ]
-        },
-        {
-          "id": "40612336021",
-          "user_id": "97610047",
-          "user_login": "brokybrawkstv",
-          "user_name": "brokybrawkstv",
-          "game_id": "516575",
-          "game_name": "VALORANT",
-          "type": "live",
-          "title": "GENTLE MATES vs TEAM LIQUID ! #VCTWatchParty",
-          "viewer_count": 21018,
-          "started_at": "2024-05-03T14:40:20Z",
-          "language": "fr",
-          "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_brokybrawkstv-{width}x{height}.jpg",
-          "tag_ids": [],
-          "tags": [
-            "Français"
-          ],
-          "is_mature": false,
-          "description": "Anciennement joueur professionnel sur Call of Duty ! Suis moi dans mon aventure Twitch avec la #BrokyArmy ! Je passe du mode \" Try Hard \" à \" Chill \" très rapidement mais le plus important c'est qu'on s'amuse tous ensemble !",
-          "profile_image_url": "https://static-cdn.jtvnw.net/jtv_user_pictures/0bb7c133-1a7b-4699-8012-de46bd393c09-profile_image-300x300.png",
-          "followers": 0,
-          "localization_names": [
-            "fr"
-          ]
-        }
-      ],
-      "topGames": [
-        {
-          "id": "509658",
-          "name": "Just Chatting",
-          "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/509658-{width}x{height}.jpg",
-          "igdb_id": "",
-          "gameViewers": 112585
-        },
-        {
-          "id": "32982",
-          "name": "Grand Theft Auto V",
-          "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/32982_IGDB-{width}x{height}.jpg",
-          "igdb_id": "1020",
-          "gameViewers": 110476
-        },
-        {
-          "id": "32399",
-          "name": "Counter-Strike",
-          "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/32399-{width}x{height}.jpg",
-          "igdb_id": "",
-          "gameViewers": 178627
-        },
-        {
-          "id": "516575",
-          "name": "VALORANT",
-          "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/516575-{width}x{height}.jpg",
-          "igdb_id": "126459",
-          "gameViewers": 111474
-        },
-        {
-          "id": "21779",
-          "name": "League of Legends",
-          "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/21779-{width}x{height}.jpg",
-          "igdb_id": "115",
-          "gameViewers": 78820
-        },
-        {
-          "id": "30921",
-          "name": "Rocket League",
-          "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/30921-{width}x{height}.jpg",
-          "igdb_id": "11198",
-          "gameViewers": 80862
-        },
-        {
-          "id": "33214",
-          "name": "Fortnite",
-          "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/33214-{width}x{height}.jpg",
-          "igdb_id": "1905",
-          "gameViewers": 30491
-        },
-        {
-          "id": "29595",
-          "name": "Dota 2",
-          "box_art_url": "https://static-cdn.jtvnw.net/ttv-boxart/29595-{width}x{height}.jpg",
-          "igdb_id": "",
-          "gameViewers": 36682
-        }
-      ]
-    }
-  };
-  res.send(data);
-  // try {
-  //   const response = await axios.post(
-  //     `https://id.twitch.tv/oauth2/token?client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials`
-  //   );
-  //   const token = response.data.access_token;
-  //   const options = {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       "client-id": client_id,
-  //     },
-  //   };
-
-  //   if (token) {
-  //     const getStreamsRequest = await axios.get(
-  //       "https://api.twitch.tv/helix/streams?first=8",
-  //       options
-  //     );
-  //     const getTopGamesRequest = await axios.get(
-  //       "https://api.twitch.tv/helix/games/top?first=8",
-  //       options
-  //     );
-
-  //     const newStreamsData = getStreamsRequest.data.data.slice();
-  //     const newTopGamesRequest = getTopGamesRequest.data.data.slice();
-  //     ///////////////////////////
-  //     //topgames
-
-  //     let topGames = newTopGamesRequest.map((e) => {
-  //       // console.log(e);
-  //       return axios.get(
-  //         `https://api.twitch.tv/helix/streams?game_id=${e.id}`,
-  //         options
-  //       );
-  //     });
-  //     let empty_topGames = [];
-  //     //
-  //     let topGames_fetched = await axios.all(topGames);
-  //     topGames_fetched.map((e) => {
-  //       empty_topGames.push({
-  //         gameViewers: e.data.data
-  //           .map((e) => e.viewer_count)
-  //           .reduce((acc, cur) => acc + cur, 0),
-  //       });
-  //     });
-
-  //     ///////////////////////////
-
-  //     //To Get Game_NAME
-
-  //     let game_name_data = newStreamsData.map((e) => {
-  //       return axios.get(
-  //         `https://api.twitch.tv/helix/channels?broadcaster_id=${e.user_id}`,
-  //         options
-  //       );
-  //     });
-  //     let empty_game_name = [];
-  //     //
-  //     let game_name_fetched = await axios.all(game_name_data);
-  //     game_name_fetched.map((e) => {
-  //       e.data.data.map((e) => {
-  //         // console.log(e);
-  //         empty_game_name.push({ game_name: e.game_name });
-  //       });
-  //     });
-
-  //     ///////////////////////////
-  //     let profileImageUrlAndFollowersAndDescriptions = newStreamsData.map(
-  //       (e) => {
-  //         return axios.get(
-  //           `https://api.twitch.tv/helix/users?id=${e.user_id}`,
-  //           options
-  //         );
-  //       }
-  //     );
-
-  //     let emptyProfileImageUrlAndFollowersAndDescriptions = [];
-  //     let profileImageUrlAndFollowersAndDescriptionsFected = await axios.all(
-  //       profileImageUrlAndFollowersAndDescriptions
-  //     );
-  //     profileImageUrlAndFollowersAndDescriptionsFected.map((e) => {
-  //       e.data.data.map((e) => {
-  //         // console.log(e);
-  //         emptyProfileImageUrlAndFollowersAndDescriptions.push({
-  //           description: e.description,
-  //           profile_image_url: e.profile_image_url,
-  //           followers: e.view_count,
-  //         });
-  //       });
-  //     });
-
-  //     /////////////////////////////////////////////////
-
-  //     let tags = newStreamsData.map((e) => {
-  //       return axios.get(
-  //         `https://api.twitch.tv/helix/channels?broadcaster_id=${e.user_id}`,
-  //         options
-  //       );
-  //     });
-  //     let empty_tags = [];
-
-  //     let tags_fetched = await axios.all(tags);
-  //     tags_fetched.map((e) => {
-  //       empty_tags.push({
-  //         localization_names: e.data.data.map(
-  //           (e) => e.broadcaster_language
-  //         ),
-  //       });
-  //     });
-  //     //////////////////////////////
-  //     //justchat STREAMS
-  //     //////////////////////////////////////////////////
-  //     //FORTNITE STREAMS
-
-  //     // console.log(empty_topGames);
-  //     _.merge(newTopGamesRequest, empty_topGames);
-  //     _.merge(newStreamsData, empty_game_name);
-  //     _.merge(newStreamsData, emptyProfileImageUrlAndFollowersAndDescriptions);
-  //     _.merge(newStreamsData, empty_tags);
-
-  //     res.send({
-  //       frontPage: {
-  //         allStreams: newStreamsData,
-  //         topGames: newTopGamesRequest,
-  //       },
-  //     });
-  //   }
-  // } catch (e) {
-  //   res.status(500);
-  //   next(e);
-  // }
-});
-
-
 
 // minecraft endpoints 
 //https://api.twitch.tv/helix/channels?broadcaster_id= 
@@ -4114,111 +3987,14 @@ router.get("/twitch/fallguys", async (req, res) => {
 
 
 
-router.get("/twitch/streams/:id", async (req, res) => {
-  try {
-    const response = await axios.post(
-      `https://id.twitch.tv/oauth2/token?client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials`
-    );
-    const token = response.data.access_token;
-    const options = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "client-id": client_id,
-      },
-    };
-
-    if (token) {
-      const getStreamsRequest = await axios.get(
-        `https://api.twitch.tv/helix/streams?game_id=${req.params.id}&first=100`,
-        options
-      );
-
-      const getTopGames = await axios.get(
-        `https://api.twitch.tv/helix/games?id=${req.params.id}`,
-        options
-      );
-
-      const topGames = getTopGames.data.data;
-      const sliced = getStreamsRequest.data.data.slice();
-      const totalViews = getStreamsRequest.data.data
-        .map((el) => el.viewer_count)
-        .reduce((acc, curr) => {
-          return acc + curr;
-        });
-      //
-      const profileImage = getStreamsRequest.data.data.slice();
-
-      let vr = profileImage.map((e) => {
-        return axios.get(
-          `https://api.twitch.tv/helix/users?id=${e.user_id}`,
-          options
-        );
-      });
-
-      let empty_followers = [];
-      //
-
-      let imageResult = await axios.all(vr);
-      let ta2 = [];
-      imageResult.map((e) => {
-        // e.data.data.map((e) => console.log(e.vi));
-        empty_followers.push({
-          totalFollow: e.data.data
-            .map((e) => e.view_count)
-            .reduce((acc, cur) => acc + cur, 0),
-        });
-
-        e.data.data.map((e) => {
-          // console.log(e)
-          ta2.push({
-            profile_image_url: e.profile_image_url,
-            description: e.description,
-          });
-        });
-      });
-      const totalF = empty_followers
-        .map((e) => e.totalFollow)
-        .reduce((acc, cur) => acc + cur, 0);
-
-      _.merge(sliced, ta2);
-
-      //
-      // let tags = [];
-      let ar = getStreamsRequest.data.data.map((data) => {
-        // console.log("------------>",data.tag_ids[0]);
-        return axios.get(
-          `https://api.twitch.tv/helix/users?id=${data.user_id}`,
-          options
-        );
-      });
-      let result = await axios.all(ar);
-      let ta = [];
-      result.map((e) => {
-        e.data.data.map((e) => {
-          // localization_names:res["broadcaster_language"]
-
-          ta.push({ localization_names: e.broadcaster_language });
-        });
-      });
-      _.merge(sliced, ta);
-      res.json({
-        totalFollowers: totalF,
-        selectedGame: topGames,
-        totalCurrentWatching: totalViews,
-        streams: sliced,
-      });
-    }
-  } catch (e) {
-    console.log(e);
-  }
-});
-
 router.get("/twitch/streams/user/:id", async (req, res) => {
   try {
+    const token = await getToken();
+    
     const response = await axios.post(
       `https://id.twitch.tv/oauth2/token?client_id=${client_id}&client_secret=${client_secret}&grant_type=client_credentials`
     );
-    const token = response.data.access_token;
+    console.log(token, "token----", client_id,"---")
     const options = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -4245,7 +4021,7 @@ router.get("/twitch/streams/user/:id", async (req, res) => {
       res.json({ streams: getStreamsRequest.data.data });
     }
   } catch (e) {
-    console.log(e);
+    // console.log(e);
   }
 });
 

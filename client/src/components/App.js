@@ -7,6 +7,8 @@ import { fetchAuth, jwtlogOut, showModal, fetchActiveLiveTwitch } from "../actio
 import history from "../history";
 import Header from "./Header/Header";
 import Slash from "./Route/Slash";
+import SlashId from "./Route/SlashId";
+import SlashCategoryGamesId from "./Route/SlashCategoryGamesId";
 
 const App = (props) => {
     useEffect(() => {
@@ -21,6 +23,8 @@ const App = (props) => {
 
                 <Switch>
                     <Route exact path="/" component={Slash} />
+                    <Route exact path="/:id" component={SlashId} />
+                    <Route exact path="/category/games/:id" component={SlashCategoryGamesId} />
                 </Switch>
             </div>
         </Router>

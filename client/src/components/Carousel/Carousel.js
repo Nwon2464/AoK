@@ -16,10 +16,7 @@ const Carousel = (props) => {
   const [direction, setDirection] = useState("");
   const [loading, setLoading] = useState(true);
 
-  console.log(props,"??");
-
-  const data=dataStreams.frontPage.allStreams.slice(0,5);
-
+  const data=props.twitch.activeLiveTwitch.slice(0,5);
 
   const [width, setWidth] = useState([
     { widthSize: "100%" },
@@ -220,8 +217,8 @@ const Carousel = (props) => {
                 // width={`${AutoWidth}`}
                 height="300px"
                //*switch to backend url
-                // src={`https://player.twitch.tv/?channel=${streams.user_name}&muted=true&parent=server-t.vercel.app`}
-                src={`https://player.twitch.tv/?channel=${streams.user_name}&muted=true&parent=videoappclient.vercel.app&parent=videoappclient-vercel-app`}
+               // src={`https://player.twitch.tv/?channel=${streams.user_name}&muted=true&parent=server-t.vercel.app`}
+                src={`https://player.twitch.tv/?channel=${streams.user_name}&muted=true&parent=client-xi-eight-67.vercel.app&parent=client-xi-eight-67-vercel-app`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

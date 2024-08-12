@@ -16,7 +16,6 @@ import {
 } from "./types";
 
 import { jwtDecode } from "jwt-decode";
-import { response } from "express";
 
 const DEPLOYMENT_URL="https://server-ashy-omega-14.vercel.app";
 
@@ -28,8 +27,7 @@ export const fetchActiveLiveTwitch = () => async (dispatch) => {
     `/api/v1/twitch/streams`
     // "/api/v1/twitch/streams"
   );
-  console.log(responseAll.data, "Action");  
-  let dataStream_data= responseAll.data.frontPage.allStreams;
+  let dataStream_data= responseAll.data.allStreams;
   dataStream_data.map((game) => {
     let newUrl = game.thumbnail_url
       .replace("{width}", "440")
@@ -38,7 +36,7 @@ export const fetchActiveLiveTwitch = () => async (dispatch) => {
   });
   dispatch({ type: "ACTION_LIVE_STREAMS", payload: dataStream_data });
 
-  let dataTopGames = responseAll.data.frontPage.topGames;
+  let dataTopGames = responseAll.data.topGames;
   dataTopGames.map((game) => {
     let newUrl = game.box_art_url
       .replace("{width}", "188")
@@ -46,10 +44,49 @@ export const fetchActiveLiveTwitch = () => async (dispatch) => {
     game.box_art_url = newUrl;
   
   });
+  console.log(dataTopGames);
+  
   dispatch({ type: "ACTION_TOP_GAMES", payload: dataTopGames });
+   
+  let dataFallGuy = responseAll.data.fallGuy;
+  dataFallGuy.map((game) => {
+    let newUrl = game.thumbnail_url
+      .replace("{width}", "440")
+      .replace("{height}", "248");
+    game.thumbnail_url = newUrl;
+  });
+  dispatch({ type: "ACTION_FALLGUY", payload: dataFallGuy });
+
+  let dataJustChat = responseAll.data.justChat;
+  dataJustChat.map((game) => {
+    let newUrl = game.thumbnail_url
+      .replace("{width}", "440")
+      .replace("{height}", "248");
+    game.thumbnail_url = newUrl;
+  });
+  dispatch({ type: "ACTION_JUSTCHAT", payload: dataJustChat });
+
+  let dataFortNite = responseAll.data.fortNite;
+  dataFortNite.map((game) => {
+    let newUrl = game.thumbnail_url
+      .replace("{width}", "440")
+      .replace("{height}", "248");
+    game.thumbnail_url = newUrl;
+  });
+  dispatch({ type: "ACTION_FORTNITE", payload: dataFortNite });
+
+  let dataMineCraft = responseAll.data.mineCraft;
+  dataMineCraft.map((game) => {
+    let newUrl = game.thumbnail_url
+      .replace("{width}", "440")
+      .replace("{height}", "248");
+    game.thumbnail_url = newUrl;
+  });
+  
+  dispatch({ type: "ACTION_MINECRAFT", payload: dataMineCraft });  
+
+
 };
-
-
 
 export const fetchAuth = () => async (dispatch) => {
     if(localStorage.token){

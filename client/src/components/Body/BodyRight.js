@@ -8,10 +8,10 @@ import ShowClickRender from "./ShowClickRender";
 
 
 import Carousel from "../Carousel/Carousel";
-// import GameCard from "./BodyRightUI/GameCard/GameCard";
-// import { checkViewers, checkTags } from "./checkViewers";
-// import Loading from "./BodyRightUI/VideoCard/Loading";
-// import LoadingGameCard from "./BodyRightUI/GameCard/LoadingGameCard";
+import GameCard from "../Card/GameCard";
+import { checkViewers, checkTags } from "./checkViewers";
+import Loading from "../Card/Loading";
+import LoadingGameCard from "../Card/LoadingGameCard";
 const BodyRight = (props) => {
   const [visible, setVisible] = useState(4);
 
@@ -32,7 +32,7 @@ const BodyRight = (props) => {
     <div className="app-overflow-scroll app-body-right-background app-z-index-default app-flex app-flex-column app-flex-grow-1 app-full-height app-full-width">
       <div className="app-full-width app-relative">
         <Carousel />
-{/* 
+
         {props.twitch.activeLiveTwitch.length === 0 ? (
           <Loading />
         ) : (
@@ -126,7 +126,7 @@ const BodyRight = (props) => {
               />
             )}
           />
-        )} */}
+        )}
       </div>
     </div>
   );
