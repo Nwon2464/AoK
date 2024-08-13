@@ -15,6 +15,7 @@
     --color-border-input: rgba(0, 0, 0, 0.05);
     --color-button: #f9f9f9;
     --color-fill-live: #e91916;
+    --color-fill-archive: #00b5ad;
     --font-size-40: 4rem;
     --font-size-14: 2rem;
     --font-size-9: 1.5rem;
@@ -633,6 +634,10 @@
   }
   .app-live-indicator {
     background-color: var(--color-fill-live) !important;
+    color: var(--color-text-button-primary) !important;
+  }
+  .app-archive-indicator {
+    background-color: var(--color-fill-archive) !important;
     color: var(--color-text-button-primary) !important;
   }
   .app-font-weight {

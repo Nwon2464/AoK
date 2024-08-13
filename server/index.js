@@ -46,6 +46,14 @@ app.use(passport.session());
 //     });
 // });
 
+
+app.get("/category/all", async (req, res) => {
+  let data =["E"];
+  console.log(data);
+  res.send(data);
+});
+
+
 app.use("/auth", authRoutes);
 app.use('/api/v1', api);
 

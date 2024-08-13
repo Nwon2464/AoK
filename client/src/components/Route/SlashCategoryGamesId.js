@@ -16,18 +16,11 @@ import SlashCategoryBody from "./slashCategoryGamesId/SlashCategoryBody";
 
 
 const SlashCategoryGamesId = (props) => {
-  const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState(null);
-
-
-
   const [paginationValue,setPaginationValue] = useState("");
   const [category, setCategory] = useState([]);
-  const [totalViews, setTotalViews] = useState(0);
-  const [topGamesImage, setTopGamesImage] = useState([]);
-  const [sumFollowers, setSumFollowers] = useState(0);
   useEffect(() => {
     // Fetch initial data
     fetchPosts(0);
@@ -97,13 +90,6 @@ const SlashCategoryGamesId = (props) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [loading, hasMore, category.length]);
 
-
-
-
-
-
-
-  // console.log(props,"====",props.location.state.data.box_art_url);
 
   const checkTags = (streams, i) => {
     return (

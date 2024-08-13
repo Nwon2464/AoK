@@ -216,8 +216,6 @@ const Carousel = (props) => {
                 // width="100%" &autoplay=${AutoStyle}
                 // width={`${AutoWidth}`}
                 height="300px"
-               //*switch to backend url
-               // src={`https://player.twitch.tv/?channel=${streams.user_name}&muted=true&parent=server-t.vercel.app`}
                 src={`https://player.twitch.tv/?channel=${streams.user_name}&muted=true&parent=client-xi-eight-67.vercel.app&parent=client-xi-eight-67-vercel-app`}
                 frameBorder="0"
                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"

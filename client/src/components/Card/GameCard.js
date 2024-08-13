@@ -20,7 +20,7 @@ const GameCard = (props) => {
         </h3>
         <div className="app__relative">
           <div className="card__display__flex__wrap">
-            {props.topGames.map((e, i) => {
+            {props.topGames.slice(0,10).map((e, i) => {
               return (
                 <div
                   key={i}
