@@ -107,7 +107,6 @@ router.get("/twitch/channels" , async(req,res) =>{
         "client-id": client_id,
       },
     };
-    console.log("token",token);
     if(token){
       const getStreamsRequest = await axios.get(
         `https://api.twitch.tv/helix/streams?first=8&type=live`,

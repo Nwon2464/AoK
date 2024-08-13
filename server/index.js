@@ -16,7 +16,10 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(helmet());
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: 'https://client-xi-eight-67.vercel.app/'
+}));
 app.use(express.json());
 
 
@@ -40,19 +43,11 @@ db.once("open", () => { console.log("Mongo DB Atlas has been connected!!!"); });
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.get('/', (req, res) => {
-//     res.json({
-//         message : '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
-//     });
-// });
-
-
-app.get("/category/all", async (req, res) => {
-  let data =["E"];
-  console.log(data);
-  res.send(data);
+app.get('/', (req, res) => {
+    res.json({
+        message : '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
+    });
 });
-
 
 app.use("/auth", authRoutes);
 app.use('/api/v1', api);
