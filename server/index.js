@@ -16,9 +16,8 @@ const app = express();
 
 app.use(morgan('dev'));
 app.use(helmet());
-// app.use(cors());
 app.use(cors({
-  origin: 'https://client-xi-eight-67.vercel.app/'
+  origin: '*' // or '*'
 }));
 app.use(express.json());
 
@@ -31,10 +30,7 @@ app.use(cookieSession({
 
 const uri = process.env.MONGO_URI;
 mongoose.connect(uri, {
-    // useNewUrlParser : true,
     useUnifiedTopology : true,
-    // useFindAndModify : false,
-    // useCreateIndex : true,
 });
 
 const db = mongoose.connection;
