@@ -19,7 +19,7 @@ const SlashCategoryAll = (props) => {
   const fetchAllVideos = async () => {
     try {
       const { data } = await axios.get(
-        `/api/v1/categories/all`,
+        `https://server-ashy-omega-14.vercel.app/api/v1/categories/all`,
         {
           params: {
             cursor: paginationValue,

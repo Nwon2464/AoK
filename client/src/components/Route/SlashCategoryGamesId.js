@@ -35,7 +35,7 @@ const SlashCategoryGamesId = (props) => {
     try {
       // 'https://api.twitch.tv/helix/streams?first=40&after=eyJiI...' \ 
       const response = await axios.get(
-        `/api/v1/twitch/streams/${
+        `https://server-ashy-omega-14.vercel.app/api/v1/twitch/streams/${
           props.location.state.data.game_id || props.location.state.data.id
         }`,{
           params:{

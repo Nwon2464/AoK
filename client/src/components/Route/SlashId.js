@@ -33,7 +33,7 @@ const SlashId = (props) => {
     setError(null);
     try {
       const { data } = await axios.get(
-        `/api/v1/videos/${props.location.state.data.user_id}`,
+        `https://server-ashy-omega-14.vercel.app/api/v1/videos/${props.location.state.data.user_id}`,
         {
           params: {
             cursor: paginationValue,
@@ -43,9 +43,9 @@ const SlashId = (props) => {
       if (!data) {
         throw new Error("Failed to fetch videos");
       }
-      let newStreams = data.data;
-      setStreams((prevStreams) => [...prevStreams, ...newStreams]);
-      setHasMore(newStreams.length > 0); 
+      let streams = data.data;
+      setStreams((prevStreams) => [...prevStreams, ...streams]);
+      setHasMore(streams.length > 0); 
       setPaginationValue(data.pagination.cursor);
     } catch (err) {
       setError(err.message);

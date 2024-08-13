@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import BodyLeft from "../Body/BodyLeft";
 import axios from "axios";
 import SlashVideoAllLoading from "./ReuseableUI/SlashVideoAllLoading";
-import Reuseable from "./ReuseableUI/Reuseable";
-import Reuseable2 from "./ReuseableUI/Reuseable2";
-import NotFound from "../error/NotFound";
 import SlashIdVideoBody from "./slashIdVideos/SlashIdVideoBody";
 import SlashIdVideoHeader from "./slashIdVideos/SlashIdVideoHeader";
 
@@ -25,8 +22,9 @@ const SlashIdVideosAll = (props) => {
     setLoading(true);
     setError(null);
     try {
+      
       const { data } = await axios.get(
-        `/api/v1/videos/${props.location.state.data.user_id}`,
+        `https://server-ashy-omega-14.vercel.app/api/v1/videos/${props.location.state.data.user_id}`,
         {
           params: {
             cursor: paginationValue,
