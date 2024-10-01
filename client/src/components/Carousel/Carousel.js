@@ -7,7 +7,7 @@ import _ from "lodash";
 import "./Carousel.css";
 
 import { fetchActiveLiveTwitch } from "../../actions";
-import {dataStreams} from "../../actions/dataStreams";
+import { dataStreams } from "../../actions/dataStreams";
 
 const Carousel = (props) => {
   const iframeRef = useRef();
@@ -16,7 +16,7 @@ const Carousel = (props) => {
   const [direction, setDirection] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const data=props.twitch.activeLiveTwitch.slice(0,5);
+  const data = props.twitch.activeLiveTwitch.slice(0, 5);
 
   const [width, setWidth] = useState([
     { widthSize: "100%" },
@@ -152,10 +152,13 @@ const Carousel = (props) => {
     setLoading(false);
   };
 
-  const checkTags = (streams, i) => {
+  const checkTags = (streams) => {
+    if (streams == null) {
+      return <></>
+    }
     return (
       <>
-        {streams.tags.map((e,i)=>{
+        {streams.map((e) => {
           return (
             <Link
               to="/"
@@ -166,7 +169,7 @@ const Carousel = (props) => {
             </Link>
           )
         })}
-      </>     
+      </>
     );
   };
 
@@ -175,15 +178,13 @@ const Carousel = (props) => {
       return <>{`${views} viewers`}</>;
     } else if (views < 999999) {
       return (
-        <>{`${
-          Math.sign(views) * (Math.abs(views) / 1000).toFixed(1)
-        }K viewers`}</>
+        <>{`${Math.sign(views) * (Math.abs(views) / 1000).toFixed(1)
+          }K viewers`}</>
       );
     } else if (views <= 9999999) {
       return (
-        <>{`${
-          Math.sign(views) * (Math.abs(views) / 1000000).toFixed(1)
-        }M viewers`}</>
+        <>{`${Math.sign(views) * (Math.abs(views) / 1000000).toFixed(1)
+          }M viewers`}</>
       );
     }
   };
@@ -202,6 +203,7 @@ const Carousel = (props) => {
         </div>
 
         {data.map((streams, i) => {
+
           const showAnimation = direction === "right" || direction === "left";
           const position = "animate absolute image";
           const imgStyle = determineStyle(i, showAnimation);
@@ -287,7 +289,7 @@ const Carousel = (props) => {
                   </div>
 
                   <div className="channel__tag__2 app__order__2 channel__tag__1">
-                    <div className="channel__tag__3">{checkTags(streams)}</div>
+                    <div className="channel__tag__3">{checkTags(streams.tags)}</div>
                   </div>
                   <div className="app-word-wrap app__order__3 app-overflow-hidden">
                     {streams.title}
@@ -307,13 +309,13 @@ const Carousel = (props) => {
 
 
 const mapStateToProps = (state) => {
-    return {
-      twitch: state.twitch,
-    };
+  return {
+    twitch: state.twitch,
   };
+};
 
 export default connect(mapStateToProps, {
-    fetchActiveLiveTwitch,
-    // fetchActiveLiveGameContents,
- 
+  fetchActiveLiveTwitch,
+  // fetchActiveLiveGameContents,
+
 })(Carousel);
