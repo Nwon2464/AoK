@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import CarouselBody from "./CarouselBody";
 const MainCarousel = (props) => {
     return (
@@ -41,5 +41,5 @@ const MainCarousel = (props) => {
     );
 };
 
-export default MainCarousel;
+export default memo(MainCarousel);
 

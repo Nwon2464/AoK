@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 const Browse = (props) => {
@@ -9,7 +9,7 @@ const Browse = (props) => {
             >
                 <Link to="/category/all"
                     onClick={() => props.toggleMultipleIndicator("Browse")}>
-                    <h3 className="app-flex app-flex-column app-font-size-7 app-cursor-pointer">
+                    <h3 className="app-flex app-flex-column app-font-size-7 app-cursor-pointer ">
                         Browse
                     </h3>
                 </Link>

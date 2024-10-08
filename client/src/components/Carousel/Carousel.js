@@ -7,9 +7,7 @@ import "./Carousel.css";
 import MainCarousel from "./MainCarousel";
 import LoadingCarousel from "./LoadingCarousel";
 
-
 import { fetchActiveLiveTwitch } from "../../actions";
-import { dataStreams } from "../../actions/dataStreams";
 import Loading from "../Card/Loading";
 
 
@@ -131,6 +129,9 @@ const Carousel = (props) => {
     setLoading(false);
   };
 
+
+
+
   return (
     <div className="carousel app-pd-20">
       <div ref={styleRef} className="slides">
@@ -144,6 +145,7 @@ const Carousel = (props) => {
             ›
           </button>
         </div>
+
         {data.length != 0 ?
           <MainCarousel
             direction={direction}

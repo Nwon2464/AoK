@@ -16,11 +16,11 @@ const GameCard = (props) => {
               {props.categories}
             </strong>
           </Link>{" "}
-          we think you’ll likew
+          we think you’ll like
         </h3>
         <div className="app__relative">
           <div className="card__display__flex__wrap">
-            {props.topGames.slice(0,10).map((e, i) => {
+            {props.topGames.slice(0, 10).map((e, i) => {
               return (
                 <div
                   key={i}
@@ -30,20 +30,20 @@ const GameCard = (props) => {
                     <div className="app__relative">
                       <div className="app__flex__column app__flex app__flex__nowrap">
                         {/* <div> */}
-                          <Link
-                            to={{
-                              pathname: `/category/games/${e.name
-                                .split(" ")
-                                .join("")}`,
-                              state: { data: e },
-                            }}
-                          >
-                            <img
-                              className="app__img__transition app__cursor"
-                              src={e.box_art_url}
-                              alt="GameImage"
-                            />
-                          </Link>
+                        <Link
+                          to={{
+                            pathname: `/category/games/${e.name
+                              .split(" ")
+                              .join("")}`,
+                            state: { data: e },
+                          }}
+                        >
+                          <img
+                            className="app__img__transition app__cursor"
+                            src={e.box_art_url}
+                            alt="GameImage"
+                          />
+                        </Link>
                         {/* </div> */}
 
                         <div className="app__ellipsis app__margin__top app__flex__shrink__1 app__flex__grow__1 app__color app__font__weight app__cursor">

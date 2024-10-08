@@ -19,7 +19,7 @@ const SlashCategoryGamesId = (props) => {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState(null);
-  const [paginationValue,setPaginationValue] = useState("");
+  const [paginationValue, setPaginationValue] = useState("");
   const [category, setCategory] = useState([]);
   useEffect(() => {
     // Fetch initial data
@@ -35,34 +35,23 @@ const SlashCategoryGamesId = (props) => {
     try {
       // 'https://api.twitch.tv/helix/streams?first=40&after=eyJiI...' \ 
       const response = await axios.get(
-        `https://server-ashy-omega-14.vercel.app/api/v1/twitch/streams/${
-          props.location.state.data.game_id || props.location.state.data.id
-        }`,{
-          params:{
-            cursor:paginationValue
-          }
+        `https://server-ashy-omega-14.vercel.app/api/v1/twitch/streams/${props.location.state.data.game_id || props.location.state.data.id
+        }`, {
+        params: {
+          cursor: paginationValue
         }
+      }
       );
       if (!response.data) {
         throw new Error("Failed to fetch posts");
       }
-      // let dataArray = response.data;
-      // dataArray.map((game) => {
-      //   let newUrl = game.box_art_url
-      //     .replace("{width}", "180")
-      //     .replace("{height}", "240");
-      //   game.box_art_url = newUrl;
-      // });
+
       let category = [];
-      for(const d of response.data.data){
+      for (const d of response.data.data) {
         category.push(d);
       }
-      setCategory((prevCategory)=>[...prevCategory,...category]);
-      // const response = await fetch(
-      //   `https://jsonplaceholder.typicode.com/posts?_start=${offset}&_limit=20`
-      // );
-      // const newPosts = await response.json();
-      // setPosts((prevPosts) => [...prevPosts, ...newPosts]);
+      setCategory((prevCategory) => [...prevCategory, ...category]);
+
       setHasMore(category.length > 0); // JSONPlaceholder has 100 posts; stop fetching after that
       setPaginationValue(response.data.pagination.cursor);
     } catch (err) {
@@ -75,12 +64,10 @@ const SlashCategoryGamesId = (props) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // console.log(window.innerHeight , window.scrollY, document.documentElement.scrollHeight);
       const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
 
       if (bottom) {
         if (!loading && hasMore) {
-          // console.log("you reach the bottom", window.innerHeight);
           fetchPosts(category.length); // Fetch next batch of posts
         }
       }
@@ -93,33 +80,33 @@ const SlashCategoryGamesId = (props) => {
 
   const checkTags = (streams, i) => {
     return (
-      <Link
+      <span
         className="channel__tag__anchor"
         style={{ marginLeft: 2, maxWidth: 80 }}
         to={`/category/all/tags/${streams.tags}`}
       >
         {streams.tags}
-      </Link>
+      </span>
     );
   };
 
   return (
     <>
-     <div className="app-flex app-flex-nowrap app-relative app-full-height ">
-      <div className="side-nav app-flex-shrink-0 app-full-height app-z-above">
-        <BodyLeft />
-      </div>
-      {!props.location.state ? <NotFound/> : 
-        <div className="app-flex app-flex-column app-full-width">
-          { category.length==0 ? <SlashCategoryGamesIdLoadingHeader/> : <SlashCategoryHeader total_viewers={props.location.state.data.gameViewers} game_name={props.location.state.data.name} box_image={props.location.state.data.box_art_url}/> }
-          <div className="app-full-height app-full-width">
-            <SlashCategorySubHeader/>  
-            { category.length==0 ? <SlashCategoryGamesIdLoadingBody/> : <SlashCategoryBody data={category}/> }
-          </div>
+      <div className="app-flex app-flex-nowrap app-relative app-full-height ">
+        <div className="side-nav app-flex-shrink-0 app-full-height app-z-above">
+          <BodyLeft />
         </div>
-      };
-    </div>
-    </>              
+        {!props.location.state ? <NotFound /> :
+          <div className="app-flex app-flex-column app-full-width">
+            {category.length == 0 ? <SlashCategoryGamesIdLoadingHeader /> : <SlashCategoryHeader total_viewers={props.location.state.data.gameViewers} game_name={props.location.state.data.name} box_image={props.location.state.data.box_art_url} />}
+            <div className="app-full-height app-full-width">
+              <SlashCategorySubHeader />
+              {category.length == 0 ? <SlashCategoryGamesIdLoadingBody /> : <SlashCategoryBody data={category} />}
+            </div>
+          </div>
+        };
+      </div>
+    </>
   );
 };
 

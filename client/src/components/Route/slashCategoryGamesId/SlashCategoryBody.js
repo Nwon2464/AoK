@@ -1,22 +1,23 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import {checkViewers} from "../../Body/checkViewers";
+import { checkViewers } from "../../Body/checkViewers";
 const SlashCategoryBody = (props) => {
 
     const checkTags = (streams, i) => {
         return (
-            <Link
+            <span
                 className="channel__tag__anchor"
                 style={{
-                marginLeft: 2,
-                maxWidth: 80
-            }}
-                to={`/category/all/tags/${streams.tags}`}>
+                    marginLeft: 2,
+                    maxWidth: 80
+                }}
+            // to={`/category/all/tags/${streams.tags}`}
+            >
                 {streams.tags}
-            </Link>
+            </span>
         );
     };
     return (
@@ -37,12 +38,12 @@ const SlashCategoryBody = (props) => {
                                                         <div className="channel__icon">
                                                             <Link
                                                                 to={{
-                                                                pathname: `/${e.user_name}/videos/all`,
-                                                                state: {
-                                                                    data: e
-                                                                }
-                                                            }}>
-                                                                <img className="channel__icon__1" src={e.profile_url}/>
+                                                                    pathname: `/${e.user_name}/videos/all`,
+                                                                    state: {
+                                                                        data: e
+                                                                    }
+                                                                }}>
+                                                                <img className="channel__icon__1" src={e.profile_url} />
                                                             </Link>
                                                         </div>
                                                         <div
@@ -52,12 +53,12 @@ const SlashCategoryBody = (props) => {
                                                                     <h3 className="app__ellipsis app__font__weight">
                                                                         <Link
                                                                             to={{
-                                                                            pathname: `/${e.user_name}`,
-                                                                            state: {
-                                                                                data: e,
-                                                                                game_name: e.game_name
-                                                                            }
-                                                                        }}
+                                                                                pathname: `/${e.user_name}`,
+                                                                                state: {
+                                                                                    data: e,
+                                                                                    game_name: e.game_name
+                                                                                }
+                                                                            }}
                                                                             className="app__font__size app__cursor">
                                                                             {e.title}
                                                                         </Link>
@@ -69,12 +70,12 @@ const SlashCategoryBody = (props) => {
                                                                     <h4 className="app__ellipsis app__font__size__0_8 app__color__grey app__cursor">
                                                                         <Link
                                                                             to={{
-                                                                            pathname: `/${e.user_name}/videos/all`,
-                                                                            state: {
-                                                                                data: e,
-                                                                                game_name: e.game_name
-                                                                            }
-                                                                        }}
+                                                                                pathname: `/${e.user_name}/videos/all`,
+                                                                                state: {
+                                                                                    data: e,
+                                                                                    game_name: e.game_name
+                                                                                }
+                                                                            }}
                                                                             className="app__color__grey app__cursor app__font__size__0_8">
                                                                             {e.user_name}
                                                                         </Link>
@@ -92,31 +93,31 @@ const SlashCategoryBody = (props) => {
                                                             </div>
                                                         </div>
                                                         <div className="channel__down">
-                                                            <MoreVertIcon/>
+                                                            <MoreVertIcon />
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <Link
                                                     to={{
-                                                    pathname: `/${e.user_name}`,
-                                                    state: {
-                                                        data: e
-                                                    },
-                                                    state: {
-                                                        data: e,
-                                                        game_name: e.game_name
-                                                    }
-                                                }}
+                                                        pathname: `/${e.user_name}`,
+                                                        state: {
+                                                            data: e
+                                                        },
+                                                        state: {
+                                                            data: e,
+                                                            game_name: e.game_name
+                                                        }
+                                                    }}
                                                     className="app__order__1">
                                                     <div className="app__relative app__cursor">
                                                         <div>
                                                             <img
                                                                 className="channel__thumbnail"
                                                                 src={e
-                                                                .thumbnail_url
-                                                                .replace("{width}", "440")
-                                                                .replace("{height}", "248")}/>
+                                                                    .thumbnail_url
+                                                                    .replace("{width}", "440")
+                                                                    .replace("{height}", "248")} />
                                                         </div>
                                                         <div
                                                             className="app__absolute app__top__0 app__left__0 app__card__height app__width">

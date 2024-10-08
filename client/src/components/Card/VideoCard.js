@@ -15,8 +15,9 @@ const VideoCard = (props) => {
         >
           {props.recommend ? "  Recommended " : ""}
           {/* {props.categories === "Live Channel" ? "Live Channel " : ""} */}
-          <Link
+          <span
             to={{
+
               pathname: `/category/games/${props.categories
                 .split(" ")
                 .join("")}`,
@@ -32,17 +33,17 @@ const VideoCard = (props) => {
             }}
           >
             {/* {props.categories !== "Live Channel" && ( */}
-              <strong
-                style={{
-                  color: "#00b5ad",
-                  fontSize: "1.5rem",
-                  paddingLeft: "0.1rem",
-                }}
-              >
-                {props.categories}{" "}
-              </strong>
+            <strong
+              style={{
+                color: "#00b5ad",
+                fontSize: "1.5rem",
+                paddingLeft: "0.1rem",
+              }}
+            >
+              {props.categories}{" "}
+            </strong>
             {/* )} */}
-          </Link>
+          </span>
           we think you'll like
         </h3>
         <div className="app__relative">
@@ -90,7 +91,7 @@ const VideoCard = (props) => {
                                 </div>
                                 <div>
                                   <h5 className="app__ellipsis app__font__size__0_8">
-                                    <Link
+                                    <span
                                       to={{
                                         pathname: `/category/games/${e.game_name
                                           .split(" ")
@@ -100,7 +101,7 @@ const VideoCard = (props) => {
                                       className="app__color__grey app__cursor app__font__size__0_8"
                                     >
                                       {e.game_name}
-                                    </Link>
+                                    </span>
                                   </h5>
                                 </div>
                               </div>

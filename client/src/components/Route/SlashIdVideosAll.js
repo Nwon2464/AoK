@@ -22,7 +22,7 @@ const SlashIdVideosAll = (props) => {
     setLoading(true);
     setError(null);
     try {
-      
+
       const { data } = await axios.get(
         `https://server-ashy-omega-14.vercel.app/api/v1/videos/${props.location.state.data.user_id}`,
         {
@@ -37,7 +37,7 @@ const SlashIdVideosAll = (props) => {
       let streams = data.data;
       setStreams((prevStreams) => [...prevStreams, ...streams]);
 
-      setHasMore(streams.length > 0); 
+      setHasMore(streams.length > 0);
       setPaginationValue(data.pagination.cursor);
     } catch (err) {
       setError(err.message);
@@ -48,12 +48,11 @@ const SlashIdVideosAll = (props) => {
   };
   useEffect(() => {
     const handleScroll = () => {
-    //   console.log(window.innerHeight , window.scrollY, document.documentElement.scrollHeight);
       const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
 
       if (bottom) {
         if (!loading && hasMore) {
-          console.log("you reach the bottom", window.innerHeight);
+          // console.log("you reach the bottom", window.innerHeight);
           fetchAllVideos(streams.length); // Fetch next batch of posts
         }
       }
@@ -73,23 +72,23 @@ const SlashIdVideosAll = (props) => {
         {" "}
         <div className="app-full-height">
           <div className="app-flex app-flex-column app-full-height app-full-width">
-           <SlashIdVideoHeader {...props}/>
-              {streams.length === 0 ? (
-                <SlashVideoAllLoading />
-              ) : (
-                    <div
-                    className="app-absolute"
-                    style={{
-                        marginTop: 400,
-                        minHeight: 460,
-                        width: "100%",
-                        zIndex: 2,
-                    }}
-                    >
-                
-                        <SlashIdVideoBody {...props} streams={streams} />
-                    </div>
-              )} 
+            <SlashIdVideoHeader {...props} />
+            {streams.length === 0 ? (
+              <SlashVideoAllLoading />
+            ) : (
+              <div
+                className="app-absolute"
+                style={{
+                  marginTop: 400,
+                  minHeight: 460,
+                  width: "100%",
+                  zIndex: 2,
+                }}
+              >
+
+                <SlashIdVideoBody {...props} streams={streams} />
+              </div>
+            )}
           </div>
         </div>{" "}
         <div
