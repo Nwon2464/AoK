@@ -1,6 +1,6 @@
-import React, {useRef, useState}  from "react";
-import {connect} from "react-redux";
-import {Link} from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 import "./Header.css";
 import TwitchIcons from "./TwitchIcons/TwitchIcons";
@@ -14,21 +14,25 @@ import { jwtlogOut, signIn } from "../../actions";
 
 const Header = (props) => {
 
+  const [navIndicatorActive, setNavIndicatorActive] = useState("");
+  const toggleMultipleIndicator = (value) => {
+    setNavIndicatorActive(value);
+  };
   return (
     <nav className="app-top-nav app-height-5 app-flex-shrink-0">
       <div className="app-flex app-flex-nowrap app-full-height app-align-items-stretch">
         <div className="app-flex app-flex-grow-1 app-flex-shrink-1 app-justify-content-start app-align-items-stretch app-full-width">
-          <TwitchIcons/>
+          <TwitchIcons navInd={navIndicatorActive} toggleMultipleIndicator={toggleMultipleIndicator} />
           <div className="app-flex app-flex-row app-full-height app-justify-content-between">
-            <Browse/>
+            <Browse navInd={navIndicatorActive} toggleMultipleIndicator={toggleMultipleIndicator} />
             <div className="navigation-link-left-border app-mg-t-1"></div>
-            <Esports/>
-            <Music/>
+            {/* <Esports/>
+            <Music/> */}
           </div>
-          <Horizon/>
+          {/* <Horizon /> */}
         </div>
-        <Search/>
-        <RenderAuth/>
+        <Search />
+        <RenderAuth />
       </div>
     </nav>
   );
