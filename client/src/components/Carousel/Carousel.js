@@ -155,7 +155,6 @@ const Carousel = (props) => {
             hideLoading={hideLoading}
             streams={data}
             central={central}
-            delayMs={1500}
           /> :
           <LoadingCarousel imgStyle={determineStyle} />}
       </div>
