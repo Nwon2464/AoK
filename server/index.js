@@ -22,15 +22,16 @@ app.use(cors({
 app.use(express.json());
 
 
+
 app.use(cookieSession({
-    maxAge : 24 * 60 * 60 * 1000, // 1day for authorized cookie
-    keys : [ process.env.COOKIE_KEY ],
+  maxAge: 24 * 60 * 60 * 1000, // 1day for authorized cookie
+  keys: [process.env.COOKIE_KEY],
 }));
 
 
 const uri = process.env.MONGO_URI;
 mongoose.connect(uri, {
-    useUnifiedTopology : true,
+  useUnifiedTopology: true,
 });
 
 const db = mongoose.connection;
@@ -40,9 +41,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
-    res.json({
-        message : '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
-    });
+  res.json({
+    message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
+  });
 });
 
 app.use("/auth", authRoutes);
