@@ -11,26 +11,28 @@ const CentralCarouselItem = ({ streams, imgStyle, AutoCard, hideLoading, delayMs
     return () => clearTimeout(t);
   }, [streams?.user_name, delayMs]);
 
+  if (!showVideo) {
+    return (
+      <img
+        src={streams.thumbnail_url.replace("440x248", "800x248")}
+        alt={`${streams.user_name} thumbnail`}
+        className="carousel-thumbnail"
+      />
+    );
+  }
+
   return (
     <div style={imgStyle} className="slide">
-      {!showVideo ? (
-        <img
-          src={streams.thumbnail_url.replace("440x248", "480x300")}
-          alt={`${streams.user_name} thumbnail`}
-          className="carousel-thumbnail"
-        />
-      ) : (
-        <iframe
-          onLoad={hideLoading}
-          className="app__iframe app__order__1"
-          width="1527.3px"
-          height="300px"
-          src={`https://player.twitch.tv/?channel=${streams.user_name}&muted=true&parent=client-xi-eight-67.vercel.app&parent=client-xi-eight-67-vercel-app`}
-          frameBorder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
-      )}
+      <iframe
+        onLoad={hideLoading}
+        className="app__iframe app__order__1"
+        width="1527.3px"
+        height="300px"
+        src={`https://player.twitch.tv/?channel=${streams.user_name}&muted=true&parent=client-xi-eight-67.vercel.app&parent=client-xi-eight-67-vercel-app`}
+        frameBorder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
       <CarouselBody streams={streams} autoCard={AutoCard} />
     </div>
   );
