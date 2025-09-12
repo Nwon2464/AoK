@@ -16,7 +16,7 @@ const SlashIdBody = (props) => {
           <div className="app-mg-t-03 app-pd-l-1">
             <Link
               to={{
-                pathname: `/${props.location.state.data.user_name}/videos/all`,
+                pathname: `/${props.location.pathname.slice(1)}/videos/all`,
                 state: {
                   data: props.location.state.data,
                 },
@@ -54,7 +54,7 @@ const SlashIdBody = (props) => {
               </div>{" "}
             </Link>
           </div>
-          <div className="app-flex app-flex-column app-full-width app-pd-x-1">
+          <div className="app-flex app-flex-column app-full-width app-pd-x-1" >
             <div
               style={{ minHeight: "2.5rem" }}
               className="app-flex app-justify-content-between app-align-items-end"
@@ -90,7 +90,7 @@ const SlashIdBody = (props) => {
                   </div>{" "}
                   <div className="app-flex app-mg-l-05">
                     <button className="app-cursor-pointer app-pd-y-03 app-pd-x-05 app-align-items-center app-justify-content-center app-flex app-core-secondary app-border-bottom-left-radius-medium app-border-bottom-right-radius-medium app-border-top-left-radius-medium app-border-top-right-radius-medium">
-                      <div className="app-align-items-center app-justify-content-center app-flex">
+                      <div className="app-align-items-center app-justify-content-center app-flex app-color-white" >
                         <StarBorderOutlinedIcon
                           style={{ width: 17, height: 17 }}
                           className="app-mg-r-05"
@@ -116,10 +116,9 @@ const SlashIdBody = (props) => {
                   <div>
                     <Link
                       to={{
-                        pathname: `/category/games/${
-                          props.location.state.data.game_name ||
+                        pathname: `/category/games/${props.location.state.data.game_name ||
                           props.location.state.game_name
-                        }`,
+                          }` || '/',
                         state: {
                           data: props.location.state.data,
                           game_name: props.location.state.game_name,

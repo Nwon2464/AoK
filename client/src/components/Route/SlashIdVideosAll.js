@@ -46,29 +46,54 @@ const SlashIdVideosAll = (props) => {
       setLoading(false);
     }
   };
+
+  //왼쪽(fixed/고정) + 오른쪽(스크롤)
+  //무한 스크롤(pagination) 오른쪽 컨텐츠가 따로 overflow-y: auto로 스크롤되고 있어서 window는 실제로 스크롤이 안 생기고 오른쪽 div만 스크롤이되버림
+  //결론: 오른쪽 스크롤 컨테이너에 이벤트 걸기
   useEffect(() => {
+    const scrollContainer = document.querySelector(".app-overflow-y");
+
     const handleScroll = () => {
-      const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
+      if (!scrollContainer) return;
+      const bottom =
+        scrollContainer.scrollTop + scrollContainer.clientHeight >=
+        scrollContainer.scrollHeight;
 
       if (bottom) {
         if (!loading && hasMore) {
-          // console.log("you reach the bottom", window.innerHeight);
-          fetchAllVideos(streams.length); // Fetch next batch of posts
+          console.log("reach bottom");
+          fetchAllVideos(streams.length);
         }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    scrollContainer.addEventListener("scroll", handleScroll);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
   }, [loading, hasMore, streams.length]);
 
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
+
+  //     if (bottom) {
+  //       if (!loading && hasMore) {
+  //         console.log("you reach the bottom", window.innerHeight);
+  //         fetchAllVideos(streams.length); // Fetch next batch of posts
+  //       }
+  //     }
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [loading, hasMore, streams.length]);
+
   return (
-    <div className="app-flex app-flex-nowrap app-relative app-full-height">
-      <div className="side-nav app-flex-shrink-0 app-full-height app-z-above">
+    <div className="app-flex app-flex-nowrap app-relative app-height-100vh app-overflow-hidden app-bk-color ">
+      <div className="side-nav app-flex-shrink-0 app-full-height app-z-above app-width-240 app-flex-shrink-0">
         <BodyLeft />
       </div>
 
-      <div className="app-relative app-flex app-flex-column app-full-height app-full-width">
+      <div className="app-relative app-flex app-flex-column app-full-height app-full-width app-flex-1 app-overflow-y">
         {" "}
         <div className="app-full-height">
           <div className="app-flex app-flex-column app-full-height app-full-width">

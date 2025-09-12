@@ -3,7 +3,7 @@ import CarouselBody from "./CarouselBody";
 import CentralCarouselItem from "./CentralCarouselItem";
 
 const MainCarousel = (props) => {
-    const { delayMs = 5000 } = props;
+    const { delayMs = 2000 } = props;
 
     return (
         <>
@@ -29,6 +29,7 @@ const MainCarousel = (props) => {
                                 src={streams.thumbnail_url.replace("440x248", "800x248")}
                                 alt={`${streams.user_name} thumbnail`}
                                 className="carousel-thumbnail"
+                                loading="lazy" decoding="async"
                             />
                         )}
                     </div>

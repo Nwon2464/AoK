@@ -78,11 +78,12 @@ const SubmitValidationForm = (props) => {
               />
             </div>
             <div className="field">
-              <label>Date of Birth</label>
+              <label style={{ color: "white" }}>Date of Birth</label>
               <Field
                 className="app__select"
                 name="dateofbirth"
                 component="select"
+                style={{ color: "white" }}
               >
                 <option value="">Select</option>
                 <option value="january">January</option>
@@ -128,7 +129,7 @@ const SubmitValidationForm = (props) => {
             <div className="inline field">
               <label
                 style={{
-                  fontSize: "small",
+                  fontSize: "small", color: "white"
                 }}
               >
                 By Clicking Sign Up, you are indicating that you have read and
@@ -193,7 +194,7 @@ const maxLength = (max) => (value) =>
 
 const usernameValidate = (value) =>
   value &&
-  !/^(?=.{4,30}$)(?:[a-zA-Z\d]+(?:(?:\.|-|_)[a-zA-Z\d])*)+$/i.test(value)
+    !/^(?=.{4,30}$)(?:[a-zA-Z\d]+(?:(?:\.|-|_)[a-zA-Z\d])*)+$/i.test(value)
     ? "Invalid Username😒"
     : undefined;
 /////password

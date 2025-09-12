@@ -5,17 +5,13 @@ import Skeleton from "react-loading-skeleton";
 const SlashIdLoading = (props) => {
   return (
     <>
-        <div style={{ width: "100%",  position:"absolute", "z-index":"2"}} >
-          {Array(5)
-            .fill()
-            .map((e, i) => {
-              return (
-                <React.Fragment key={i}>
-                  <Skeleton width={300} height={150} />{" "}
-                </React.Fragment>
-              );
-            })}
-        </div>
+      <div style={{ width: "100%", "z-index": "2", height: "100vh", backgroundImage: "none", backgroundColor: "#1f1f23" }}  >
+
+        <React.Fragment key={0}>
+          <Skeleton style={{ backgroundImage: "none", backgroundColor: "grey", width: "100%", height: "100%" }} />{" "}
+        </React.Fragment>
+
+      </div>
 
     </>
   );

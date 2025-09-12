@@ -5,7 +5,7 @@ const CentralCarouselItem = ({ streams, imgStyle, AutoCard, hideLoading, delayMs
   const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
-    // 중앙(또는 채널)이 바뀔 때마다 5초 대기
+    // 중앙(또는 채널)이 바뀔 때마다 x초 대기
     setShowVideo(false);
     const t = setTimeout(() => setShowVideo(true), delayMs);
     return () => clearTimeout(t);

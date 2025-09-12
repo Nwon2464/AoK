@@ -86,9 +86,7 @@ const DropdownMenu = (props) => {
         </LoginModal>
 
         <div
-          style={{
-            backgroundColor: props.backgroundcolor && props.backgroundcolor,
-          }}
+
           onClick={(e) => {
             checkLoggedOrNot(e);
             logout();

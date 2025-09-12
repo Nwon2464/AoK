@@ -6,16 +6,16 @@ const SlashCategoryGamesIdLoadingHeader = () => {
       <div className="card__maxWidth__margin app__tower__gutter">
         <div className="app-flex">
           <div>
-            <Skeleton width={180} height={240} />
+            <Skeleton width={180} height={240} style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
           </div>
           <div style={{ marginTop: 50, marginLeft: 40 }}>
-            <Skeleton width={150} height={40} />
+            <Skeleton width={150} height={40} style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
             <div style={{ marginTop: 5, marginLeft: 0 }}>
-              <Skeleton width={250} height={20} />
+              <Skeleton width={250} height={20} style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
             </div>
 
             <div style={{ marginTop: 5, marginLeft: 0 }}>
-              <Skeleton width={90} height={30} />
+              <Skeleton width={90} height={30} style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
             </div>
           </div>
         </div>

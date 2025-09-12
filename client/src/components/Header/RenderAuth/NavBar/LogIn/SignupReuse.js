@@ -9,7 +9,7 @@ export const panes = [
     menuItem: "Log In",
     render: () => (
       <>
-        <div className="app__join">
+        <div className="app__join" style={{ backgroundColor: "inherit" }}>
           <figure className="app__flex app__margin__0">
             <TwitchIcon />
           </figure>
@@ -19,7 +19,7 @@ export const panes = [
             </h4>
           </div>
         </div>
-        <Tab.Pane attached={false}>
+        <Tab.Pane attached={false} style={{ backgroundColor: "inherit" }}>
           <LoginModalForm />
         </Tab.Pane>
       </>
@@ -39,7 +39,7 @@ export const panes = [
             </h4>
           </div>
         </div>
-        <Tab.Pane attached={false}>
+        <Tab.Pane attached={false} style={{ backgroundColor: "#1f1f23" }}>
           <SubmitValidationForm />
         </Tab.Pane>
       </>

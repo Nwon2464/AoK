@@ -27,9 +27,10 @@ const LoginSignUpButton = () => {
         <button
           className="app-border-bottom-left-radius-large app-border-bottom-right-radius-large app-border-top-left-radius-large app-border-top-right-radius-large app-core-secondary app-align-middle app-relative app-justify-content-center app-align-items-center app-inline-flex app-core-button app-overflow-hidden app-cursor-pointer"
           onClick={openLoginModal}
+
         >
           <div className="app-button-x app align-items-center app-flex app-flex-grow-0">
-            <div className="app-flex-grow-0">Log In</div>
+            <div className="app-flex-grow-0 app-font-color">Log In</div>
           </div>
         </button>
 
@@ -68,7 +69,7 @@ const LoginSignUpButton = () => {
           />
         </LoginModal>
       </div>
-    </div>
+    </div >
   );
 };
 export default LoginSignUpButton;

@@ -15,7 +15,7 @@ const SlashCategoryHeader = (props) => {
                     //     .replace("250", "340")})`
                 }}
                 className="app-absolute app-banner"></div>
-            <div className="app-flex app-full-width app-pd-20">
+            <div className="app-flex app-full-width app-pd-20 app-bk-color-1">
                 <div className="app-full-width app-flex">
                     <div className="app-mg-r-2 app-flex">
                         <img src={props.box_image} />
@@ -27,7 +27,7 @@ const SlashCategoryHeader = (props) => {
                         <div className="app-flex app-mg-t-1">
                             <div className="app-inline-block">
                                 <p className="app-font-size-7">
-                                    <strong>{checkViewers(props.total_viewers)}</strong>
+                                    <strong>{checkViewers(props.total_viewers) == null ? checkViewers(genRand(1000, 10000000)) : checkViewers(props.total_viewers)}</strong>
                                 </p>
                             </div>
                             <div className="app-inline-block app-mg-x-1">

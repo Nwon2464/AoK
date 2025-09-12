@@ -37,22 +37,23 @@ const Reuseable2 = (props) => {
       return <>{`${views} Viewers`}</>;
     } else if (views < 999999) {
       return (
-        <>{`${
-          Math.sign(views) * (Math.abs(views) / 1000).toFixed(1)
-        }K Viewers`}</>
+        <>{`${Math.sign(views) * (Math.abs(views) / 1000).toFixed(1)
+          }K Viewers`}</>
       );
     } else if (views <= 9999999) {
       return (
-        <>{`${
-          Math.sign(views) * (Math.abs(views) / 1000000).toFixed(1)
-        }M Viewers`}</>
+        <>{`${Math.sign(views) * (Math.abs(views) / 1000000).toFixed(1)
+          }M Viewers`}</>
       );
     }
   };
   return (
     <>
-      {props.streams.length===0?"":
-            <div className="app-pd-l-2 app-pd-r-2 app-mg-b-1" style={{"margin-top":"1rem"}} >
+      {props.streams.length === 0 ? "" :
+        <>
+
+          <div className="app-pd-l-2 app-pd-r-2 app-pd-t-2 app-pd-b-2 app-bk-color"  >
+
             <div className="app-flex app-full-width app-relative app-height-15">
               <div className="app-flex app-flex-column app-full-height">
                 <div className="app-align-self-center app-flex app-full-height app-justify-content-center app-align-items-center">
@@ -71,11 +72,13 @@ const Reuseable2 = (props) => {
               </div>
             </div>
           </div>
+        </>
       }
-      <div>
+      <div className="app-bk-color">
         <div className="app-flex app-justify-content-center app-align-items-center app-pd-l-2 app-pd-r-2">
           <div className="card__display__flex__wrap">
             {props.streams.map((e, i) => {
+
               return (
                 <div key={i} className="app__tower__300 app-pd-r-02">
                   <div className="app__card__height">
@@ -101,7 +104,7 @@ const Reuseable2 = (props) => {
                                   <h3 className="app__ellipsis app__font__weight">
                                     <Link
                                       to={{
-                                        pathname: `/${e.user_name}`,
+                                        pathname: `/`,
                                         state: {
                                           data: e.user_name,
                                           game_name: e.game_name,
@@ -119,7 +122,7 @@ const Reuseable2 = (props) => {
                                   <h4 className="app__ellipsis app__font__size__0_8 app__color__grey app__cursor">
                                     <Link
                                       to={{
-                                        pathname: `/${e.user_name}`,
+                                        pathname: `/`,
                                         state: {
                                           //   data: props.user,
                                           //   game_name:
@@ -146,13 +149,13 @@ const Reuseable2 = (props) => {
                           //   state: { data: e },
                           // }}
                           to={{
-                            pathname: `/${e.user_name}`,
+                            pathname: `/`,
                             state: {
                               //   data: props.location.state.data,
                               //   game_name: props.location.state.game_name,
                             },
                           }}
-                          className="app__order__1"
+                          className="app__order__1 app__order__animation__1 app__resize__fit"
                         >
                           <div className="app__relative app__cursor">
                             <div className="app-flex">
@@ -161,8 +164,8 @@ const Reuseable2 = (props) => {
                                 src={
                                   e.thumbnail_url.indexOf("404") == -1
                                     ? e.thumbnail_url
-                                        .replace("%{width}", "440")
-                                        .replace("%{height}", "248")
+                                      .replace("%{width}", "440")
+                                      .replace("%{height}", "248")
                                     : "https://vod-secure.twitch.tv/_404/404_processing_320x180.png"
                                 }
                               />

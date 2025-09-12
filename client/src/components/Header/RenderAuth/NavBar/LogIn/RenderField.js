@@ -16,9 +16,8 @@ const RenderField = (props) => {
   //
   //
   //
-  const className = `app__input ${
-    props.meta.touched && props.meta.error && "app__danger"
-  }`;
+  const className = `app__input ${props.meta.touched && props.meta.error && "app__danger"
+    }`;
   return (
     <div className="field" style={{ position: "relative" }}>
       <label>
@@ -34,6 +33,8 @@ const RenderField = (props) => {
           {...props.input}
           type={props.type}
           autoComplete="off"
+
+          style={{ color: "white" }}
         />
         {props.meta.touched && props.meta.error && (
           <span
