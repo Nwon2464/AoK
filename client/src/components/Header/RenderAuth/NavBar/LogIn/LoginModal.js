@@ -25,7 +25,8 @@ const LoginModal = forwardRef((props, ref) => {
         <div onClick={close} className="modal-backdrop">
           <div
             onClick={(e) => e.stopPropagation()}
-            className="modal-box modal__signup"
+            className="modal-box modal__signup app-bk-color-1"
+            style={{ backgroundColor: "#1f1f23" }}
           >
             {props.children}
           </div>

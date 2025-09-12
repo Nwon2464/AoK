@@ -22,7 +22,6 @@ const App = (props) => {
 
     useEffect(() => {
         const handleResize = () => {
-            console.log(window.innerWidth);
             if (window.innerWidth < 1025) {
                 setShowWarning(true);
             } else {

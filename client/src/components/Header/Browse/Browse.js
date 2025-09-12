@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Browse = (props) => {
     return (
-        <div className="app-flex app-flex-column app-full-height app-pd-x-1">
+        <div className="app-flex app-flex-column app-full-height app-pd-x-1 ">
             <div
                 className="app-align-self-center app-flex app-full-height app-justify-content-center app-align-items-center"
             >

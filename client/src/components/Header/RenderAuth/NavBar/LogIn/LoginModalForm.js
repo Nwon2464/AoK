@@ -26,7 +26,7 @@ const LoginModalForm = (props) => {
               className="ui large form"
               onSubmit={handleSubmit(onSubmit)}
             >
-              <div className="field">
+              <div className="field" >
                 <Field
                   // validate={[usernameValidate, required]}
                   name="username"
@@ -44,7 +44,7 @@ const LoginModalForm = (props) => {
                   type="password"
                   component={LoginRenderField}
                   placeholder="Password"
-                  // validate={[password, required]}
+                // validate={[password, required]}
                 />
               </div>
               <div>

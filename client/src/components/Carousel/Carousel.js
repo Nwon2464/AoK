@@ -135,28 +135,31 @@ const Carousel = (props) => {
   return (
     <div className="carousel app-pd-20">
       <div ref={styleRef} className="slides">
-        <div className="app__absolute z_index__100 left__1vw">
-          <button className="app__carousel__btn" onClick={moveRight}>
-            ‹
-          </button>
-        </div>
-        <div className="app__absolute z_index__100 right__1vw ">
-          <button className="app__carousel__btn" onClick={moveLeft}>
-            ›
-          </button>
-        </div>
+
 
         {data.length != 0 ?
-          <MainCarousel
-            direction={direction}
-            determineCard={determineCard}
-            determineStyle={determineStyle}
-            determineWidth={determineWidth}
-            hideLoading={hideLoading}
-            streams={data}
-            central={central}
-            delayMs={1500}
-          /> :
+          <>
+            <div className="app__absolute z_index__100 left__1vw">
+              <button className="app__carousel__btn" onClick={moveRight}>
+                ‹
+              </button>
+            </div>
+            <div className="app__absolute z_index__100 right__1vw ">
+              <button className="app__carousel__btn" onClick={moveLeft}>
+                ›
+              </button>
+            </div>
+            <MainCarousel
+              direction={direction}
+              determineCard={determineCard}
+              determineStyle={determineStyle}
+              determineWidth={determineWidth}
+              hideLoading={hideLoading}
+              streams={data}
+              central={central}
+              delayMs={1500}
+            />
+          </> :
           <LoadingCarousel imgStyle={determineStyle} />}
       </div>
     </div>

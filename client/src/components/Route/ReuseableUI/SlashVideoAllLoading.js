@@ -8,11 +8,10 @@ const SlashVideoAllLoading = (props) => {
       {" "}
       <div
         style={{
-          backgroundColor: "#fff",
           width: "85%",
           height: "100%",
         }}
-        className="app-absolute"
+        className="app-absolute app-bk-color"
       >
         <div
           className="app-mg-x-2 app-flex app-flex-column"
@@ -51,13 +50,13 @@ const SlashVideoAllLoading = (props) => {
             </div>
           </div>
         </div>
-        <div style={{ width: "100%", marginTop: 150, position:"absolute", "z-index":"2"}} className="app-mg-x-2">
+        <div style={{ width: "100%", marginTop: 150, position: "absolute", "z-index": "2" }} className="app-mg-x-2">
           {Array(20)
             .fill()
             .map((e, i) => {
               return (
                 <React.Fragment key={i}>
-                  <Skeleton width={300} height={150} />{" "}
+                  <Skeleton width={300} height={150} style={{ backgroundImage: "none", backgroundColor: "#38383A" }} />{" "}
                 </React.Fragment>
               );
             })}

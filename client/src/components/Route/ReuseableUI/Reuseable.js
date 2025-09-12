@@ -14,20 +14,17 @@ const Reuseable = (props) => {
       return <>{`${views} Followers`}</>;
     } else if (views < 999999) {
       return (
-        <>{`${
-          Math.sign(views) * (Math.abs(views) / 1000).toFixed(1)
-        }K Followers`}</>
+        <>{`${Math.sign(views) * (Math.abs(views) / 1000).toFixed(1)
+          }K Followers`}</>
       );
     } else if (views <= 99999999999999) {
       return (
-        <>{`${
-          Math.sign(views) * (Math.abs(views) / 1000000).toFixed(1)
-        }M Followers`}</>
+        <>{`${Math.sign(views) * (Math.abs(views) / 1000000).toFixed(1)
+          }M Followers`}</>
       );
     }
   };
 
-  console.log("from reuseable", props);
   return (
     <>
       <div className="app-mg-t-03">
@@ -148,7 +145,7 @@ const Reuseable = (props) => {
                 >
                   {checkViewers(
                     props.location.state.data.userTotalChannelViewCount ||
-                      props.totalFollowers
+                    props.totalFollowers
                   )}
                 </Link>
               </div>

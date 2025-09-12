@@ -21,7 +21,7 @@ const NavItem = (props) => {
     <div
       onClick={(e) => e.stopPropagation()}
       ref={dropdownRef}
-      className="app-flex app-justify-content-center app-align-items-center"
+      className="app-flex app-justify-content-center app-align-items-center app-user-btn-hover"
     >
       <button
         id="user"

@@ -12,7 +12,7 @@ import SlashIdFooter from "./slashId/SlashIdFooter";
 import SlashVideoAllLoading from "./ReuseableUI/SlashVideoAllLoading";
 
 const SlashId = (props) => {
-  
+
   const { id } = useParams(); // Get the dynamic id from the route
   const [streams, setStreams] = useState([]);
   const [paginationValue, setPaginationValue] = useState("");
@@ -45,7 +45,7 @@ const SlashId = (props) => {
       }
       let streams = data.data;
       setStreams((prevStreams) => [...prevStreams, ...streams]);
-      setHasMore(streams.length > 0); 
+      setHasMore(streams.length > 0);
       setPaginationValue(data.pagination.cursor);
     } catch (err) {
       setError(err.message);
@@ -53,36 +53,54 @@ const SlashId = (props) => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
-    const handleScroll = () => {
-      const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
+    const scrollContainer = document.querySelector(".app-overflow-y");
 
-      if (bottom && !loading && hasMore) {
-        fetchAllVideos(); // Fetch next batch of videos
+    const handleScroll = () => {
+      if (!scrollContainer) return;
+      const bottom =
+        scrollContainer.scrollTop + scrollContainer.clientHeight >=
+        scrollContainer.scrollHeight;
+
+      if (bottom) {
+        if (!loading && hasMore) {
+          // console.log("reach bottom");
+          fetchAllVideos(streams.length);
+        }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    scrollContainer.addEventListener("scroll", handleScroll);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
   }, [loading, hasMore, streams.length]);
-  
+
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
+
+  //     if (bottom && !loading && hasMore) {
+  //       fetchAllVideos(); // Fetch next batch of videos
+  //     }
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [loading, hasMore, streams.length]);
   return (
     <>
-      <div className="app-flex app-flex-nowrap app-relative app-full-height">
-        <div className="side-nav app-flex-shrink-0 app-full-height app-z-above">
+      <div className="app-flex app-flex-nowrap app-relative app-height-100vh app-overflow-hidden app-bk-color ">
+        <div className="side-nav app-flex-shrink-0  app-z-above app-width-240 app-flex-shrink-0">
           <BodyLeft />
         </div>
         {props.location.state ?
-        <div className="app-flex app-flex-column app-full-width">
-          
-          <SlashIdHeader  username={props.location.state.data.user_name} len={streams.length}/>
-          <SlashIdBody {...props}/>
-          <SlashIdFooter streams={streams}/>
-          {/* {!hasMore && <div>No more videos</div>} */}
-        </div> 
-        : <NotFound/>}
-{/* 
+          <div className="app-flex app-flex-column app-full-width app-bk-color app-flex-1 app-overflow-y" >
+            <SlashIdHeader username={props.location} len={streams.length} />
+            <SlashIdBody {...props} />
+            <SlashIdFooter streams={streams} />
+            {/* {!hasMore && <div>No more videos</div>} */}
+          </div>
+          : <NotFound />}
+        {/* 
         {props.location.state ? 
         <div className="app-flex app-flex-column app-full-width">
           {streams.length ===0 ? <div>loading</div> :  

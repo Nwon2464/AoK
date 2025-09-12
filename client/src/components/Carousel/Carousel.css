@@ -72,9 +72,9 @@ a {
 }
 
 .image__card {
-  background-color: #fff;
+  background-color: #1f1f23;
   width: 100%;
-  color: black;
+  color: #adadb8;
   position: relative;
   /* display: flex;
         align-items: center;
@@ -171,7 +171,7 @@ a {
   position: absolute;
   height: 100%;
   box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.05);
-  background-color: #e6e6ea;
+  background-color: #1f1f23;
 
   width: 700px;
   z-index: 999;
@@ -188,13 +188,14 @@ a {
 }
 
 .app__carousel__btn {
-  font-size: 30px;
+  font-size: 50px;
   background-color: inherit;
-  padding: 15px;
+  padding: 27px;
   cursor: pointer;
+  line-height: 2;
 }
 
 .app__carousel__btn:hover {
-  background-color: white;
+  background-color: #202024;
   border-radius: 25px;
 }

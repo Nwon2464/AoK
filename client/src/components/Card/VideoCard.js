@@ -3,6 +3,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
 import { Link } from "react-router-dom";
 const VideoCard = (props) => {
+  const [plate, setPlate] = React.useState('rgba(38,192,185,1)'); // 기본색
   return (
     <div className="game__card app-pd-15">
       <div className="card__maxWidth__margin app__tower__gutter">
@@ -139,15 +140,17 @@ const VideoCard = (props) => {
                             pathname: `/${e.user_name}`,
                             state: { data: e },
                           }}
-                          className="app__order__1"
+                          className="app__order__1 app__order__animation__1 app__resize__fit"
+                          style={{ '--plate': plate }}
+                          onMouseEnter={() => setPlate(pick())}
                         >
                           <div className="app__relative app__cursor">
-                            <div>
-                              <img
-                                className="channel__thumbnail"
-                                src={e.thumbnail_url}
-                              />
-                            </div>
+
+                            <img
+                              className="channel__thumbnail"
+                              src={e.thumbnail_url}
+                            />
+
                             <div className="app__absolute app__top__0 app__left__0 app__card__height app__width">
                               <div className="app__absolute app__top__0 app__left__0 app__margin">
                                 <p className="app__uppercase app__live__indicator app__font__weight app__border__radius app__padding">
@@ -170,18 +173,33 @@ const VideoCard = (props) => {
             })}
           </div>
         </div>
-        <div className="custom">
-          {props.visible < props.videos.length ? (
-            <span onClick={props.showClick} className="showMore">
-              <a className="showMore__button">
-                Show more
+        {props.visible < props.videos.length ? (
+          <>
+            <div className="custom_show_more">
+              <div className="custom"></div>
+              <span onClick={props.showClick} className="showMore">
+                <a className="showMore__button">
+                  Show more
+                </a>
                 <ExpandMoreOutlinedIcon className="down__icon" />
-              </a>
-            </span>
-          ) : null}
-        </div>
+              </span>
+
+              <div className="custom"></div>
+            </div>
+          </>
+
+        ) : null}
       </div>
     </div>
   );
 };
 export default VideoCard;
+const PALETTE = [
+  'hsla(265, 100.00%, 50.00%, 0.70)',
+  'hsla(200, 100.00%, 60.80%, 0.84)',
+  'hsla(330, 93.00%, 54.90%, 0.83)',
+  'hsla(145, 100.00%, 58.60%, 0.94)',
+  'hsla(30, 100.00%, 55.10%, 0.88)',
+  'hsla(48, 100.00%, 58.00%, 0.86)',
+];
+const pick = () => PALETTE[Math.floor(Math.random() * PALETTE.length)];

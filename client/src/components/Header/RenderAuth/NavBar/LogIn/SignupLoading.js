@@ -13,7 +13,7 @@ const SignupLoading = () => {
           <h4 className="app__fontSize__1_7 app__fontWeight__b">Join Today</h4>
         </div>
       </div> */}
-      <div className="app__loader">
+      <div className="app__loader" >
         <Loader />
       </div>
       <div className="app__flex app__justify app__align">We're verifying...!</div>

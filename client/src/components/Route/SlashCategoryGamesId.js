@@ -63,18 +63,20 @@ const SlashCategoryGamesId = (props) => {
 
 
   useEffect(() => {
+    const scrollContainer = document.querySelector(".app-overflow-y"); // 오른쪽 div
     const handleScroll = () => {
-      const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight
-
+      if (!scrollContainer) return;
+      const bottom = scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight;
       if (bottom) {
         if (!loading && hasMore) {
+          console.log("Reach bottom");
           fetchPosts(category.length); // Fetch next batch of posts
         }
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    scrollContainer.addEventListener("scroll", handleScroll);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
   }, [loading, hasMore, category.length]);
 
 
@@ -92,14 +94,14 @@ const SlashCategoryGamesId = (props) => {
 
   return (
     <>
-      <div className="app-flex app-flex-nowrap app-relative app-full-height ">
-        <div className="side-nav app-flex-shrink-0 app-full-height app-z-above">
+      <div className="app-flex app-flex-nowrap app-relative app-height-100vh app-overflow-hidden app-bk-color">
+        <div className="side-nav app-z-above app-width-240 app-flex-shrink-0">
           <BodyLeft />
         </div>
         {!props.location.state ? <NotFound /> :
-          <div className="app-flex app-flex-column app-full-width">
+          <div className="app-flex app-flex-column  app-full-width app-bk-color-1 app-flex-1 app-overflow-y">
             {category.length == 0 ? <SlashCategoryGamesIdLoadingHeader /> : <SlashCategoryHeader total_viewers={props.location.state.data.gameViewers} game_name={props.location.state.data.name} box_image={props.location.state.data.box_art_url} />}
-            <div className="app-full-height app-full-width">
+            <div className="app-full-height app-full-width app-bk-color-1">
               <SlashCategorySubHeader />
               {category.length == 0 ? <SlashCategoryGamesIdLoadingBody /> : <SlashCategoryBody data={category} />}
             </div>

@@ -5,7 +5,7 @@ const Loading = () => {
     <div className="game__card app-pd-15">
       <div className="card__maxWidth__margin app__tower__gutter">
         <h3 style={{ paddingBottom: "0.5rem", paddingLeft: "0.2rem" }}>
-          <Skeleton height={28} width={250} />
+          <Skeleton height={28} width={250} style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
         </h3>
         <div className="app__relative">
           <div className="card__display__flex__wrap">
@@ -26,19 +26,19 @@ const Loading = () => {
                                 <div className="app__margin__bottom">
                                   <div className="channel__font_1">
                                     <h3 className="app__ellipsis app__font__weight">
-                                      <Skeleton width="227px" />
+                                      <Skeleton width="227px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
                                     </h3>
                                   </div>
                                 </div>
                                 <div className="channel__user">
                                   <div>
                                     <h4 className="app__ellipsis app__font__size__0_8 app__color__grey app__cursor">
-                                      <Skeleton width="150px" />
+                                      <Skeleton width="150px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
                                     </h4>
                                   </div>
                                   <div>
                                     <h5 className="app__ellipsis app__font__size__0_8">
-                                      <Skeleton width="180px" />
+                                      <Skeleton width="180px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
                                     </h5>
                                   </div>
                                 </div>
@@ -46,7 +46,7 @@ const Loading = () => {
                                   <div className="channel__tag__1">
                                     <div className="channel__tag__2">
                                       <div className="channel__tag__3">
-                                        <Skeleton width="230px" />
+                                        <Skeleton width="230px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
                                       </div>
                                     </div>
                                   </div>
@@ -56,14 +56,14 @@ const Loading = () => {
                                 <Skeleton
                                   circle={true}
                                   height={40}
-                                  width={40}
+                                  width={40} style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }}
                                 />
                               </div>
                               <div className="channel__down">
                                 <Skeleton
                                   circle={true}
                                   height={30}
-                                  width={20}
+                                  width={20} style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }}
                                 />
                               </div>
                             </div>
@@ -71,7 +71,7 @@ const Loading = () => {
 
                           <div className="app__order__1">
                             <div className="app__relative app__cursor">
-                              <Skeleton width="290px" height="170px" />
+                              <Skeleton width="290px" height="170px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
                             </div>
                           </div>
                         </article>
@@ -83,9 +83,7 @@ const Loading = () => {
           </div>
         </div>
         <div className="custom">
-          <span className="showMore">
-            <Skeleton />
-          </span>
+          <Skeleton style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
         </div>
       </div>
     </div>

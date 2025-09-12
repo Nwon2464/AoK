@@ -29,7 +29,7 @@ const SlashCategoryAll = (props) => {
       if (!data) {
         throw new Error("Failed to fetch posts");
       }
-      
+
       let streams = data;
       setStreams((streams));
     } catch (err) {
@@ -40,13 +40,13 @@ const SlashCategoryAll = (props) => {
 
   return (
     <>
-      <div className="app-flex app-flex-nowrap app-relative app-full-height">
+      <div className="app-flex app-flex-nowrap app-relative app-full-height app-overflow-hidden">
         <div className="side-nav app-flex-shrink-0 app-full-height app-z-above">
           <BodyLeft />
         </div>
-        <div className="app-flex app-flex-column app-full-width ">
+        <div className="app-flex app-flex-column app-full-width app-overflow-scroll ">
           <div className="app-full-width app-relative">
-            <div className="app-page-wrapper app-flex app-flex-column">
+            <div className="app-page-wrapper app-flex app-flex-column app-bk-color-1">
               <div className="app-mg-l-13 app-mg-t-1">
                 <h1
                   style={{
@@ -76,10 +76,10 @@ const SlashCategoryAll = (props) => {
                   </div>
                 </div>
               </div>
-              <div className="app-pd-t-1 app-pd-x-14">
-                <div className="app-flex app-flex-wrap app-min-width">
-                  {streams.length === 0  ? (
-                    <SlashCategoryAllLoading    />
+              <div className="app-pd-t-1 app-pd-x-14 ">
+                <div className="app-flex app-flex-wrap app-min-width app-bk-color-1">
+                  {streams.length == 0 ? (
+                    <SlashCategoryAllLoading />
                   ) : (
                     streams.map((e, i) => {
                       return (

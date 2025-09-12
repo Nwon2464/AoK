@@ -52,6 +52,7 @@ const BodyRight = (props) => {
         {props.twitch.activeCategoryGames.length === 0 ? (
           <LoadingGameCard />
         ) : (
+
           <GameCard
             topGames={props.twitch.activeCategoryGames}
             checkViewers={checkViewers}

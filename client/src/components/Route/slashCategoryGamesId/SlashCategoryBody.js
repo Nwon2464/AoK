@@ -100,7 +100,7 @@ const SlashCategoryBody = (props) => {
 
                                                 <Link
                                                     to={{
-                                                        pathname: `/${e.user_name}`,
+                                                        pathname: `/`,
                                                         state: {
                                                             data: e
                                                         },
@@ -109,7 +109,7 @@ const SlashCategoryBody = (props) => {
                                                             game_name: e.game_name
                                                         }
                                                     }}
-                                                    className="app__order__1">
+                                                    className="app__order__1 ">
                                                     <div className="app__relative app__cursor">
                                                         <div>
                                                             <img

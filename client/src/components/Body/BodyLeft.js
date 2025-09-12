@@ -3,7 +3,7 @@ import "./BodyLeft.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 const BodyLeft = (props) => {
-   const renderIcons = props.twitch.activeLiveTwitch.map((e, i) => {
+  const renderIcons = props.twitch.activeLiveTwitch.map((e, i) => {
     return (
       <div key={i} className="app-full-width app-recommend">
         <Link
@@ -62,7 +62,7 @@ const BodyLeft = (props) => {
     );
   });
   return (
-    <div className="app-flex app-flex-column">
+    <div className="app-flex app-flex-column" style={{ height: "100vh" }}>
       {props.twitch.activeLiveTwitch.length === 0 ? null : (
         <>
           <div className="app-mg-1 app-pd-t-05">
@@ -86,19 +86,17 @@ export default connect(mapStateToProps)(BodyLeft);
 
 
 const checkViewers = (views) => {
-    if (views <= 999) {
-      return <>{`${views} viewers`}</>;
-    } else if (views < 999999) {
-      return (
-        <>{`${
-          Math.sign(views) * (Math.abs(views) / 1000).toFixed(1)
+  if (views <= 999) {
+    return <>{`${views} viewers`}</>;
+  } else if (views < 999999) {
+    return (
+      <>{`${Math.sign(views) * (Math.abs(views) / 1000).toFixed(1)
         }K viewers`}</>
-      );
-    } else if (views <= 9999999) {
-      return (
-        <>{`${
-          Math.sign(views) * (Math.abs(views) / 1000000).toFixed(1)
+    );
+  } else if (views <= 9999999) {
+    return (
+      <>{`${Math.sign(views) * (Math.abs(views) / 1000000).toFixed(1)
         }M viewers`}</>
-      );
-    }
-  };
+    );
+  }
+};

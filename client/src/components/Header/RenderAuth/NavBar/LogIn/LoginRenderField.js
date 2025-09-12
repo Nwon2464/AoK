@@ -15,7 +15,8 @@ const LoginRenderField = (props) => {
           {props.label}
         </a>
       </label>
-      <div>
+      <div
+        style={{ backgroundColor: "inherit", borderRadius: "4px" }}>
         <input
           autoFocus={props.autoFocus}
           // ref={inputRef}
@@ -23,6 +24,7 @@ const LoginRenderField = (props) => {
           {...props.input}
           type={props.type}
           autoComplete="off"
+          style={{ color: "white" }}
         />
       </div>
     </div>

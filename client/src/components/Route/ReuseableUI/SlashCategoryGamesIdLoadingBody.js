@@ -4,7 +4,7 @@ const SlashCategoryGamesIdLoadingBody = () => {
   return (
     <div style={{ marginLeft: 15 }} className="game__card app-pd-15">
       <div className="card__maxWidth__margin app__tower__gutter">
-      <div className="app__relative">
+        <div className="app__relative">
           <div className="card__display__flex__wrap">
             {Array(20)
               .fill()
@@ -19,8 +19,8 @@ const SlashCategoryGamesIdLoadingBody = () => {
                               <div className="app__min__width__0 app__order__2 app__flex__shrink__1 app__flex__grow__1 app__width">
                                 <div className="app__margin__bottom">
                                   <div className="channel__font_1">
-                                    <div className="" style={{marginTop:8}}>
-                                      <Skeleton width="270px" height="20px" />
+                                    <div className="" style={{ marginTop: 8 }}>
+                                      <Skeleton width="270px" height="20px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
                                     </div>
                                   </div>
                                 </div>
@@ -28,9 +28,9 @@ const SlashCategoryGamesIdLoadingBody = () => {
                                   <div>
                                     <div
                                       style={{ marginTop: 5 }}
-                                      className="app__ellipsis app__font__size__0_8 app__color__grey app__cursor"
+                                      className="app__ellipsis app__font__size__0_8 app__color__grey "
                                     >
-                                      <Skeleton width="150px" />
+                                      <Skeleton width="150px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
                                     </div>
                                   </div>
                                 </div>
@@ -41,7 +41,7 @@ const SlashCategoryGamesIdLoadingBody = () => {
                                         className="channel__tag__3"
                                         style={{ marginTop: -10 }}
                                       >
-                                        <Skeleton width="150px" />
+                                        <Skeleton width="150px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
                                       </div>
                                     </div>
                                   </div>
@@ -51,8 +51,8 @@ const SlashCategoryGamesIdLoadingBody = () => {
                           </div>
 
                           <div className="app__order__1">
-                            <div className="app__relative app__cursor">
-                              <Skeleton width="290px" height="170px" />
+                            <div className="app__relative">
+                              <Skeleton width="290px" height="170px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
                             </div>
                           </div>
                         </article>

@@ -1,10 +1,10 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SlashCategorySubHeader = () => {
 
     return (
-        <div className="app-pd-l-2 app-pd-r-2 app-mg-b-1">
+        <div className="app-pd-l-2 app-pd-r-2 app-pd-t-2 app-pd-b-2">
             <div className="app-flex app-full-width app-relative app-height-15">
                 <div
                     className="app-font-size-9 app-flex app-flex-grow-1 app-justify-content-start app-full-height app-align-items-center">
@@ -28,8 +28,8 @@ const SlashCategorySubHeader = () => {
                         </div>
                         <div
                             style={{
-                            marginTop: 5
-                        }}
+                                marginTop: 5
+                            }}
                             className="navigation-link-indicator-container">
                             <div className="navigation-link-active-indicator"></div>
                         </div>
