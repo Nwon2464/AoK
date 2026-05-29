@@ -1,5 +1,16 @@
 const twitchClient = require("../clients/twitchClient");
-const replaceThumbnailSize = require("../utils");
+const { getCache, setCache } = require("../utils/cache");
+const {
+    withBoxArtSize,
+    withProfileImage,
+    withTopStreamerInfo,
+} = require("../mappers/twitchMapper");
+
+const CACHE_TTL = {
+    TOP_GAMES: 5 * 60 * 1000,
+    CATEGORIES: 5 * 60 * 1000,
+    USER_VIDEOS: 5 * 60 * 1000,
+};
 
 const CATEGORY_STREAMS = {
     "Just Chatting": "509658",
@@ -18,31 +29,54 @@ const getUserMap = async (streams) => {
     }, {});
 };
 
-const withBoxArtSize = (game, width = 285, height = 385) => ({
-    ...game,
-    box_art_url: replaceThumbnailSize(game.box_art_url, width, height),
-});
-
-const withStreamThumbnailSize = (stream, width = 440, height = 248) => ({
-    ...stream,
-    thumbnail_url: replaceThumbnailSize(stream.thumbnail_url, width, height),
-});
-
 const getTopGames = async () => {
+    const cacheKey = "twitch:topgames";
+    const cached = getCache(cacheKey);
+
+    if (cached) {
+        return cached;
+    }
+
     const topGames = await twitchClient.getTopGames();
-    return topGames.data;
+    const result = topGames.data;
+
+    setCache(cacheKey, result, CACHE_TTL.TOP_GAMES);
+
+    return result;
 };
 
 const getAllCategories = async () => {
+    const cacheKey = "twitch:categories:all";
+    const cached = getCache(cacheKey);
+
+    if (cached) {
+        return cached;
+    }
+
     const topGames = await twitchClient.getTopGames({ first: 50 });
-    return topGames.data.map((game) => withBoxArtSize(game));
+    const result = topGames.data.map((game) => withBoxArtSize(game));
+
+    setCache(cacheKey, result, CACHE_TTL.CATEGORIES);
+
+    return result;
 };
 
 const getVideosByUser = async ({ userId, cursor }) => {
-    return twitchClient.getVideosByUser(userId, {
+    const cacheKey = `twitch:videos:user:${userId}:cursor:${cursor || "first"}`;
+    const cached = getCache(cacheKey);
+
+    if (cached) {
+        return cached;
+    }
+
+    const result = await twitchClient.getVideosByUser(userId, {
         first: 12,
         after: cursor,
     });
+
+    setCache(cacheKey, result, CACHE_TTL.USER_VIDEOS);
+
+    return result;
 };
 
 const getLiveChannels = async () => {
@@ -54,10 +88,9 @@ const getLiveChannels = async () => {
 
     return {
         ...streamsResponse,
-        data: streamsResponse.data.map((stream) => ({
-            ...stream,
-            profile_image_url: userMap[stream.user_id]?.profile_image_url,
-        })),
+        data: streamsResponse.data.map((stream) => (
+            withProfileImage(stream, userMap[stream.user_id])
+        )),
     };
 };
 
@@ -71,10 +104,9 @@ const getStreamsByGame = async ({ gameId, cursor }) => {
 
     return {
         ...streamsResponse,
-        data: streamsResponse.data.map((stream) => ({
-            ...stream,
-            profile_url: userMap[stream.user_id]?.profile_image_url,
-        })),
+        data: streamsResponse.data.map((stream) => (
+            withProfileImage(stream, userMap[stream.user_id], "profile_url")
+        )),
     };
 };
 
@@ -94,16 +126,7 @@ const getTopStreamsPage = async () => {
 
         data.topGames[game.name] = streamsResponse.data.map((stream) => {
             const user = userMap[stream.user_id];
-
-            return {
-                ...withStreamThumbnailSize(stream),
-                ...(user
-                    ? {
-                        profile_image_url: replaceThumbnailSize(user.profile_image_url, 300, 300),
-                        description: user.description,
-                    }
-                    : {}),
-            };
+            return withTopStreamerInfo(stream, user);
         });
     }
 
@@ -119,8 +142,19 @@ const getTopStreamsPage = async () => {
 };
 
 const getUserVideos = async (userId) => {
+    const cacheKey = `twitch:user-videos:${userId}`;
+    const cached = getCache(cacheKey);
+
+    if (cached) {
+        return cached;
+    }
+
     const videos = await twitchClient.getVideosByUser(userId, { first: 50 });
-    return { streams: videos.data };
+    const result = { streams: videos.data };
+
+    setCache(cacheKey, result, CACHE_TTL.USER_VIDEOS);
+
+    return result;
 };
 
 module.exports = {
