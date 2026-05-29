@@ -1,6 +1,5 @@
 import React from "react";
-import Reuseable from "../ReuseableUI/Reuseable";
-import Reuseable2 from "../ReuseableUI/Reuseable2";
+import VideoArchiveList from "../ReusableUI/VideoArchiveList";
 
 const SlashIdVideoBody = (props) => {
     return (
@@ -31,7 +30,7 @@ const SlashIdVideoBody = (props) => {
           </div>
         </div> */}
         <div style={{ width: "100%", background: "#fff" }}>
-          <Reuseable2
+          <VideoArchiveList
             streams={props.streams}
             {...props}
             // user={props.location.state.data}

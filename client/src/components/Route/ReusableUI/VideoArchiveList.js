@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SlashVideoAllLoading from "./SlashVideoAllLoading";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-const Reuseable2 = (props) => {
+const VideoArchiveList = (props) => {
   const timeSince = (date) => {
     var seconds = Math.floor((new Date() - date) / 1000);
 
@@ -211,4 +210,4 @@ const Reuseable2 = (props) => {
   );
 };
 
-export default Reuseable2;
+export default VideoArchiveList;

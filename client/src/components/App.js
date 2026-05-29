@@ -13,11 +13,13 @@ import SlashIdVideosAll from "./Route/SlashIdVideosAll";
 import SlashCategoryAll from "./Route/SlashCategoryAll";
 import NotSupport from "./error/NotSupport";
 const App = (props) => {
+    const { fetchAuth, fetchActiveLiveTwitch, fetchTopgames } = props;
+
     useEffect(() => {
-        props.fetchAuth();
-        props.fetchActiveLiveTwitch();
-        props.fetchTopgames();
-    }, []);
+        fetchAuth();
+        fetchActiveLiveTwitch();
+        fetchTopgames();
+    }, [fetchAuth, fetchActiveLiveTwitch, fetchTopgames]);
     const [showWarning, setShowWarning] = useState(false);
 
     useEffect(() => {

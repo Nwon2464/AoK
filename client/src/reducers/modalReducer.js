@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   showModal: false,
 };
 
-export default (state = INITIAL_STATE, action) => {
+const modalReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SHOW_MODAL:
       return {
@@ -20,3 +20,5 @@ export default (state = INITIAL_STATE, action) => {
       return state;
   }
 };
+
+export default modalReducer;

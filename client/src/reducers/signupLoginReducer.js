@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   login_jwt: null,
   //   checkout_jwt: false,
 };
-export default (state = INITIAL_STATE, action) => {
+const signupLoginReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case SIGNUP_CREATE:
       return { ...state, signupState: action.payload || false };
@@ -19,3 +19,5 @@ export default (state = INITIAL_STATE, action) => {
       return state;
   }
 };
+
+export default signupLoginReducer;

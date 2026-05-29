@@ -9,7 +9,7 @@ import NotFound from "../error/NotFound";
 import SlashIdHeader from "./slashId/SlashIdHeader";
 import SlashIdBody from "./slashId/SlashIdBody";
 import SlashIdFooter from "./slashId/SlashIdFooter";
-import SlashVideoAllLoading from "./ReuseableUI/SlashVideoAllLoading";
+import SlashVideoAllLoading from "./ReusableUI/SlashVideoAllLoading";
 
 const SlashId = (props) => {
 
@@ -120,4 +120,3 @@ const SlashId = (props) => {
 };
 
 export default SlashId;
-

@@ -7,7 +7,7 @@ import {
   const initial_state = {
     errorMessage: "",
   };
-  export default (state = initial_state, action) => {
+  const errorReducer = (state = initial_state, action) => {
     switch (action.type) {
       case SIGNUP_ERROR:
         return { ...state, errorMessage: action.payload };
@@ -19,4 +19,6 @@ import {
         return state;
     }
   };
+
+  export default errorReducer;
   

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import SlashIdLoading from "../ReuseableUI/SlashIdLoading";
+import SlashIdLoading from "../ReusableUI/SlashIdLoading";
 const SlashIdFooter = (props) => {
 
   const [plate, setPlate] = React.useState('rgba(38,192,185,1)'); // 기본색

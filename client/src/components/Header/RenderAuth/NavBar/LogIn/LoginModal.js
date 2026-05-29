@@ -3,7 +3,6 @@ import React, { useState, forwardRef, useImperativeHandle } from "react";
 import ReactDOM from "react-dom";
 
 import "./LoginModal.css";
-import history from "../../../../../history";
 
 const LoginModal = forwardRef((props, ref) => {
   const [display, setDisplay] = useState(false);

@@ -1,97 +1,41 @@
-import axios from "axios";
 import history from "../history";
 import {
-  FETCH_AUTH,
   JWT_AUTH,
   LOADING_SPINNER,
   SHOW_MODAL,
   LOGIN_ERROR,
-  LOGOUT_AUTH,
-  SIGNUP_ERROR_CLOSE,
   SIGNUP_ERROR,
-  JWT_AUTH_LOGOUT,
   SIGN_IN,
-  SIGN_OUT,
   CLOSE_MODAL,
+  ACTION_FALLGUY,
+  ACTION_FORTNITE,
+  ACTION_JUSTCHAT,
+  ACTION_LIVE_STREAMS,
+  ACTION_MINECRAFT,
+  ACTION_TOP_GAMES,
 } from "./types";
 
 import { jwtDecode } from "jwt-decode";
-
-const DEPLOYMENT_URL = "https://server-ashy-omega-14.vercel.app";
+import { login, signUp } from "../api/authApi";
+import {
+  getActiveLiveTwitch,
+  getHomeTwitchData,
+} from "../services/twitchService";
 
 export const fetchTopgames = () => async (dispatch) => {
-  //expected to be slow loading
-  const responseAll = await axios.get(
-    `${DEPLOYMENT_URL}/api/v1/twitch/topgames`
-  );
-  // console.log(responseAll.data);
-  let dataTopGames = responseAll.data.slice(1, 13);
-  dataTopGames.map((game) => {
-    let newUrl = game.box_art_url
-      .replace("{width}", "188")
-      .replace("{height}", "250");
-    game.box_art_url = newUrl;
-  });
-  dispatch({ type: "ACTION_TOP_GAMES", payload: dataTopGames });
+  const data = await getHomeTwitchData();
 
-
-
-  const res = await axios.get(
-    `${DEPLOYMENT_URL}/api/v1/twitch/streams`
-  );
-
-  let dataFallGuy = res.data.fallGuy;
-  dataFallGuy.map((game) => {
-    let newUrl = game.thumbnail_url
-      .replace("{width}", "440")
-      .replace("{height}", "248");
-    game.thumbnail_url = newUrl;
-  });
-  dispatch({ type: "ACTION_FALLGUY", payload: dataFallGuy });
-
-  let dataJustChat = res.data.justChat;
-  dataJustChat.map((game) => {
-    let newUrl = game.thumbnail_url
-      .replace("{width}", "440")
-      .replace("{height}", "248");
-    game.thumbnail_url = newUrl;
-  });
-  dispatch({ type: "ACTION_JUSTCHAT", payload: dataJustChat });
-
-  let dataFortNite = res.data.fortNite;
-  dataFortNite.map((game) => {
-    let newUrl = game.thumbnail_url
-      .replace("{width}", "440")
-      .replace("{height}", "248");
-    game.thumbnail_url = newUrl;
-  });
-  dispatch({ type: "ACTION_FORTNITE", payload: dataFortNite });
-
-  let dataMineCraft = res.data.mineCraft;
-  dataMineCraft.map((game) => {
-    let newUrl = game.thumbnail_url
-      .replace("{width}", "440")
-      .replace("{height}", "248");
-    game.thumbnail_url = newUrl;
-  });
-
-  dispatch({ type: "ACTION_MINECRAFT", payload: dataMineCraft });
-}
+  dispatch({ type: ACTION_TOP_GAMES, payload: data.topGames });
+  dispatch({ type: ACTION_FALLGUY, payload: data.fallGuy });
+  dispatch({ type: ACTION_JUSTCHAT, payload: data.justChat });
+  dispatch({ type: ACTION_FORTNITE, payload: data.fortNite });
+  dispatch({ type: ACTION_MINECRAFT, payload: data.mineCraft });
+};
 
 export const fetchActiveLiveTwitch = () => async (dispatch) => {
-  const responseAll = await axios.get(
-    `${DEPLOYMENT_URL}/api/v1/twitch/channels`
-  );
-  let fetched_streams = responseAll.data.data;
+  const fetchedStreams = await getActiveLiveTwitch();
 
-  fetched_streams.map((game) => {
-    let new_url = game.thumbnail_url
-      .replace("{width}", "440")
-      .replace("{height}", "248");
-    game.thumbnail_url = new_url;
-  });
-
-  dispatch({ type: "ACTION_LIVE_STREAMS", payload: fetched_streams });
+  dispatch({ type: ACTION_LIVE_STREAMS, payload: fetchedStreams });
 };
 
 
@@ -108,10 +52,7 @@ export const fetchAuth = () => async (dispatch) => {
 
 export const signUpCreate = (formValues) => (dispatch, getState) => {
   dispatch({ type: LOADING_SPINNER, payload: true });
-  axios
-    .post(`${DEPLOYMENT_URL}/auth/signup`, {
-      ...formValues,
-    })
+  signUp(formValues)
     .then((res) => {
       console.log("signup aftered", res);
       localStorage.token = res.data.token;
@@ -134,10 +75,7 @@ export const signUpCreate = (formValues) => (dispatch, getState) => {
 
 export const logIn = (formValues) => (dispatch, getState) => {
   dispatch({ type: LOADING_SPINNER, payload: true });
-  axios
-    .post(`${DEPLOYMENT_URL}/auth/login`, {
-      ...formValues,
-    })
+  login(formValues)
     .then((res) => {
       localStorage.token = res.data.token;
       localStorage.userInfo = res.data.user.username;
@@ -192,4 +130,3 @@ export const signIn = (userProfile) => {
     payload: userProfile,
   };
 };
-

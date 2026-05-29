@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import "./BodyRight.css";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 
 import VideoCard from "../Card/VideoCard";
 import ShowClickRender from "./ShowClickRender";
@@ -13,21 +12,6 @@ import { checkViewers, checkTags } from "./checkViewers";
 import Loading from "../Card/Loading";
 import LoadingGameCard from "../Card/LoadingGameCard";
 const BodyRight = (props) => {
-  const [visible, setVisible] = useState(4);
-
-  const showClick = (e) => {
-    e.preventDefault();
-    setVisible(visible + 4);
-  };
-  const renderCreate = () => {
-    // if (props.auth) {
-    return (
-      <div className="render__create">
-        <Link to="/streams/new">Create New Stream</Link>
-      </div>
-    );
-    // }
-  };
   return (
     <div className="app-overflow-scroll app-body-right-background app-z-index-default app-flex app-flex-column app-flex-grow-1 app-full-height app-full-width">
       <div className="app-full-width app-relative">

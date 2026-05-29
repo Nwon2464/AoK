@@ -1,5 +1,5 @@
 import React from 'react'
-import SlashIdFrameLoading from '../ReuseableUI/SlashIdFrameLoading';
+import SlashIdFrameLoading from "../ReusableUI/SlashIdFrameLoading";
 const SlashIdHeader = (props) => {
     return (
         <>
@@ -19,4 +19,3 @@ const SlashIdHeader = (props) => {
     );
 };
 export default SlashIdHeader;
-

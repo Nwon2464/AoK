@@ -1,13 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 
 import "./Header.css";
 import TwitchIcons from "./TwitchIcons/TwitchIcons";
 import Browse from "./Browse/Browse";
-import Esports from "./Esports/Esports";
-import Music from "./Music/Music";
-import Horizon from "./Horizon/Horizon";
 import Search from "./SearchBar/Search";
 import RenderAuth from "./RenderAuth/RenderAuth";
 import { jwtlogOut, signIn } from "../../actions";

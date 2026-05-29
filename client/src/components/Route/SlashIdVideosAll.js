@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import BodyLeft from "../Body/BodyLeft";
 import axios from "axios";
-import SlashVideoAllLoading from "./ReuseableUI/SlashVideoAllLoading";
+import SlashVideoAllLoading from "./ReusableUI/SlashVideoAllLoading";
 import SlashIdVideoBody from "./slashIdVideos/SlashIdVideoBody";
 import SlashIdVideoHeader from "./slashIdVideos/SlashIdVideoHeader";
 
