@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import CarouselBody from "./CarouselBody";
 import CentralCarouselItem from "./CentralCarouselItem";
 
 const MainCarousel = (props) => {
@@ -8,9 +7,8 @@ const MainCarousel = (props) => {
     return (
         <>
             {props.streams.map((streams, i) => {
-                const showAnimation = props.direction === "right" || props.direction === "left";
-                const imgStyle = props.determineStyle(i, showAnimation);
-                const AutoCard = props.determineCard(i);
+                const imgStyle = props.getSlideStyle(i);
+                const AutoCard = props.getCardDisplay(i);
                 const isCentral = i === props.central;
 
                 return (
@@ -21,7 +19,6 @@ const MainCarousel = (props) => {
                                 streams={streams}
                                 imgStyle={imgStyle}
                                 AutoCard={AutoCard}
-                                hideLoading={props.hideLoading}
                                 delayMs={delayMs}
                             />
                         ) : (
