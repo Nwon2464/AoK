@@ -1,0 +1,213 @@
+const chatStreams = [
+    {
+      "id": "40612316037",
+      "user_id": "50985620",
+      "user_login": "papaplatte",
+      "user_name": "Papaplatte",
+      "game_id": "509658",
+      "game_name": "Just Chatting",
+      "type": "live",
+      "title": "imagine man guckt // spongebob elden ring weiter // sm64 // vllt feuer und flamme gucken // mal kieken wat sonst so wa",
+      "viewer_count": 26506,
+      "started_at": "2024-05-03T14:33:16Z",
+      "language": "de",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_papaplatte-{width}x{height}.jpg",
+      "tag_ids": [],
+      "tags": [
+        "dumm",
+        "wer",
+        "guckt",
+        "german",
+        "Deutsch"
+      ],
+      "is_mature": false
+    },
+    {
+      "id": "42289328904",
+      "user_id": "188890121",
+      "user_login": "dmitry_lixxx",
+      "user_name": "Dmitry_Lixxx",
+      "game_id": "509658",
+      "game_name": "Just Chatting",
+      "type": "live",
+      "title": "СТРИМАРЕНА ДЕНЬ 1 🕵 ТАЙНЫ УЛИЦ 💸 ДЕНЬГИ 🤵🏻 ВЛАСТЬ ПРЕСТУПЛЕНИЯ ИНТРИГИ И РАССЛЕДОВАНИЯ КУЛЬТУРА ГАНГСТЕРОВ ТВИЧА КРИМИНАЛ ОПАСНОСТЬ ♛",
+      "viewer_count": 18066,
+      "started_at": "2024-05-03T13:00:18Z",
+      "language": "ru",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_dmitry_lixxx-{width}x{height}.jpg",
+      "tag_ids": [],
+      "tags": [
+        "clown",
+        "контентмейкер",
+        "Русский",
+        "37",
+        "Фрик",
+        "Freak",
+        "Speedrunner",
+        "Шарпейчик"
+      ],
+      "is_mature": false
+    },
+    {
+      "id": "44135405339",
+      "user_id": "127550308",
+      "user_login": "botezlive",
+      "user_name": "BotezLive",
+      "game_id": "509658",
+      "game_name": "Just Chatting",
+      "type": "live",
+      "title": "FIRST PLACE IN A CHESS TOURNAMENT?? | $1,000 !Raffle presented by !Coinbase | Sardinia Chess Festival | !raffle !coinbase",
+      "viewer_count": 16046,
+      "started_at": "2024-05-03T12:58:31Z",
+      "language": "en",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_botezlive-{width}x{height}.jpg",
+      "tag_ids": [],
+      "tags": [
+        "ADHD",
+        "Competitive",
+        "Siblings",
+        "Music",
+        "Travel",
+        "Chess",
+        "Strategy",
+        "English",
+        "DJ"
+      ],
+      "is_mature": false
+    },
+    {
+      "id": "41268989431",
+      "user_id": "1058151261",
+      "user_login": "ai_hongo_",
+      "user_name": "本郷愛",
+      "game_id": "509658",
+      "game_name": "Just Chatting",
+      "type": "live",
+      "title": "強制退去の女 feat. カルバンクライン",
+      "viewer_count": 7362,
+      "started_at": "2024-05-03T08:16:53Z",
+      "language": "ja",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_ai_hongo_-{width}x{height}.jpg",
+      "tag_ids": [],
+      "tags": [
+        "日本語",
+        "English",
+        "雑談"
+      ],
+      "is_mature": false
+    },
+    {
+      "id": "41270224375",
+      "user_id": "777707810",
+      "user_login": "zubarefff",
+      "user_name": "zubarefff",
+      "game_id": "509658",
+      "game_name": "Just Chatting",
+      "type": "live",
+      "title": "Перед смертью у людей в наибольшей степени проявляется живость натуры 👻 Смотрим Пункт назначения 2 🔚",
+      "viewer_count": 6976,
+      "started_at": "2024-05-03T16:06:49Z",
+      "language": "ru",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_zubarefff-{width}x{height}.jpg",
+      "tag_ids": [],
+      "tags": [
+        "Русский",
+        "Китай",
+        "Зубарев",
+        "КорольПельменей",
+        "IRL",
+        "психология"
+      ],
+      "is_mature": true
+    },
+    {
+      "id": "42576925145",
+      "user_id": "78219897",
+      "user_login": "akademiks",
+      "user_name": "Akademiks",
+      "game_id": "509658",
+      "game_name": "Just Chatting",
+      "type": "live",
+      "title": "Kendrick Lamar spins the Block on Drake AGAIN!! Disses him again and even BIG AK gets a bar!",
+      "viewer_count": 4945,
+      "started_at": "2024-05-03T13:20:16Z",
+      "language": "en",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_akademiks-{width}x{height}.jpg",
+      "tag_ids": [],
+      "tags": [
+        "English"
+      ],
+      "is_mature": true
+    },
+    {
+      "id": "41269792839",
+      "user_id": "48962167",
+      "user_login": "vodkavdk",
+      "user_name": "ボドカさん",
+      "game_id": "509658",
+      "game_name": "Just Chatting",
+      "type": "live",
+      "title": "日課の飲酒雑談",
+      "viewer_count": 4939,
+      "started_at": "2024-05-03T13:29:22Z",
+      "language": "ja",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_vodkavdk-{width}x{height}.jpg",
+      "tag_ids": [],
+      "tags": [
+        "日本語",
+        "ネタバレ禁止"
+      ],
+      "is_mature": false
+    },
+    {
+      "id": "44135759851",
+      "user_id": "97245742",
+      "user_login": "vei",
+      "user_name": "vei",
+      "game_id": "509658",
+      "game_name": "Just Chatting",
+      "type": "live",
+      "title": "heeeeeeeeey 🔴 !socials !vods",
+      "viewer_count": 4849,
+      "started_at": "2024-05-03T14:55:28Z",
+      "language": "en",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_vei-{width}x{height}.jpg",
+      "tag_ids": [],
+      "tags": [
+        "Vtuber",
+        "VisualASMR",
+        "vei",
+        "real",
+        "female",
+        "agirlandagamerwhoamama",
+        "humminahumminabazoooooing",
+        "English",
+        "awooga"
+      ],
+      "is_mature": true
+    },
+    {
+      "id": "44136059819",
+      "user_id": "561111389",
+      "user_login": "martinciriook",
+      "user_name": "MartinCirioOk",
+      "game_id": "509658",
+      "game_name": "Just Chatting",
+      "type": "live",
+      "title": "SE DESCUBRE PLAN DE LOS BROS + EMMA VS MAURO - Gran Hermano",
+      "viewer_count": 4452,
+      "started_at": "2024-05-03T16:00:14Z",
+      "language": "es",
+      "thumbnail_url": "https://static-cdn.jtvnw.net/previews-ttv/live_user_martinciriook-{width}x{height}.jpg",
+      "tag_ids": [],
+      "tags": [
+        "Español",
+        "irl",
+        "justchatting",
+        "hablando"
+      ],
+      "is_mature": false
+    }
+  ];
+
+module.exports = chatStreams;
