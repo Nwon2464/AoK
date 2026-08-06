@@ -7,11 +7,16 @@ import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import NavBar from "./NavBar/NavBar";
 import NavItem from "./NavBar/NavItem";
 import DropdownMenu from "./NavBar/DropdownMenu";
-import { yetLoggedInContents,loggedInContents,languages } from "./NavBar/dropdownMenuContents";
+import { getYetLoggedInContents, getLoggedInContents, getLanguages } from "./NavBar/dropdownMenuContents";
 import { jwtlogOut } from "../../../actions";
 import LoginSignUpButton from "../LoginSignUpButton";
+import { useLanguage } from "../../../i18n/LanguageProvider";
 
 const RenderAuth = (props) => {
+    const { t } = useLanguage();
+    const yetLoggedInContents = getYetLoggedInContents(t);
+    const loggedInContents = getLoggedInContents(t);
+    const languages = getLanguages(t);
     const onSignOut = () => {
          props.jwtlogOut(); 
     };

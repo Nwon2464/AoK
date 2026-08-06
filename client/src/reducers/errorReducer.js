@@ -1,5 +1,5 @@
 import {
-    SIGNUP_ERROR_CLOSE,
+    AUTH_ERROR_CLEAR,
     SIGNUP_ERROR,
     LOGIN_ERROR,
   } from "../actions/types";
@@ -11,7 +11,7 @@ import {
     switch (action.type) {
       case SIGNUP_ERROR:
         return { ...state, errorMessage: action.payload };
-      case SIGNUP_ERROR_CLOSE:
+      case AUTH_ERROR_CLEAR:
         return { ...state, errorMessage: "" };
       case LOGIN_ERROR:
         return { ...state, errorMessage: action.payload };

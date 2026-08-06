@@ -1,121 +1,190 @@
+import React, { useCallback, useEffect, useRef, useState } from "react";
 
-
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link, useParams } from "react-router-dom";
-
+import { getChannelPage, getChannelVideosPage } from "../../services/twitchService";
 import BodyLeft from "../Body/BodyLeft";
 import NotFound from "../error/NotFound";
-import SlashIdHeader from "./slashId/SlashIdHeader";
+import VideoArchiveList from "./ReusableUI/VideoArchiveList";
+import SlashIdFrameLoading from "./ReusableUI/SlashIdFrameLoading";
 import SlashIdBody from "./slashId/SlashIdBody";
-import SlashIdFooter from "./slashId/SlashIdFooter";
-import SlashVideoAllLoading from "./ReusableUI/SlashVideoAllLoading";
+import SlashIdHeader from "./slashId/SlashIdHeader";
+import "./slashId/SlashId.css";
+import { useLanguage } from "../../i18n/LanguageProvider";
+
+const appendUniqueVideos = (currentVideos, nextVideos) => {
+  const videoMap = new Map(
+    [...currentVideos, ...nextVideos].map((video) => [video.id, video])
+  );
+  return [...videoMap.values()];
+};
+
+const getErrorMessage = (error, fallback) => error.response?.data?.message || fallback;
 
 const SlashId = (props) => {
-
-  const { id } = useParams(); // Get the dynamic id from the route
-  const [streams, setStreams] = useState([]);
-  const [paginationValue, setPaginationValue] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [error, setError] = useState(null);
+  const { t } = useLanguage();
+  const scrollContainerRef = useRef(null);
+  const routeUserLogin = props.match.params.id;
+  const userLogin = /^[a-zA-Z0-9_]{1,25}$/.test(routeUserLogin)
+    ? routeUserLogin
+    : null;
+  const [channel, setChannel] = useState(null);
+  const [channelLoading, setChannelLoading] = useState(true);
+  const [channelError, setChannelError] = useState(null);
+  const [channelStatus, setChannelStatus] = useState(null);
+  const [channelPartial, setChannelPartial] = useState(false);
+  const [channelReloadKey, setChannelReloadKey] = useState(0);
+  const [videos, setVideos] = useState([]);
+  const [videosLoading, setVideosLoading] = useState(true);
+  const [videosError, setVideosError] = useState(null);
+  const [videosReloadKey, setVideosReloadKey] = useState(0);
+  const [nextCursor, setNextCursor] = useState(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [loadMoreError, setLoadMoreError] = useState(null);
 
   useEffect(() => {
-    // Reset state when id changes
-    setStreams([]);
-    setPaginationValue("");
-    setHasMore(true);
-    fetchAllVideos();
-  }, [id]); // Dependency on id to refetch when it changes
+    let cancelled = false;
+    setChannel(null);
+    setChannelLoading(true);
+    setChannelError(null);
+    setChannelStatus(null);
+    setChannelPartial(false);
 
-  const fetchAllVideos = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const { data } = await axios.get(
-        `https://server-ashy-omega-14.vercel.app/api/v1/videos/${props.location.state.data.user_id}`,
-        {
-          params: {
-            cursor: paginationValue,
-          },
-        }
-      );
-      if (!data) {
-        throw new Error("Failed to fetch videos");
-      }
-      let streams = data.data;
-      setStreams((prevStreams) => [...prevStreams, ...streams]);
-      setHasMore(streams.length > 0);
-      setPaginationValue(data.pagination.cursor);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    if (!userLogin) {
+      setChannelStatus(404);
+      setChannelLoading(false);
+      return undefined;
     }
-  };
+
+    getChannelPage(userLogin)
+      .then((result) => {
+        if (!cancelled) {
+          setChannel(result.channel);
+          setChannelPartial(result.partial);
+        }
+      })
+      .catch((error) => {
+        if (cancelled) return;
+        setChannelStatus(error.response?.status || null);
+        setChannelError(getErrorMessage(error, "Unable to load this channel."));
+      })
+      .finally(() => {
+        if (!cancelled) setChannelLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [channelReloadKey, userLogin]);
+
   useEffect(() => {
-    const scrollContainer = document.querySelector(".app-overflow-y");
+    let cancelled = false;
+    setVideos([]);
+    setNextCursor(null);
+    setVideosLoading(true);
+    setVideosError(null);
+    setLoadMoreError(null);
+
+    if (!userLogin) {
+      setVideosLoading(false);
+      return undefined;
+    }
+
+    getChannelVideosPage(userLogin)
+      .then((page) => {
+        if (cancelled) return;
+        setVideos(page.videos);
+        setNextCursor(page.nextCursor);
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          setVideosError(getErrorMessage(error, "Unable to load videos."));
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setVideosLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [userLogin, videosReloadKey]);
+
+  const loadMoreVideos = useCallback(async () => {
+    if (!nextCursor || loadingMore) return;
+
+    setLoadingMore(true);
+    setLoadMoreError(null);
+    try {
+      const page = await getChannelVideosPage(userLogin, nextCursor);
+      setVideos((currentVideos) => appendUniqueVideos(currentVideos, page.videos));
+      setNextCursor(page.nextCursor);
+    } catch (error) {
+      setLoadMoreError(getErrorMessage(error, "Unable to load more videos."));
+    } finally {
+      setLoadingMore(false);
+    }
+  }, [loadingMore, nextCursor, userLogin]);
+
+  useEffect(() => {
+    const element = scrollContainerRef.current;
+    if (!element) return undefined;
 
     const handleScroll = () => {
-      if (!scrollContainer) return;
-      const bottom =
-        scrollContainer.scrollTop + scrollContainer.clientHeight >=
-        scrollContainer.scrollHeight;
-
-      if (bottom) {
-        if (!loading && hasMore) {
-          // console.log("reach bottom");
-          fetchAllVideos(streams.length);
-        }
-      }
+      const remaining = element.scrollHeight - element.scrollTop - element.clientHeight;
+      if (remaining < 300) loadMoreVideos();
     };
 
-    scrollContainer.addEventListener("scroll", handleScroll);
-    return () => scrollContainer.removeEventListener("scroll", handleScroll);
-  }, [loading, hasMore, streams.length]);
+    element.addEventListener("scroll", handleScroll);
+    return () => element.removeEventListener("scroll", handleScroll);
+  }, [loadMoreVideos]);
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
-
-  //     if (bottom && !loading && hasMore) {
-  //       fetchAllVideos(); // Fetch next batch of videos
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [loading, hasMore, streams.length]);
   return (
-    <>
-      <div className="app-flex app-flex-nowrap app-relative app-height-100vh app-overflow-hidden app-bk-color ">
-        <div className="side-nav app-flex-shrink-0  app-z-above app-width-240 app-flex-shrink-0">
-          <BodyLeft />
-        </div>
-        {props.location.state ?
-          <div className="app-flex app-flex-column app-full-width app-bk-color app-flex-1 app-overflow-y" >
-            <SlashIdHeader username={props.location} len={streams.length} />
-            <SlashIdBody {...props} />
-            <SlashIdFooter streams={streams} />
-            {/* {!hasMore && <div>No more videos</div>} */}
-          </div>
-          : <NotFound />}
-        {/* 
-        {props.location.state ? 
-        <div className="app-flex app-flex-column app-full-width">
-          {streams.length ===0 ? <div>loading</div> :  
-          <>
-              <SlashIdHeader  username={props.location.state.data.user_name}/>
-              <SlashIdBody {...props}/>
-              <SlashIdFooter streams={streams}/>
-          </>
-          }
-          
-        </div> : (
-          <NotFound />
-        )} */}
+    <div className="app-flex app-flex-nowrap app-relative app-height-100vh app-overflow-hidden app-bk-color">
+      <div className="side-nav app-z-above app-width-240 app-flex-shrink-0">
+        <BodyLeft />
       </div>
-    </>
+      {channelStatus === 404 ? (
+        <NotFound />
+      ) : (
+        <main
+          ref={scrollContainerRef}
+          className="app-flex app-flex-column app-full-width app-bk-color app-flex-1 app-overflow-y"
+        >
+          {channelLoading ? (
+            <SlashIdFrameLoading />
+          ) : channelError ? (
+            <div className="channel-page-status" role="alert">
+              <p>{channelError}</p>
+              <button type="button" onClick={() => setChannelReloadKey((value) => value + 1)}>
+                {t("common.tryAgain")}
+              </button>
+            </div>
+          ) : (
+            <>
+              <SlashIdHeader channel={channel} />
+              <SlashIdBody channel={channel} />
+              {channelPartial && (
+                <div className="channel-page-partial-status" role="status">
+                  {t("channel.partial")}
+                </div>
+              )}
+            </>
+          )}
+
+          {!channelLoading && !channelError && (
+            <VideoArchiveList
+              streams={videos}
+              loading={videosLoading}
+              error={videosError}
+              onRetry={() => setVideosReloadKey((value) => value + 1)}
+              hasMore={Boolean(nextCursor)}
+              loadingMore={loadingMore}
+              loadMoreError={loadMoreError}
+              onLoadMore={loadMoreVideos}
+            />
+          )}
+        </main>
+      )}
+    </div>
   );
 };
 

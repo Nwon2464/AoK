@@ -5,7 +5,9 @@ import { logIn } from "../../../../../actions";
 import LoginRenderField from "./LoginRenderField";
 import ErrorMessage from "./ErrorMessage";
 import SignupLoading from "./SignupLoading";
+import { useLanguage } from "../../../../../i18n/LanguageProvider";
 const LoginModalForm = (props) => {
+  const { t } = useLanguage();
   const { handleSubmit } = props;
   const onSubmit = (formValue) => {
     // console.log(formValue);
@@ -30,7 +32,7 @@ const LoginModalForm = (props) => {
                 <Field
                   // validate={[usernameValidate, required]}
                   name="username"
-                  label="Username"
+                  label={t("auth.username")}
                   type="text"
                   component={LoginRenderField}
                   placeholder="Username"
@@ -39,7 +41,7 @@ const LoginModalForm = (props) => {
               </div>
               <div className="field">
                 <Field
-                  label="Password"
+                  label={t("auth.password")}
                   name="password"
                   type="password"
                   component={LoginRenderField}
@@ -49,27 +51,9 @@ const LoginModalForm = (props) => {
               </div>
               <div>
                 <button className="ui fluid medium button" type="submit">
-                  Log In
+                  {t("nav.login")}
                 </button>
               </div>
-              {/* <div
-                style={{ fontSize: "0.8rem" }}
-                className="ui horizontal divider"
-              >
-                Or
-              </div>
-              <div className="app__flex__set">
-                <a
-                  id="google__log"
-                  // href="https://server-t.vercel.app/auth/google"
-                  //relative path directs to localhost3000, needs proxy setup 
-                  href="/auth/google"
-                  className="ui red labeled icon button"
-                >
-                  Log In With Google
-                  <i className="google icon"></i>
-                </a>
-              </div> */}
             </form>
           </>
         </>

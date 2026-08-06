@@ -5,7 +5,7 @@ const LoadingGameCard = () => {
     return (
         <div className="game__category app-pd-15">
             <h3>
-                <Skeleton style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} height={28} width={250} />
+                <Skeleton style={{ backgroundImage: "none", backgroundColor: "var(--theme-control)" }} height={28} width={250} />
             </h3>
 
             <div className="app__tower__gutter app__flex__tower app__flex__nowrap">
@@ -18,15 +18,15 @@ const LoadingGameCard = () => {
                                     <div className="app__relative">
                                         <div className="app__flex__column app__flex app__flex__nowrap">
                                             <div>
-                                                <Skeleton width="145px" height="215px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />{" "}
+                                                <Skeleton width="145px" height="215px" style={{ backgroundImage: "none", backgroundColor: "var(--theme-control)" }} />{" "}
                                             </div>
 
                                             <div
                                                 className="app__ellipsis app__margin__top app__flex__shrink__1 app__flex__grow__1 app__color app__font__weight app__cursor">
-                                                <Skeleton style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />{" "}
+                                                <Skeleton style={{ backgroundImage: "none", backgroundColor: "var(--theme-control)" }} />{" "}
                                             </div>
                                             <p className="app__font__size">
-                                                <Skeleton style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} width="70px" />{" "}
+                                                <Skeleton style={{ backgroundImage: "none", backgroundColor: "var(--theme-control)" }} width="70px" />{" "}
                                             </p>
                                         </div>
                                     </div>
@@ -35,9 +35,7 @@ const LoadingGameCard = () => {
                         );
                     })}
             </div>
-            <div className="custom">
-                <Skeleton style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
-            </div>
+            <div className="loading-card-divider" />
         </div>
     );
 };

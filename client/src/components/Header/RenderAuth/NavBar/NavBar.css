@@ -9,7 +9,7 @@ a:hover {
 }
 
 nav {
-  --bg: white;
+  --bg: var(--theme-surface);
   --bg-accent: #484a4d;
   --nav-size: 30px;
   --border: 1px solid #474a4d;
@@ -59,8 +59,8 @@ nav {
   top: 4rem;
   width: 200px;
   transform: translateX(-45%);
-  background-color: #1f1f23;
-  border: var(--border);
+  background-color: var(--theme-surface-raised);
+  border: 1px solid var(--theme-border);
   border-radius: var(--border-radius);
   padding: 0px;
   overflow: hidden;
@@ -89,7 +89,7 @@ nav {
 }
 
 .menu__item:hover {
-  background-color: #3E3E45;
+  background-color: var(--theme-hover);
 }
 
 .icon__right {
@@ -102,6 +102,38 @@ nav {
     width: 100%;
     display: flex;
     justify-content: flex-end; */
+}
+
+.theme-toggle {
+  background: var(--theme-toggle-track);
+  border: 1px solid var(--theme-border);
+  border-radius: 999px;
+  display: inline-flex;
+  height: 1.35rem;
+  padding: 0.12rem;
+  transition: background-color 180ms ease, border-color 180ms ease;
+  width: 2.45rem;
+}
+
+.theme-toggle__thumb {
+  background: var(--theme-toggle-thumb);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  display: block;
+  height: 1rem;
+  transform: translateX(0);
+  transition: transform 180ms ease, background-color 180ms ease;
+  width: 1rem;
+}
+
+.theme-toggle--active {
+  background: #00b5ad;
+  border-color: #00b5ad;
+}
+
+.theme-toggle--active .theme-toggle__thumb {
+  background: #fff;
+  transform: translateX(1.05rem);
 }
 
 .menu__ {

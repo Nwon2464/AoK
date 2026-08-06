@@ -9,11 +9,14 @@ const cookieSession = require("cookie-session");
 
 const authRoutes = require("./auth");
 const api = require("./api");
+const apiV2 = require("./api/v2");
 const middlewares = require("./middleware/index");
 
 require("./config");
 
 const app = express();
+
+app.set("trust proxy", 1);
 
 app.use(morgan("dev"));
 app.use(helmet());
@@ -22,13 +25,16 @@ app.use(express.json());
 
 app.use(
     cookieSession({
-        maxAge: 24 * 60 * 60 * 1000,
+        name: "aok_oauth_state",
+        maxAge: 10 * 60 * 1000,
         keys: [process.env.COOKIE_KEY],
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
     })
 );
 
 app.use(passport.initialize());
-app.use(passport.session());
 
 app.get("/", (req, res) => {
     res.json({
@@ -38,6 +44,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRoutes);
 app.use("/api/v1", api);
+app.use("/api/v2", apiV2);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

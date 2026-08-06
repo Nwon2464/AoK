@@ -1,4 +1,5 @@
 const cacheStore = new Map();
+const pendingRequests = new Map();
 
 const getCache = (key) => {
     const cached = cacheStore.get(key);
@@ -29,10 +30,37 @@ const deleteCache = (key) => {
 
 const clearCache = () => {
     cacheStore.clear();
+    pendingRequests.clear();
+};
+
+const getOrSetCache = async (key, ttlMs, loader) => {
+    const cached = getCache(key);
+
+    if (cached !== null) {
+        return cached;
+    }
+
+    if (pendingRequests.has(key)) {
+        return pendingRequests.get(key);
+    }
+
+    const request = Promise.resolve()
+        .then(loader)
+        .then((value) => {
+            setCache(key, value, ttlMs);
+            return value;
+        })
+        .finally(() => {
+            pendingRequests.delete(key);
+        });
+
+    pendingRequests.set(key, request);
+    return request;
 };
 
 module.exports = {
     getCache,
+    getOrSetCache,
     setCache,
     deleteCache,
     clearCache,

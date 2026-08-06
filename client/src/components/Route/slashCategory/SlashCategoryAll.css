@@ -1,0 +1,69 @@
+.browse-page {
+  background: var(--theme-background);
+}
+
+.browse-tab-indicator {
+  margin-top: 13px;
+}
+
+.browse-grid {
+  display: grid;
+  gap: 1.25rem 0.65rem;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  width: 100%;
+}
+
+.browse-card {
+  min-width: 0;
+}
+
+.browse-card img {
+  aspect-ratio: 285 / 385;
+  display: block;
+  object-fit: cover;
+  width: 100%;
+}
+
+.browse-card h3 {
+  margin-top: 0.45rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.browse-loading-grid {
+  margin-top: 1.25rem;
+}
+
+.browse-skeleton-image {
+  aspect-ratio: 285 / 385;
+  line-height: 1;
+  margin-bottom: 0.45rem;
+  width: 100%;
+}
+
+.browse-skeleton-image > span,
+.browse-skeleton-image .react-loading-skeleton {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.browse-status {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  justify-content: center;
+  min-height: 14rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.browse-status button {
+  border: 1px solid #00b5ad !important;
+  border-radius: 0.3rem;
+  color: #00b5ad;
+  cursor: pointer;
+  padding: 0.5rem 0.9rem;
+}

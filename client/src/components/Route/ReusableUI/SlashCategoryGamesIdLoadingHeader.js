@@ -1,30 +1,25 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
+
+const skeletonStyle = {
+  backgroundColor: "var(--theme-control)",
+  backgroundImage: "none",
+};
+
 const SlashCategoryGamesIdLoadingHeader = () => {
   return (
-    <div style={{ marginLeft: 15 }} className="game__card app-pd-15">
-      <div className="card__maxWidth__margin app__tower__gutter">
-        <div className="app-flex">
-          <div>
-            <Skeleton width={180} height={240} style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
-          </div>
-          <div style={{ marginTop: 50, marginLeft: 40 }}>
-            <Skeleton width={150} height={40} style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
-            <div style={{ marginTop: 5, marginLeft: 0 }}>
-              <Skeleton width={250} height={20} style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
-            </div>
-
-            <div style={{ marginTop: 5, marginLeft: 0 }}>
-              <Skeleton width={90} height={30} style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
-            </div>
-          </div>
-        </div>
-        {/* <h3 style={{ marginTop: 30 }}>
-          <Skeleton height={28} width={250} />
-        </h3>
-         */}
+    <section
+      className="category-page-banner category-page-banner-loading"
+      aria-busy="true"
+      aria-label="Loading category information"
+    >
+      <Skeleton className="category-page-cover-skeleton" style={skeletonStyle} />
+      <div className="category-page-summary category-page-summary-loading">
+        <Skeleton width={220} height={38} style={skeletonStyle} />
+        <Skeleton width={140} height={20} style={skeletonStyle} />
+        <Skeleton width={190} height={14} style={skeletonStyle} />
       </div>
-    </div>
+    </section>
   );
 };
 

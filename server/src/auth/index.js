@@ -1,144 +1,56 @@
-require('dotenv').config();
+require("dotenv").config();
+
 const passport = require("passport");
 const router = require("express").Router();
-const bcrypt = require("bcrypt");
-const Joi = require("joi");
-const jwt = require("jsonwebtoken");
-const signupUsers = require("../models/signup");
 
-const signUpSchema = Joi.object({
-    username : Joi.string().alphanum().min(3).max(30).required(),
-    password : Joi.string().trim().pattern(new RegExp("^[a-zA-Z0-9]{8,30}$")).required(),
-    email : Joi.string().email().required(),
-    dateofbirth : Joi.string().alphanum(),
-    month : Joi.number().integer().min(1).max(12),
-    year : Joi.number().integer().min(1900).max(2013),
-});
+const authController = require("../controllers/authController");
+const authService = require("../services/authService");
+const { isGoogleAuthConfigured } = require("../config");
+const { requireJwt } = require("./middleware");
+const { createHttpError } = require("../utils/httpError");
 
-const loginSchema = Joi.object({
-    username : Joi.string().alphanum().min(3).max(30).required(),
-    password : Joi.string().trim().pattern(new RegExp("^[a-zA-Z0-9]{8,30}$")).required(),
-});
-const createTokenSendResponse = (user, res, next) => {
-    const payload = {
-        _id : user._id,
-        username : user.username,
-    };
-    jwt.sign(payload, process.env.JWT_SECRET, {
-        expiresIn : "7d",
-    },
-             (error, token) => {
-                 if (error) {
-                     respondErrorToken422(res, next);
-                 } else {
-                     res.json({token, user});
-                 }
-             });
-};
+const clientUrl = (process.env.CLIENT_URL || "http://localhost:3000").replace(/\/+$/, "");
 
-router.get("/signup", (req, res) => { res.json({msg : "AA"}); });
-
-router.post("/signup", async (req, res, next) => {
-    const result = signUpSchema.validate({
-        username : req.body.username,
-        password : req.body.password,
-        email : req.body.email,
-    });
-    if (result.error === undefined) {
-        signupUsers
-            .findOne({
-                username : req.body.username,
-            })
-            .then((user) => {
-                if (user) {
-                    console.log("user=>", user);
-                    const error = new Error("This username is unavailable. Try others!");
-                    next(error);
-                } else {
-                    bcrypt.hash(req.body.password, 10).then((hashedPassword) => {
-                        const newUser = {
-                            username : req.body.username,
-                            password : hashedPassword,
-                            email : req.body.email,
-                            dateofbirth : req.body.dateofbirth,
-                            month : req.body.month,
-                            year : req.body.year,
-                        };
-                        new signupUsers(newUser).save().then((completedNewUser) => {
-                            createTokenSendResponse(completedNewUser, res, next);
-                            // completedNewUser.password = "your password is secured";
-                            // res.json(completedNewUser);
-                        });
-                    });
-                }
-            });
-    } else {
-        console.log("you reached error");
-        next(result.error);
+const requireGoogleConfiguration = (req, res, next) => {
+    if (!isGoogleAuthConfigured) {
+        next(createHttpError(
+            503,
+            "Google login is not configured.",
+            "GOOGLE_AUTH_NOT_CONFIGURED"
+        ));
+        return false;
     }
-});
-const respondError422 = (res, next) => {
-    res.status(422);
-    const error = new Error("Unable to login");
-    next(error);
+    return true;
 };
-const respondErrorUnmatched401 = (res, next) => {
-    res.status(401);
-    const error = new Error("Unmatched password");
-    next(error);
-};
-const respondErrorToken422 = (res, next) => {
-    res.status(422);
-    const error = new Error("JWT Token generator error");
-    next(error);
-};
-router.post("/login", (req, res, next) => {
-    const result = loginSchema.validate({
-        username : req.body.username,
-        password : req.body.password,
-    });
-    console.log(result);
-    if (result.error === undefined) {
-        signupUsers
-            .findOne({
-                username : req.body.username,
-            })
-            .then((user) => {
-                if (user) {
-                    bcrypt.compare(req.body.password, user.password).then((result) => {
-                        if (result) {
-                            // they send us right password
-                            createTokenSendResponse(user, res, next);
-                        } else {
-                            // they send us wrong password
-                            respondErrorUnmatched401(res, next);
-                        }
-                    });
-                } else {
-                    respondError422(res, next);
-                }
-            });
-    } else {
-        respondError422(res, next);
-    }
-});
-router.get("/current_user", (req, res) => {
-    res.json(req.user);
+
+router.post("/signup", authController.signUp);
+router.post("/login", authController.logIn);
+router.get("/me", requireJwt, authController.getMe);
+router.patch("/preferences/language", requireJwt, authController.updateLanguage);
+
+router.get("/google", (req, res, next) => {
+    if (!requireGoogleConfiguration(req, res, next)) return;
+
+    passport.authenticate("google", {
+        scope: ["openid", "email", "profile"],
+        session: false,
+    })(req, res, next);
 });
 
+router.get("/google/redirect", (req, res, next) => {
+    if (!requireGoogleConfiguration(req, res, next)) return;
 
-// auth logout
-router.get("/logout", (req, res) => {
-    req.logout();
-    res.redirect("/");
-});
+    passport.authenticate("google", { session: false }, (error, user) => {
+        if (error || !user) {
+            res.redirect(`${clientUrl}/auth/google/callback?error=google_auth_failed`);
+            return;
+        }
 
-router.get("/google", passport.authenticate("google", {
-    scope : [ "email", "profile" ],
-}));
-
-router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-    res.redirect("/");
+        const token = authService.createToken(user);
+        res.redirect(
+            `${clientUrl}/auth/google/callback#token=${encodeURIComponent(token)}`
+        );
+    })(req, res, next);
 });
 
 module.exports = router;

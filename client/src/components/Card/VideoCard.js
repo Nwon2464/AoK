@@ -2,8 +2,24 @@ import React from "react";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import ExpandMoreOutlinedIcon from "@material-ui/icons/ExpandMoreOutlined";
 import { Link } from "react-router-dom";
+import { formatStreamElapsedTime } from "./streamMetadata";
+import { applyRandomVideoHoverColor } from "./videoThumbnailHover";
+import { useLanguage } from "../../i18n/LanguageProvider";
 const VideoCard = (props) => {
-  const [plate, setPlate] = React.useState('rgba(38,192,185,1)'); // 기본색
+  const { t } = useLanguage();
+  const [now, setNow] = React.useState(Date.now());
+  const hasBufferedVideos = props.visible < props.videos.length;
+  const canFetchMore = Boolean(props.onShowMore && props.hasMore);
+  const showMore = hasBufferedVideos || canFetchMore;
+  const showMoreLabel = props.loadMoreError ? t("common.retry") : t("common.showMore");
+  const handleShowMore = props.onShowMore || props.showClick;
+  const showMoreDisabled = props.loadingMore || props.showMoreDisabled;
+
+  React.useEffect(() => {
+    const intervalId = window.setInterval(() => setNow(Date.now()), 60000);
+    return () => window.clearInterval(intervalId);
+  }, []);
+
   return (
     <div className="game__card app-pd-15">
       <div className="card__maxWidth__margin app__tower__gutter">
@@ -14,26 +30,32 @@ const VideoCard = (props) => {
             fontSize: "large",
           }}
         >
-          {props.recommend ? "  Recommended " : ""}
+          {props.recommend ? `${t("home.recommendedPrefix")} ` : ""}
           {/* {props.categories === "Live Channel" ? "Live Channel " : ""} */}
-          <span
-            to={{
-
-              pathname: `/category/games/${props.categories
-                .split(" ")
-                .join("")}`,
-              state: {
-                data: {
-                  game_id:
-                    (props.categories === "Just Chatting" && "509658") ||
-                    (props.categories === "Fortnite" && "33214") ||
-                    (props.categories === "Minecraft" && "27471") ||
-                    (props.categories === "Fall Guys" && "512980"),
+          {props.categoryId ? (
+            <Link
+              to={{
+                pathname: `/category/games/${props.categoryId}`,
+                state: {
+                  data: {
+                    id: props.categoryId,
+                    game_id: props.categoryId,
+                    name: props.categories,
+                  },
                 },
-              },
-            }}
-          >
-            {/* {props.categories !== "Live Channel" && ( */}
+              }}
+            >
+              <strong
+                style={{
+                  color: "#00b5ad",
+                  fontSize: "1.5rem",
+                  paddingLeft: "0.1rem",
+                }}
+              >
+                {props.categories}{" "}
+              </strong>
+            </Link>
+          ) : (
             <strong
               style={{
                 color: "#00b5ad",
@@ -43,9 +65,8 @@ const VideoCard = (props) => {
             >
               {props.categories}{" "}
             </strong>
-            {/* )} */}
-          </span>
-          we think you'll like
+          )}
+          {props.recommend ? ` ${t("home.recommendedSuffix")}` : ""}
         </h3>
         <div className="app__relative">
           <div className="card__display__flex__wrap">
@@ -66,7 +87,7 @@ const VideoCard = (props) => {
                                   <h3 className="app__ellipsis app__font__weight">
                                     <Link
                                       to={{
-                                        pathname: `/${e.user_name}`,
+                                        pathname: `/${e.user_login}`,
                                         state: { data: e },
                                       }}
                                       className="app__font__size app__cursor"
@@ -77,11 +98,11 @@ const VideoCard = (props) => {
                                 </div>
                               </div>
                               <div className="channel__user">
-                                <div>
-                                  <h4 className="app__ellipsis app__font__size__0_8 app__color__grey app__cursor">
+                                <div className="stream-card-user-row">
+                                  <h4 className="stream-card-user-name app__ellipsis app__font__size__0_8 app__color__grey app__cursor">
                                     <Link
                                       to={{
-                                        pathname: `/${e.user_name}/videos/all`,
+                                        pathname: `/${e.user_login}/videos/all`,
                                         state: { data: e },
                                       }}
                                       className="app__color__grey app__cursor app__font__size__0_8"
@@ -89,20 +110,26 @@ const VideoCard = (props) => {
                                       {e.user_name}
                                     </Link>
                                   </h4>
+                                  <div className="stream-card-meta">
+                                    <span className="stream-card-language-badge">
+                                      {e.language?.toUpperCase()}
+                                    </span>
+                                    <span className="stream-card-duration-badge">
+                                      {formatStreamElapsedTime(e.started_at, now)}
+                                    </span>
+                                  </div>
                                 </div>
                                 <div>
                                   <h5 className="app__ellipsis app__font__size__0_8">
-                                    <span
+                                    <Link
                                       to={{
-                                        pathname: `/category/games/${e.game_name
-                                          .split(" ")
-                                          .join("")}`,
+                                        pathname: `/category/games/${e.game_id}`,
                                         state: { data: e },
                                       }}
                                       className="app__color__grey app__cursor app__font__size__0_8"
                                     >
                                       {e.game_name}
-                                    </span>
+                                    </Link>
                                   </h5>
                                 </div>
                               </div>
@@ -119,13 +146,14 @@ const VideoCard = (props) => {
                             <div className="channel__icon">
                               <Link
                                 to={{
-                                  pathname: `/${e.user_name}/videos/all`,
+                                  pathname: `/${e.user_login}/videos/all`,
                                   state: { data: e },
                                 }}
                               >
                                 <img
                                   className="channel__icon__1"
                                   src={e.profile_image_url}
+                                  alt={`${e.user_name} profile`}
                                 />
                               </Link>
                             </div>
@@ -137,18 +165,18 @@ const VideoCard = (props) => {
 
                         <Link
                           to={{
-                            pathname: `/${e.user_name}`,
+                            pathname: `/${e.user_login}`,
                             state: { data: e },
                           }}
                           className="app__order__1 app__order__animation__1 app__resize__fit"
-                          style={{ '--plate': plate }}
-                          onMouseEnter={() => setPlate(pick())}
+                          onMouseEnter={applyRandomVideoHoverColor}
                         >
                           <div className="app__relative app__cursor">
 
                             <img
                               className="channel__thumbnail"
                               src={e.thumbnail_url}
+                              alt={`${e.user_name} live stream`}
                             />
 
                             <div className="app__absolute app__top__0 app__left__0 app__card__height app__width">
@@ -173,19 +201,33 @@ const VideoCard = (props) => {
             })}
           </div>
         </div>
-        {props.visible < props.videos.length ? (
+        {showMore ? (
           <>
-            <div className="custom_show_more">
-              <div className="custom"></div>
-              <span onClick={props.showClick} className="showMore">
-                <a className="showMore__button">
-                  Show more
-                </a>
-                <ExpandMoreOutlinedIcon className="down__icon" />
-              </span>
+            <div className="show-more-row">
+              <div className="show-more-divider" />
+              <button
+                type="button"
+                onClick={handleShowMore}
+                className="showMore"
+                disabled={showMoreDisabled}
+                aria-busy={props.loadingMore}
+                aria-label={props.loadingMore ? t("home.loadMoreChannels") : showMoreLabel}
+              >
+                {!props.loadingMore && (
+                  <span className="showMore__button">{showMoreLabel}</span>
+                )}
+                {props.loadingMore ? (
+                  <span className="show-more-spinner" aria-hidden="true" />
+                ) : (
+                  <ExpandMoreOutlinedIcon className="down__icon" />
+                )}
+              </button>
 
-              <div className="custom"></div>
+              <div className="show-more-divider" />
             </div>
+            {props.loadMoreError && (
+              <p className="show-more-error" role="alert">{props.loadMoreError}</p>
+            )}
           </>
 
         ) : null}
@@ -194,12 +236,3 @@ const VideoCard = (props) => {
   );
 };
 export default VideoCard;
-const PALETTE = [
-  'hsla(265, 100.00%, 50.00%, 0.70)',
-  'hsla(200, 100.00%, 60.80%, 0.84)',
-  'hsla(330, 93.00%, 54.90%, 0.83)',
-  'hsla(145, 100.00%, 58.60%, 0.94)',
-  'hsla(30, 100.00%, 55.10%, 0.88)',
-  'hsla(48, 100.00%, 58.00%, 0.86)',
-];
-const pick = () => PALETTE[Math.floor(Math.random() * PALETTE.length)];

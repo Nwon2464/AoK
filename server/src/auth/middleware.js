@@ -1,29 +1,52 @@
 const jwt = require("jsonwebtoken");
-// const JWT_SECRET
-const checkTokenSetUser = (req, res, next) => {
-  const authHeader = req.get("authorization");
-  if (authHeader) {
-    const token = authHeader.split(" ")[1];
-    if (token) {
-      console.log("yes");
-      jwt.verify(token, process.env.JWT_SECRET, (error, user) => {
-        if (error) {
-          console.log("errorNAME ===", error.name);
-          console.log(error);
-          
-        }
-        console.log("--->", user);
-        req.user = user;
-        next();
-      });
-    } else {
-      next();
+
+const { createHttpError } = require("../utils/httpError");
+
+const getBearerToken = (req) => {
+    const authHeader = req.get("authorization");
+
+    if (!authHeader) {
+        return null;
     }
-  } else {
+
+    const [scheme, token] = authHeader.split(" ");
+    return scheme === "Bearer" && token ? token : null;
+};
+
+const checkTokenSetUser = (req, res, next) => {
+    const token = getBearerToken(req);
+
+    if (!token) {
+        next();
+        return;
+    }
+
+    try {
+        req.user = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+        req.user = undefined;
+    }
+
     next();
-  }
+};
+
+const requireJwt = (req, res, next) => {
+    const token = getBearerToken(req);
+
+    if (!token) {
+        next(createHttpError(401, "Authentication required", "AUTH_REQUIRED"));
+        return;
+    }
+
+    try {
+        req.user = jwt.verify(token, process.env.JWT_SECRET);
+        next();
+    } catch (error) {
+        next(createHttpError(401, "Invalid or expired token", "INVALID_TOKEN"));
+    }
 };
 
 module.exports = {
-  checkTokenSetUser,
+    checkTokenSetUser,
+    requireJwt,
 };

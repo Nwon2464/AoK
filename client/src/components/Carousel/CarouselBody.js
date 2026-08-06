@@ -1,7 +1,9 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
+import { useLanguage } from "../../i18n/LanguageProvider";
 const CarouselBody = (props) => {
+    const { t } = useLanguage();
 
     return <>
         <div
@@ -29,7 +31,7 @@ const CarouselBody = (props) => {
                                 <h3 className="app__font__weight ">
                                     <Link
                                         to={{
-                                            pathname: `/${props.streams.user_name}`,
+                                            pathname: `/${props.streams.user_login}`,
                                             state: {
                                                 data: props.streams,
                                             },
@@ -45,9 +47,7 @@ const CarouselBody = (props) => {
                             <h5 className=" app__font__size__0_8">
                                 <Link
                                     to={{
-                                        pathname: `/category/games/${props.streams.game_name
-                                            .split(" ")
-                                            .join("")}`,
+                                        pathname: `/category/games/${props.streams.game_id}`,
                                         state: {
                                             data: props.streams,
                                         },
@@ -61,7 +61,7 @@ const CarouselBody = (props) => {
                         <div className="">
                             <h5>
                                 <Link to="/" className="app__font__7__color">
-                                    {checkViewers(props.streams.viewer_count)}
+                                    {checkViewers(props.streams.viewer_count, t("common.viewers"))}
                                 </Link>
                             </h5>{" "}
                         </div>
@@ -104,18 +104,18 @@ const checkTags = (streams) => {
     );
 };
 
-const checkViewers = (views) => {
+const checkViewers = (views, viewerLabel) => {
     if (views <= 999) {
-        return <>{`${views} viewers`}</>;
+        return <>{`${views} ${viewerLabel}`}</>;
     } else if (views < 999999) {
         return (
             <>{`${Math.sign(views) * (Math.abs(views) / 1000).toFixed(1)
-                }K viewers`}</>
+                }K ${viewerLabel}`}</>
         );
     } else if (views <= 9999999) {
         return (
             <>{`${Math.sign(views) * (Math.abs(views) / 1000000).toFixed(1)
-                }M viewers`}</>
+                }M ${viewerLabel}`}</>
         );
     }
 };

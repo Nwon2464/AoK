@@ -7,10 +7,10 @@ import MainCarousel from "./MainCarousel";
 import LoadingCarousel from "./LoadingCarousel";
 import { CAROUSEL_ITEM_COUNT } from "./carouselConfig";
 import useCarouselRotation from "./useCarouselRotation";
+import { useLanguage } from "../../i18n/LanguageProvider";
 
-import { fetchActiveLiveTwitch } from "../../actions";
-
-const Carousel = (props) => {
+const Carousel = ({ twitch }) => {
+  const { t } = useLanguage();
   const {
     central,
     getCardDisplay,
@@ -19,50 +19,43 @@ const Carousel = (props) => {
     moveRight,
   } = useCarouselRotation();
 
-  const data = props.twitch.activeLiveTwitch.slice(0, CAROUSEL_ITEM_COUNT);
+  const data = twitch.activeLiveTwitch.slice(0, CAROUSEL_ITEM_COUNT);
+  const canRotate = data.length === CAROUSEL_ITEM_COUNT;
+  const activeCentral = canRotate ? central : Math.floor(data.length / 2);
 
   return (
     <div className="carousel app-pd-20">
       <div className="slides">
-
-
-        {data.length > 0 ?
+        {twitch.homeLoading ? (
+          <LoadingCarousel imgStyle={getSlideStyle} />
+        ) : data.length > 0 ? (
           <>
-            <div className="app__absolute z_index__100 left__1vw">
-              <button className="app__carousel__btn" onClick={moveRight}>
-                ‹
-              </button>
-            </div>
-            <div className="app__absolute z_index__100 right__1vw ">
-              <button className="app__carousel__btn" onClick={moveLeft}>
-                ›
-              </button>
-            </div>
+            {canRotate && (
+              <>
+                <div className="app__absolute z_index__100 left__1vw">
+                  <button type="button" className="app__carousel__btn" onClick={moveRight}>‹</button>
+                </div>
+                <div className="app__absolute z_index__100 right__1vw">
+                  <button type="button" className="app__carousel__btn" onClick={moveLeft}>›</button>
+                </div>
+              </>
+            )}
             <MainCarousel
               getCardDisplay={getCardDisplay}
               getSlideStyle={getSlideStyle}
               streams={data}
-              central={central}
+              central={activeCentral}
               delayMs={1500}
             />
-          </> :
-          <LoadingCarousel imgStyle={getSlideStyle} />}
+          </>
+        ) : (
+          <div className="home-empty-status">{t("category.noLive")}</div>
+        )}
       </div>
     </div>
   );
 };
 
+const mapStateToProps = (state) => ({ twitch: state.twitch });
 
-
-
-const mapStateToProps = (state) => {
-  return {
-    twitch: state.twitch,
-  };
-};
-
-export default connect(mapStateToProps, {
-  fetchActiveLiveTwitch,
-  // fetchActiveLiveGameContents,
-
-})(Carousel);
+export default connect(mapStateToProps)(Carousel);

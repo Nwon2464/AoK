@@ -1,0 +1,41 @@
+.google-auth-callback {
+  align-items: center;
+  background: var(--theme-background);
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  min-height: 0;
+}
+
+.google-auth-status {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  justify-content: center;
+  min-height: 14rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.google-auth-status a {
+  border: 1px solid #00b5ad;
+  border-radius: 0.3rem;
+  color: #00b5ad;
+  padding: 0.55rem 0.9rem;
+}
+
+.google-auth-spinner {
+  animation: google-auth-spin 0.75s linear infinite;
+  border: 3px solid rgba(0, 181, 173, 0.3);
+  border-radius: 50%;
+  border-top-color: #00b5ad;
+  height: 2.2rem;
+  width: 2.2rem;
+}
+
+@keyframes google-auth-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

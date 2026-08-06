@@ -4,12 +4,18 @@ import { CSSTransition } from "react-transition-group";
 import ClearIcon from "@material-ui/icons/Clear";
 
 import { Tab } from "semantic-ui-react";
-import { panes } from "./LogIn/SignupReuse";
+import { getAuthPanes } from "./LogIn/SignupReuse";
+import CheckIcon from "@material-ui/icons/Check";
+import { useLanguage } from "../../../../i18n/LanguageProvider";
+import { useTheme } from "../../../../theme/ThemeProvider";
 
 const DropdownMenu = (props) => {
   const [activeMenu, setActiveMenu] = useState("main");
   const [menuHeight, setMenuHeight] = useState(null);
   const dropdownRef = useRef(null);
+  const { language: selectedLanguage, setLanguage, t } = useLanguage();
+  const { isDarkTheme, toggleTheme } = useTheme();
+  const panes = getAuthPanes(t);
   React.useEffect(() => {
     // setMenuHeight(dropdownRef.current?.firstChild.offsetHeight);
     // dropdownRef.current.onclose = () => console.log("CLOSED!");
@@ -45,12 +51,8 @@ const DropdownMenu = (props) => {
   const DropdownItem = (props) => {
     const modalRef = React.useRef();
 
-    const openModal = (event) => {
-      const container = document.getElementsByClassName("menu__item")[2];
-      if (
-        container === event.currentTarget &&
-        container.hasChildNodes(event.currentTarget)
-      ) {
+    const openModal = () => {
+      if (props.action === "login") {
         modalRef.current.openModal();
       }
     };
@@ -58,17 +60,29 @@ const DropdownMenu = (props) => {
     const checkLoggedOrNot = (event) => {
       if (!props.logged) {
         props.goToMenu && setActiveMenu(props.goToMenu);
-        openModal(event);
+        openModal();
       } else {
         props.goToMenu && setActiveMenu(props.goToMenu);
       }
     };
 
-    const logout = (e) => {
-      if (props.children === "Log Out") {
-        // props.signOut();
+    const logout = () => {
+      if (props.action === "logout") {
         props.signOut();
       }
+    };
+    const activateItem = (event) => {
+      if (props.languageCode) {
+        setLanguage(props.languageCode);
+        setActiveMenu("main");
+        return;
+      }
+      if (props.action === "toggle-theme") {
+        toggleTheme();
+        return;
+      }
+      checkLoggedOrNot(event);
+      logout();
     };
     return (
       <>
@@ -87,17 +101,29 @@ const DropdownMenu = (props) => {
 
         <div
 
-          onClick={(e) => {
-            checkLoggedOrNot(e);
-            logout();
+          onClick={activateItem}
+          onKeyDown={(event) => {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              activateItem(event);
+            }
           }}
           className="menu__item"
+          role={props.action === "toggle-theme" ? "menuitemcheckbox" : "menuitem"}
+          aria-checked={props.action === "toggle-theme" ? isDarkTheme : undefined}
+          tabIndex={0}
         >
           <div className="icon__button">{props.leftIcon}</div>
           <div style={{ flexGrow: 1 }}>
             {props.children ? props.children : <>{props.userEmail}</>}
           </div>
-          <div className="icon__right">{props.rightIcon}</div>
+          <div className="icon__right">
+            {props.action === "toggle-theme" ? (
+              <span className={`theme-toggle${isDarkTheme ? " theme-toggle--active" : ""}`} aria-hidden="true">
+                <span className="theme-toggle__thumb" />
+              </span>
+            ) : props.rightIcon}
+          </div>
         </div>
       </>
     );
@@ -128,6 +154,7 @@ const DropdownMenu = (props) => {
                   rightIcon={contents.rightIcon}
                   signOut={props.onSignOut}
                   userEmail={props.userEmail}
+                  action={contents.action}
                 >
                   {contents.content}
                 </DropdownItem>
@@ -154,6 +181,8 @@ const DropdownMenu = (props) => {
                   logged={language.logged ? language.logged : ""}
                   leftIcon={language.leftIcon ? language.leftIcon : ""}
                   goToMenu={language.goToMenu ? language.goToMenu : ""}
+                  languageCode={language.languageCode}
+                  rightIcon={language.languageCode === selectedLanguage ? <CheckIcon /> : ""}
                 >
                   {language.language}
                 </DropdownItem>

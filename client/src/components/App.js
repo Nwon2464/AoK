@@ -3,7 +3,7 @@ import { Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 
 import "./App.css";
-import { fetchAuth, jwtlogOut, showModal, fetchActiveLiveTwitch, fetchTopgames } from "../actions";
+import { fetchAuth, fetchHomeTwitch, jwtlogOut, showModal } from "../actions";
 import history from "../history";
 import Header from "./Header/Header";
 import Slash from "./Route/Slash";
@@ -12,15 +12,17 @@ import SlashCategoryGamesId from "./Route/SlashCategoryGamesId";
 import SlashIdVideosAll from "./Route/SlashIdVideosAll";
 import SlashCategoryAll from "./Route/SlashCategoryAll";
 import NotSupport from "./error/NotSupport";
+import NotFound from "./error/NotFound";
+import SearchResults from "./Route/SearchResults";
+import GoogleAuthCallback from "./Route/GoogleAuthCallback";
 const App = (props) => {
-    const { fetchAuth, fetchActiveLiveTwitch, fetchTopgames } = props;
+    const { fetchAuth, fetchHomeTwitch } = props;
 
     useEffect(() => {
         fetchAuth();
-        fetchActiveLiveTwitch();
-        fetchTopgames();
-    }, [fetchAuth, fetchActiveLiveTwitch, fetchTopgames]);
-    const [showWarning, setShowWarning] = useState(false);
+        fetchHomeTwitch();
+    }, [fetchAuth, fetchHomeTwitch]);
+    const [showWarning, setShowWarning] = useState(() => window.innerWidth < 1025);
 
     useEffect(() => {
         const handleResize = () => {
@@ -49,10 +51,13 @@ const App = (props) => {
 
                         <Switch>
                             <Route exact path="/" component={Slash} />
-                            <Route exact path="/:id" component={SlashId} />
                             <Route exact path="/category/games/:id" component={SlashCategoryGamesId} />
-                            <Route exact path="/:id/videos/all" component={SlashIdVideosAll} />
                             <Route exact path="/category/all" component={SlashCategoryAll} />
+                            <Route exact path="/search" component={SearchResults} />
+                            <Route exact path="/auth/google/callback" component={GoogleAuthCallback} />
+                            <Route exact path="/:id/videos/all" component={SlashIdVideosAll} />
+                            <Route exact path="/:id" component={SlashId} />
+                            <Route component={NotFound} />
                         </Switch>
                     </div>
 
@@ -73,9 +78,8 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
     // fetchStreams,
     showModal,
-    fetchActiveLiveTwitch,
+    fetchHomeTwitch,
     // fetchActiveLiveGameContents,
     fetchAuth,
     jwtlogOut,
-    fetchTopgames,
 })(App);

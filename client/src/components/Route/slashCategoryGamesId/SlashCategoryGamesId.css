@@ -1,0 +1,197 @@
+.category-page-banner {
+  align-items: center;
+  background-color: var(--theme-surface);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex: 0 0 auto;
+  gap: 2rem;
+  min-height: 20rem;
+  padding: 2rem;
+}
+
+.category-page-cover,
+.category-page-cover-skeleton {
+  aspect-ratio: 285 / 385;
+  display: block;
+  flex: 0 0 auto;
+  height: 16rem;
+  object-fit: cover;
+  width: auto;
+}
+
+.category-page-cover {
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.4);
+}
+
+.category-page-cover-skeleton {
+  border-radius: 0.2rem;
+  width: 11.85rem;
+}
+
+.category-page-summary {
+  color: #fff;
+  min-width: 0;
+}
+
+.category-page-summary h1 {
+  font-size: 2.3rem;
+  line-height: 1.15;
+  margin-bottom: 0.7rem;
+}
+
+.category-page-summary p {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.category-page-banner-loading {
+  background: var(--theme-background);
+}
+
+.category-page-summary-loading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.category-page-subheader > .app-flex {
+  align-items: center;
+}
+
+.category-page-tab-indicator {
+  margin-top: 5px;
+}
+
+.category-page-filters {
+  display: flex;
+  gap: 0.65rem;
+}
+
+.category-page-filters select {
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 0.3rem;
+  color: var(--theme-text);
+  cursor: pointer;
+  font: inherit;
+  min-width: 9rem;
+  padding: 0.45rem 2rem 0.45rem 0.65rem;
+}
+
+.category-page-filters select:hover,
+.category-page-filters select:focus {
+  border-color: #00b5ad;
+  outline: none;
+}
+
+.category-page-stream-tag {
+  margin: 0 0.25rem 0.25rem 0;
+  max-width: 9rem;
+  padding: 0.2rem 0.75rem;
+}
+
+.category-page-skeleton-grid {
+  padding: 0 2rem 2rem;
+}
+
+.category-page-stream-skeleton {
+  padding-bottom: 1.5rem;
+}
+
+.category-page-stream-skeleton-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.category-page-thumbnail-skeleton {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+}
+
+.category-page-thumbnail-skeleton > span {
+  display: block;
+  height: 100%;
+}
+
+.category-page-status {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  justify-content: center;
+  min-height: 14rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.category-page-status p {
+  color: var(--theme-text-muted);
+}
+
+.category-page-status button {
+  background: transparent;
+  border: 1px solid #00b5ad;
+  border-radius: 0.3rem;
+  color: #00b5ad;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+}
+
+.category-page-status button:hover {
+  background: #00b5ad;
+  color: #0e0e10;
+}
+
+.category-page-loading-more {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.category-page-spinner {
+  animation: category-page-spin 0.7s linear infinite;
+  border: 3px solid rgba(0, 181, 173, 0.25);
+  border-radius: 50%;
+  border-top-color: #00b5ad;
+  display: block;
+  height: 1.8rem;
+  width: 1.8rem;
+}
+
+@keyframes category-page-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 800px) {
+  .category-page-banner {
+    align-items: flex-start;
+    gap: 1.25rem;
+    min-height: 16rem;
+    padding: 1.5rem;
+  }
+
+  .category-page-cover,
+  .category-page-cover-skeleton {
+    height: 12rem;
+  }
+
+  .category-page-cover-skeleton {
+    width: 8.88rem;
+  }
+
+  .category-page-summary h1 {
+    font-size: 1.7rem;
+  }
+}
+.category-page-game-name {
+  color: #00b5ad;
+  font-weight: 700;
+}

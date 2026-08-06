@@ -1,7 +1,6 @@
 
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import LanguageIcon from "@material-ui/icons/Language";
-import ToggleOffOutlinedIcon from "@material-ui/icons/ToggleOffOutlined";
 import Brightness2OutlinedIcon from "@material-ui/icons/Brightness2Outlined";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
@@ -10,26 +9,27 @@ import SupervisedUserCircleOutlinedIcon from "@material-ui/icons/SupervisedUserC
 import SubscriptionsOutlinedIcon from "@material-ui/icons/SubscriptionsOutlined";
 import SettingsApplicationsOutlinedIcon from "@material-ui/icons/SettingsApplicationsOutlined";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import { languageOptions } from "../../../../i18n/translations";
 
-export const yetLoggedInContents = [
+export const getYetLoggedInContents = (t) => [
     {
-      content: "Language",
+      content: t("nav.language"),
       rightIcon: <ChevronRightIcon />,
       leftIcon: <LanguageIcon />,
       goToMenu: "settings",
     },
     {
-      content: "Dark Theme",
-      rightIcon: <ToggleOffOutlinedIcon />,
+      content: t("nav.darkTheme"),
       leftIcon: <Brightness2OutlinedIcon />,
+      action: "toggle-theme",
     },
     {
-      content: "Log In",
+      content: t("nav.login"),
       leftIcon: <ExitToAppIcon />,
+      action: "login",
     },
   ];
-  
-export const loggedInContents = [
+export const getLoggedInContents = (t) => [
     {
       content: "",
       leftIcon: <AccountCircleOutlinedIcon />,
@@ -39,28 +39,28 @@ export const loggedInContents = [
       offline: "offline",
     },
     {
-      content: "Creator Dashboard",
+      content: t("nav.creatorDashboard"),
       leftIcon: <DashboardOutlinedIcon />,
       logged: true,
     },
     {
-      content: "Friends",
+      content: t("nav.friends"),
       leftIcon: <SupervisedUserCircleOutlinedIcon />,
       logged: true,
     },
     {
-      content: "Subscriptions",
+      content: t("nav.subscriptions"),
       leftIcon: <SubscriptionsOutlinedIcon />,
       logged: true,
     },
   
     {
-      content: "Settings",
+      content: t("nav.settings"),
       leftIcon: <SettingsApplicationsOutlinedIcon />,
       logged: true,
     },
     {
-      content: "Language",
+      content: t("nav.language"),
       goToMenu: "settings",
       rightIcon: <ChevronRightIcon />,
       leftIcon: <LanguageIcon />,
@@ -68,52 +68,29 @@ export const loggedInContents = [
     },
   
     {
-      content: "Dark Theme",
-      rightIcon: <ToggleOffOutlinedIcon />,
+      content: t("nav.darkTheme"),
       leftIcon: <Brightness2OutlinedIcon />,
       logged: true,
+      action: "toggle-theme",
     },
     {
-      content: "Log Out",
+      content: t("nav.logout"),
       leftIcon: <ExitToAppIcon />,
       logged: true,
+      action: "logout",
     },
   ];
-export const languages = [
+export const getLanguages = (t) => [
     {
-      language: "Select",
+      language: t("nav.selectLanguage"),
       leftIcon: <ChevronLeftIcon />,
       goToMenu: "main",
       backgroundcolor: "#EFEFF1",
       logged: true,
     },
-    {
-      language: "English",
+    ...languageOptions.map(({ code, label }) => ({
+      language: label,
+      languageCode: code,
       logged: true,
-    },
-    {
-      language: "Dansk",
-      logged: true,
-    },
-    {
-      language: "English - UK",
-      logged: true,
-    },
-    {
-      language: "Español - España",
-      logged: true,
-    },
-    {
-      language: "中文 简体",
-      logged: true,
-    },
-    {
-      language: "日本語",
-      logged: true,
-    },
-    {
-      language: "한국어",
-      logged: true,
-    },
+    })),
   ];
-  

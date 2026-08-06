@@ -1,15 +1,101 @@
-.body__left {
-    /* border:2px solid black; */
-    flex: 0.13 1;
+  .recommended-channels-panel {
     height: 100%;
-    width: 15%;
-    min-width: 11rem;
+    overflow-y: auto;
   }
-  .body__left > hr {
-    height: 1px;
+
+  .side-nav-show-more {
+    align-items: center;
+    align-self: center;
+    background: rgba(83, 83, 95, 0.12);
     border: 0;
-    background-color: lightgray;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    border-radius: 0.35rem;
+    color: #00b5ad;
+    cursor: pointer;
+    display: inline-flex;
+    font-size: 0.8rem;
+    font-weight: 600;
+    gap: 0.3rem;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-width: 6.5rem;
+    padding: 0.5rem 0.75rem;
+    transition: background-color 120ms ease, color 120ms ease;
   }
-  
+
+  .side-nav-show-more-row {
+    align-items: center;
+    display: flex;
+    gap: 0.4rem;
+    margin: 0.5rem 0.75rem 1rem;
+  }
+
+  .side-nav-show-more-line {
+    background: rgba(191, 191, 191, 0.5);
+    flex: 1 1 auto;
+    height: 1px;
+    min-width: 0;
+  }
+
+  .side-nav-show-more:hover:not(:disabled) {
+    background: rgba(83, 83, 95, 0.25);
+    color: #008f89;
+  }
+
+  .side-nav-show-more:focus-visible {
+    outline: 2px solid #00b5ad;
+    outline-offset: 2px;
+  }
+
+  .side-nav-show-more:disabled {
+    cursor: wait;
+    opacity: 0.65;
+  }
+
+  .side-nav-show-more-icon {
+    font-size: 1.1rem !important;
+  }
+
+  .side-nav-show-more-spinner {
+    animation: side-nav-show-more-spin 700ms linear infinite;
+    border: 2px solid #00b5ad;
+    border-radius: 50%;
+    border-right-color: transparent;
+    height: 0.8rem;
+    width: 0.8rem;
+  }
+
+  .side-nav-show-more[aria-busy="true"]:disabled {
+    opacity: 1;
+  }
+
+  @keyframes side-nav-show-more-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .side-nav-show-more-error {
+    color: #d63638;
+    font-size: 0.7rem;
+    margin: -0.75rem 1rem 1rem;
+  }
+.side-nav-loading-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0 1rem;
+}
+
+.side-nav-loading-row {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+}
+
+.side-nav-loading-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}

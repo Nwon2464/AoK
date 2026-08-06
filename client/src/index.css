@@ -2,20 +2,32 @@
   /* --font-base: "Roobert", "Helvetica Neue", Helvetica, Arial, sans-serif; */
   --color-text-button-primary: #fff;
   --color-background-button-primary-default: #00b5ad;
-  --color-text-button-secondary: #0e0e10;
+  --color-text-button-secondary: #efeff1;
   --color-background-button-secondary-default: rgba(0, 0, 0, 0.05);
   --z-index-below: -1;
   --z-index-default: 1;
   --color-icon-main: #00ddd2;
-  --color-header-background: #ffffff;
-  --color-header-input-button-background: #f2f2f2;
-  --color-header-input-find-button-background: rgba(0, 0, 0, 0.03);
-  --color-text-alt: #1f1f23;
-  --color-text-base: #0e0e10;
-  --color-border-input: rgba(0, 0, 0, 0.05);
-  --color-button: #f9f9f9;
+  --color-header-background: #18181b;
+  --color-header-input-button-background: #3e3e45;
+  --color-header-input-find-button-background: #26262c;
+  --color-text-alt: #adadb8;
+  --color-text-base: #efeff1;
+  --color-border-input: rgba(255, 255, 255, 0.08);
+  --color-button: #26262c;
   --color-fill-live: #e91916;
   --color-fill-archive: #00b5ad;
+  --theme-background: #0e0e10;
+  --theme-surface: #18181b;
+  --theme-surface-raised: #1f1f23;
+  --theme-control: #26262c;
+  --theme-hover: #3e3e45;
+  --theme-border: #3a3a3d;
+  --theme-text: #efeff1;
+  --theme-text-secondary: #dedee3;
+  --theme-text-muted: #adadb8;
+  --theme-toggle-track: #53535f;
+  --theme-toggle-thumb: #dedee3;
+  --theme-overlay: rgba(0, 0, 0, 0.45);
   --font-size-40: 4rem;
   --font-size-14: 2rem;
   --font-size-9: 1.5rem;
@@ -39,6 +51,29 @@
   --button-text-default: 1.2rem;
   --button-text-large: 1.4rem;
   --button-text-small: 1.1rem;
+}
+
+:root[data-theme="light"] {
+  --color-text-button-secondary: #0e0e10;
+  --color-header-input-button-background: #efeff1;
+  --color-header-input-find-button-background: #e6e6ea;
+  --color-header-background: #ffffff;
+  --color-text-alt: #53535f;
+  --color-text-base: #0e0e10;
+  --color-border-input: rgba(0, 0, 0, 0.08);
+  --color-button: #f9f9f9;
+  --theme-background: #f7f7f8;
+  --theme-surface: #ffffff;
+  --theme-surface-raised: #ffffff;
+  --theme-control: #efeff1;
+  --theme-hover: #e6e6ea;
+  --theme-border: #d7d7db;
+  --theme-text: #0e0e10;
+  --theme-text-secondary: #1f1f23;
+  --theme-text-muted: #53535f;
+  --theme-toggle-track: #b8b8c0;
+  --theme-toggle-thumb: #ffffff;
+  --theme-overlay: rgba(0, 0, 0, 0.2);
 }
 
 * {
@@ -65,13 +100,15 @@ html {
   height: 100%;
   position: relative;
   width: 100%;
-  color: #dedee3;
+  background: var(--theme-background);
+  color: var(--theme-text-secondary);
+  transition: background-color 180ms ease, color 180ms ease;
 
 }
 
 a {
   font-size: 0.8em;
-  color: #dedee3;
+  color: var(--theme-text-secondary);
   text-decoration: none;
 }
 
@@ -105,42 +142,42 @@ button {
 }
 
 .app-bk-color {
-  background-color: #18181b;
+  background-color: var(--theme-surface);
 
 }
 
 .app-user-btn-hover:hover {
-  background-color: #3E3E45;
+  background-color: var(--theme-hover);
   border-radius: 6px;
 
 }
 
 .app-bk-color-1 {
-  background-color: #0e0e10;
+  background-color: var(--theme-background);
 
 }
 
 .MuiSvgIcon-root path {
-  color: white;
+  color: currentColor;
   /* 항상 이 색상 유지 */
 }
 
 .app-top-nav {
-  background-color: #18181b;
+  background-color: var(--theme-surface);
   z-index: 1000;
 }
 
 .app-display-color {
-  color: #efeff1;
+  color: var(--theme-text);
 }
 
 .app-color-white {
-  color: #efeff1;
+  color: var(--theme-text);
 
 }
 
 .app-header-background-display-color {
-  background-color: #efeff1;
+  background-color: var(--theme-text);
 }
 
 
@@ -634,14 +671,14 @@ button {
 
 .app-core-secondary {
   /* background-color: rgba(0, 0, 0, 0.05); */
-  background-color: #26262c;
-  color: #0e0e10;
+  background-color: var(--theme-control);
+  color: var(--theme-text);
 
   color: var(--color-text-button-secondary);
 }
 
 .app-font-color {
-  color: white;
+  color: var(--theme-text);
 
 }
 
@@ -665,16 +702,16 @@ button {
 }
 
 .app-core-icon-color {
-  color: #dedee3;
+  color: var(--theme-text-secondary);
 }
 
 .app-search-bk {
-  background-color: #26262c;
+  background-color: var(--theme-control);
 }
 
 .app-core-secondary:hover {
-  background-color: #3E3E45;
-  color: #0e0e10;
+  background-color: var(--theme-hover);
+  color: var(--theme-text);
 }
 
 .app-core-primary:hover {
@@ -686,7 +723,7 @@ button {
 #user:hover {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.1);
-  color: #0e0e10;
+  color: var(--theme-text);
   border-bottom-left-radius: var(--border-radius-medium);
   border-bottom-right-radius: var(--border-radius-medium);
   border-top-left-radius: var(--border-radius-medium);
@@ -717,7 +754,7 @@ button {
 
 /* BODY LEFT */
 .side-nav {
-  background-color: #26262c;
+  background-color: var(--theme-control);
   width: 20rem;
 }
 
@@ -781,7 +818,7 @@ button {
 }
 
 .app-c-text-alt {
-  color: #e6e6ea !important;
+  color: var(--theme-text-muted) !important;
 }
 
 .app-avatar--size-30 {
@@ -796,7 +833,7 @@ button {
 }
 
 .app-carousel-metadata {
-  background: #1f1f23;
+  background: var(--theme-surface-raised);
   position: absolute !important;
   height: 5rem;
   width: 15rem;
@@ -817,7 +854,15 @@ button {
 }
 
 .app-body-right-background {
-  background: #0e0e10;
+  background: var(--theme-background);
+}
+
+.app-top-nav,
+.side-nav,
+.app-bk-color,
+.app-bk-color-1,
+.app-body-right-background {
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 /* PAGE */
@@ -849,7 +894,7 @@ button {
 }
 
 .app-header-background-whiteblack {
-  background-color: #18181B;
+  background-color: var(--theme-surface);
 }
 
 /* ERROR */

@@ -3,18 +3,18 @@ export const genRand = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-export const checkViewers = (views) => {
+export const checkViewers = (views, viewerLabel = "Viewers") => {
   if (views <= 999) {
-    return <>{`${views} Viewers`}</>;
+    return <>{`${views} ${viewerLabel}`}</>;
   } else if (views < 999999) {
     return (
       <>{`${Math.sign(views) * (Math.abs(views) / 1000).toFixed(1)
-        }K Viewers`}</>
+        }K ${viewerLabel}`}</>
     );
   } else if (views <= 9999999) {
     return (
       <>{`${Math.sign(views) * (Math.abs(views) / 1000000).toFixed(1)
-        }M Viewers`}</>
+        }M ${viewerLabel}`}</>
     );
   }
 };

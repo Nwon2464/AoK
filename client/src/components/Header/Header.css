@@ -58,7 +58,7 @@
     color: whitesmoke !important;
     background-color: #00b5ad !important;
   }
-  
+
   .dropdown__auth {
     position: absolute;
     text-align: center;
@@ -158,4 +158,3 @@
     align-items: center;
     cursor: pointer;
   }
-  

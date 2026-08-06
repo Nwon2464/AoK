@@ -6,6 +6,8 @@ import reduxThunk from "redux-thunk";
 import "./index.css";
 import App from "./components/App";
 import reducers from "./reducers";
+import { LanguageProvider } from "./i18n/LanguageProvider";
+import { ThemeProvider } from "./theme/ThemeProvider";
 
 import { createStore, applyMiddleware, compose } from "redux";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -18,7 +20,11 @@ const rootElement = document.getElementById("root");
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <ThemeProvider>
+      <LanguageProvider>
+        <App />
+      </LanguageProvider>
+    </ThemeProvider>
    </Provider>,
   rootElement
 );

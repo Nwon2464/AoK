@@ -1,14 +1,19 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import renderField from "./RenderField";
 import { signUpCreate } from "../../../../../actions";
 import SignupLoading from "./SignupLoading";
 import ErrorMessage from "./ErrorMessage";
+import { useLanguage } from "../../../../../i18n/LanguageProvider";
 
 const SubmitValidationForm = (props) => {
+  const { language, t } = useLanguage();
+  const monthNames = Array.from({ length: 12 }, (_, index) => (
+    new Intl.DateTimeFormat(language, { month: "long", timeZone: "UTC" })
+      .format(new Date(Date.UTC(2020, index, 1)))
+  ));
   const {
     handleSubmit,
     pristine,
@@ -38,7 +43,7 @@ const SubmitValidationForm = (props) => {
               <Field
                 validate={[usernameValidate, required]}
                 name="username"
-                label="Username"
+                label={t("auth.username")}
                 type="text"
                 component={renderField}
                 placeholder="Username"
@@ -47,7 +52,7 @@ const SubmitValidationForm = (props) => {
             </div>
             <div className="field">
               <Field
-                label="Password"
+                label={t("auth.password")}
                 name="password"
                 type="password"
                 component={renderField}
@@ -58,7 +63,7 @@ const SubmitValidationForm = (props) => {
 
             <div className="field">
               <Field
-                label="Confirm Password"
+                label={t("auth.confirmPassword")}
                 name="confirmPassword"
                 type="password"
                 component={renderField}
@@ -70,7 +75,7 @@ const SubmitValidationForm = (props) => {
             <div className="field">
               <Field
                 validate={[email, required]}
-                label="Email"
+                label={t("auth.email")}
                 name="email"
                 type="email"
                 component={renderField}
@@ -78,26 +83,17 @@ const SubmitValidationForm = (props) => {
               />
             </div>
             <div className="field">
-              <label style={{ color: "white" }}>Date of Birth</label>
+              <label style={{ color: "var(--theme-text)" }}>{t("auth.dateOfBirth")}</label>
               <Field
                 className="app__select"
                 name="dateofbirth"
                 component="select"
-                style={{ color: "white" }}
+                style={{ color: "var(--theme-text)" }}
               >
-                <option value="">Select</option>
-                <option value="january">January</option>
-                <option value="february">February</option>
-                <option value="march">March</option>
-                <option value="april">April</option>
-                <option value="may">May</option>
-                <option value="june">June</option>
-                <option value="july">July</option>
-                <option value="august">August</option>
-                <option value="september">September</option>
-                <option value="october">October</option>
-                <option value="november">November</option>
-                <option value="december">December</option>
+                <option value="">{t("auth.select")}</option>
+                {monthNames.map((month, index) => (
+                  <option key={month} value={index + 1}>{month}</option>
+                ))}
               </Field>
             </div>
             <div className="ui equal width form">
@@ -105,7 +101,7 @@ const SubmitValidationForm = (props) => {
                 <div className="field">
                   <Field
                     validate={[minValue0, maxValue13, number]}
-                    label="Month"
+                    label={t("auth.month")}
                     name="month"
                     type="text"
                     component={renderField}
@@ -115,7 +111,7 @@ const SubmitValidationForm = (props) => {
                 <div className="field">
                   <Field
                     validate={[number, yearMinValue1930, yearMaxValue2020]}
-                    label="Year"
+                    label={t("auth.year")}
                     name="year"
                     type="text"
                     component={renderField}
@@ -129,19 +125,10 @@ const SubmitValidationForm = (props) => {
             <div className="inline field">
               <label
                 style={{
-                  fontSize: "small", color: "white"
+                  fontSize: "small", color: "var(--theme-text)"
                 }}
               >
-                By Clicking Sign Up, you are indicating that you have read and
-                acknowledge the{" "}
-                <Link to="#" style={{ color: "#00b5ad" }}>
-                  Terms of Service
-                </Link>{" "}
-                and{" "}
-                <Link style={{ color: "#00b5ad" }} to="#">
-                  {" "}
-                  Privacy Notice
-                </Link>
+                {t("auth.terms")}
               </label>
             </div>
 
@@ -162,7 +149,7 @@ const SubmitValidationForm = (props) => {
                 className="ui fluid medium button"
                 type="submit"
               >
-                Sign Up{" "}
+                {t("nav.signup")}{" "}
               </button>
               <button
                 className="ui fluid medium button"
@@ -170,7 +157,7 @@ const SubmitValidationForm = (props) => {
                 disabled={pristine || submitting}
                 onClick={reset}
               >
-                Clear Values
+                {t("auth.clear")}
               </button>
             </div>
           </form>

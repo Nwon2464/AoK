@@ -24,7 +24,7 @@ const LoginRenderField = (props) => {
           {...props.input}
           type={props.type}
           autoComplete="off"
-          style={{ color: "white" }}
+          style={{ color: "var(--theme-text)" }}
         />
       </div>
     </div>

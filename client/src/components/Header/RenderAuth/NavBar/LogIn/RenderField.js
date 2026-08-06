@@ -34,7 +34,7 @@ const RenderField = (props) => {
           type={props.type}
           autoComplete="off"
 
-          style={{ color: "white" }}
+          style={{ color: "var(--theme-text)" }}
         />
         {props.meta.touched && props.meta.error && (
           <span

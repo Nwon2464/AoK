@@ -1,68 +1,40 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
+
+const skeletonStyle = {
+  backgroundColor: "var(--theme-control)",
+  backgroundImage: "none",
+};
+
 const SlashCategoryGamesIdLoadingBody = () => {
   return (
-    <div style={{ marginLeft: 15 }} className="game__card app-pd-15">
-      <div className="card__maxWidth__margin app__tower__gutter">
-        <div className="app__relative">
-          <div className="card__display__flex__wrap">
-            {Array(20)
-              .fill()
-              .map((e, i) => {
-                return (
-                  <div key={i} className="app__tower__300 app-pd-r-02">
-                    <div className="app__card__height">
-                      <div className="app__card__padding_bottom app__card__height">
-                        <article className="card__display__flex__direction">
-                          <div className="app__width app__order__2 app__margin__top">
-                            <div className="app__flex__nowrap app__flex">
-                              <div className="app__min__width__0 app__order__2 app__flex__shrink__1 app__flex__grow__1 app__width">
-                                <div className="app__margin__bottom">
-                                  <div className="channel__font_1">
-                                    <div className="" style={{ marginTop: 8 }}>
-                                      <Skeleton width="270px" height="20px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="channel__user">
-                                  <div>
-                                    <div
-                                      style={{ marginTop: 5 }}
-                                      className="app__ellipsis app__font__size__0_8 app__color__grey "
-                                    >
-                                      <Skeleton width="150px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="channel__tag">
-                                  <div className="channel__tag__1">
-                                    <div className="channel__tag__2">
-                                      <div
-                                        className="channel__tag__3"
-                                        style={{ marginTop: -10 }}
-                                      >
-                                        <Skeleton width="150px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="app__order__1">
-                            <div className="app__relative">
-                              <Skeleton width="290px" height="170px" style={{ backgroundImage: "none", backgroundColor: "#1f1f23" }} />
-                            </div>
-                          </div>
-                        </article>
-                      </div>
-                    </div>
+    <div
+      className="category-page-skeleton-grid"
+      aria-busy="true"
+      aria-label="Loading live channels"
+    >
+      <div className="card__display__flex__wrap">
+        {Array.from({ length: 8 }, (_, index) => (
+          <div key={index} className="app__tower__300 app-pd-r-02">
+            <article className="card__display__flex__direction category-page-stream-skeleton">
+              <div className="app__width app__order__2 app__margin__top">
+                <div className="app__flex__nowrap app__flex">
+                  <div className="channel__icon">
+                    <Skeleton circle width={40} height={40} style={skeletonStyle} />
                   </div>
-                );
-              })}
+                  <div className="category-page-stream-skeleton-copy">
+                    <Skeleton width="92%" height={18} style={skeletonStyle} />
+                    <Skeleton width="55%" height={14} style={skeletonStyle} />
+                    <Skeleton width="42%" height={18} style={skeletonStyle} />
+                  </div>
+                </div>
+              </div>
+              <div className="app__order__1 category-page-thumbnail-skeleton">
+                <Skeleton width="100%" height="100%" style={skeletonStyle} />
+              </div>
+            </article>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );

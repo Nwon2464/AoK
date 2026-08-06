@@ -8,8 +8,8 @@ const MainCarousel = (props) => {
         <>
             {props.streams.map((streams, i) => {
                 const imgStyle = props.getSlideStyle(i);
-                const AutoCard = props.getCardDisplay(i);
                 const isCentral = i === props.central;
+                const AutoCard = isCentral ? "" : props.getCardDisplay(i);
 
                 return (
                     <div style={imgStyle} key={i} className="slide">
@@ -17,7 +17,6 @@ const MainCarousel = (props) => {
                             <CentralCarouselItem
                                 key={`central-${streams.user_name}`} // 중앙 변경 시 remount
                                 streams={streams}
-                                imgStyle={imgStyle}
                                 AutoCard={AutoCard}
                                 delayMs={delayMs}
                             />

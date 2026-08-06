@@ -1,10 +1,13 @@
 {
   "name": "server",
-  "author" : "NW",
+  "author": "NW",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev" : "nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "check:env": "node scripts/check-env.js",
+    "test": "node --test test/*.test.js"
   },
   "dependencies": {
     "axios": "^1.6.8",
@@ -28,5 +31,8 @@
   },
   "keywords": [],
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
 }

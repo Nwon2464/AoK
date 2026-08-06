@@ -1,8 +1,10 @@
 import React from "react";
 // import { ReactComponent as TwitchIcon } from "../../../headerIcons/twitch-seeklogo.com.svg";
 import { ReactComponent as Loader } from "../../../headerIcons/loader.svg";
+import { useLanguage } from "../../../../../i18n/LanguageProvider";
 
 const SignupLoading = () => {
+  const { t } = useLanguage();
   return (
     <div className="app__pd_x_2 app__pd_y_3 app__flex_column app__flex">
       {/* <div className="app__join">
@@ -16,7 +18,7 @@ const SignupLoading = () => {
       <div className="app__loader" >
         <Loader />
       </div>
-      <div className="app__flex app__justify app__align">We're verifying...!</div>
+      <div className="app__flex app__justify app__align">{t("common.verifying")}</div>
     </div>
   );
 };

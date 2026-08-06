@@ -1,7 +1,7 @@
 import React, { useEffect, useState, memo } from "react";
 import CarouselBody from "./CarouselBody";
 
-const CentralCarouselItem = ({ streams, imgStyle, AutoCard, delayMs = 5000 }) => {
+const CentralCarouselItem = ({ streams, AutoCard, delayMs = 5000 }) => {
   const [showVideo, setShowVideo] = useState(false);
 
   useEffect(() => {
@@ -21,14 +21,15 @@ const CentralCarouselItem = ({ streams, imgStyle, AutoCard, delayMs = 5000 }) =>
     );
   }
 
+  const parent = window.location.hostname;
+  const playerUrl = `https://player.twitch.tv/?channel=${encodeURIComponent(streams.user_login)}&muted=true&parent=${encodeURIComponent(parent)}`;
+
   return (
-    <div style={imgStyle} className="slide">
+    <div className="carousel-central-content">
       <iframe
         title={`twitch-${streams.user_name}`}
         className="app__iframe app__order__1"
-        width="1527.3px"
-        height="300px"
-        src={`https://player.twitch.tv/?channel=${streams.user_name}&muted=true&parent=client-xi-eight-67.vercel.app&parent=client-xi-eight-67-vercel-app`}
+        src={playerUrl}
         frameBorder="0"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
